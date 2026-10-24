@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        全局：渐变
+        页面底、侧栏、主按钮、品牌 Logo、登录页展示区、装饰线
+ -->
+
+    <!-- 页面背景：几乎纯白，只留一丝冷调 -->
+
+<!-- 侧栏背景 -->
+
+<!-- 装饰线 -->
+
+<!-- 主按钮 -->
+
+<!-- 品牌 Logo（紫） -->
+
+<!-- 登录页右侧展示区：冰蓝柔光 -->
+    <RadialGradientBrush x:Key="ShowcaseBrush" Center="0.75,0.15" GradientOrigin="0.75,0.15" RadiusX="1.1" RadiusY="1.1">
+        <GradientStop Offset="0" Color="{StaticResource AccentTint100}" />
+        <GradientStop Offset="0.35" Color="{StaticResource AccentTint50}" />
+        <GradientStop Offset="0.7" Color="{StaticResource SurfaceSubtle}" />
+        <GradientStop Offset="1" Color="{StaticResource SurfaceCard}" />
+    </RadialGradientBrush>
+
+</ResourceDictionary>

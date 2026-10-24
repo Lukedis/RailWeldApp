@@ -1,0 +1,211 @@
+<UserControl x:Class="RailWeldApp.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:RailWeldApp.Design"
+             xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{x:Static design:DesignData.LoginViewModel}"
+             d:DesignHeight="860"
+             d:DesignWidth="1400"
+             FontFamily="{StaticResource UiFont}"
+             mc:Ignorable="d">
+
+    <!--
+        登录页
+        左：白底表单（品牌 / 标题 / 账号密码 / 登录 / 其他方式）
+        右：点阵插画面板（标语 + 手机实拍图 + 采集状态）
+    -->
+
+    <Grid Background="{StaticResource SurfaceCardBrush}" ColumnDefinitions="45*,55*">
+
+        <!--  左：登录表单  -->
+        <Grid Grid.Column="0"
+              Margin="48,40,40,24"
+              RowDefinitions="*,Auto">
+
+            <StackPanel Width="344"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <StackPanel Orientation="Horizontal">
+                    <Border Style="{StaticResource LoginBrandMarkStyle}">
+                        <TextBlock Style="{StaticResource LoginBrandMarkTextStyle}" />
+                    </Border>
+                    <TextBlock Style="{StaticResource LoginBrandNameStyle}" />
+                </StackPanel>
+
+                <TextBlock Style="{StaticResource LoginTitleStyle}" Text="欢迎回来" />
+                <TextBlock Style="{StaticResource LoginSubtitleStyle}" Text="登录 RailWeld 控制台，继续今天的生产任务。" />
+
+                <StackPanel Margin="0,26,0,0">
+
+                    <TextBlock Style="{StaticResource LoginFieldLabelStyle}">
+                        <Run Text="账号" />
+                        <Run Foreground="{StaticResource TextTertiaryBrush}" Text=" *" />
+                    </TextBlock>
+                    <TextBox x:Name="userNameBox"
+                             helper:TextBoxHelper.Placeholder="请输入账号"
+                             Style="{StaticResource LoginTextBoxStyle}"
+                             Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <TextBlock Style="{StaticResource LoginFieldLabelGapStyle}">
+                        <Run Text="密码" />
+                        <Run Foreground="{StaticResource TextTertiaryBrush}" Text=" *" />
+                    </TextBlock>
+                    <Grid>
+                        <PasswordBox x:Name="passwordBox"
+                                     helper:PassWordBoxHelper.Password="{Binding Password, Mode=TwoWay}"
+                                     helper:PassWordBoxHelper.Placeholder="请输入密码"
+                                     Style="{StaticResource LoginPasswordBoxStyle}"
+                                     Visibility="{Binding ShowPassword, Converter={StaticResource BoolToVisibilityHidden}}" />
+                        <TextBox helper:TextBoxHelper.Placeholder="请输入密码"
+                                 Style="{StaticResource LoginPlainPasswordTextBoxStyle}"
+                                 Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Visibility="{Binding ShowPassword, Converter={StaticResource BoolToVisibilityCollapsed}}" />
+                        <ToggleButton Width="28"
+                                      Height="28"
+                                      Margin="0,0,10,0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding ShowPassword}"
+                                      Style="{StaticResource PasswordVisibilityToggleStyle}"
+                                      ToolTip="显示 / 隐藏密码" />
+                    </Grid>
+
+                    <Grid Margin="2,12,0,0">
+                        <CheckBox VerticalAlignment="Center"
+                                  Content="记住账号"
+                                  FontSize="{StaticResource FontSizeSmall}"
+                                  Foreground="{StaticResource TextSecondaryBrush}"
+                                  IsChecked="{Binding RememberUserName}"
+                                  Style="{StaticResource CheckBoxStyle}" />
+                        <Button HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Command="{Binding ForgotPasswordCommand}"
+                                Content="忘记密码？"
+                                FontSize="{StaticResource FontSizeSmall}"
+                                Foreground="{StaticResource TextSecondaryBrush}"
+                                Style="{StaticResource LinkButtonStyle}" />
+                    </Grid>
+
+                    <Border Style="{StaticResource LoginErrorBannerStyle}" Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityCollapsed}}">
+                        <TextBlock FontSize="{StaticResource FontSizeSmall}"
+                                   Foreground="{StaticResource LoginErrorInkBrush}"
+                                   Text="{Binding ErrorMessage}"
+                                   TextWrapping="Wrap" />
+                    </Border>
+
+                    <Border Style="{StaticResource LoginNoticeBannerStyle}" Visibility="Collapsed">
+                        <TextBlock FontSize="{StaticResource FontSizeSmall}"
+                                   Foreground="{StaticResource AccentPressBrush}"
+                                   Text="{Binding NoticeMessage}"
+                                   TextWrapping="Wrap" />
+                    </Border>
+
+                    <Button x:Name="signInButton"
+                            Margin="0,20,0,0"
+                            Command="{Binding SignInCommand}"
+                            Content="登录"
+                            IsDefault="True"
+                            Style="{StaticResource LoginPrimaryButtonStyle}" />
+                </StackPanel>
+
+                <Grid Margin="0,22,0,0" ColumnDefinitions="*,Auto,*">
+                    <Border Height="1"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource DividerBrush}" />
+                    <TextBlock Grid.Column="1" Style="{StaticResource LoginDividerTextStyle}" />
+                    <Border Grid.Column="2"
+                            Height="1"
+                            VerticalAlignment="Center"
+                            Background="{StaticResource DividerBrush}" />
+                </Grid>
+
+                <Button Margin="0,14,0,0"
+                        Command="{Binding SignInWithCodeCommand}"
+                        Style="{StaticResource LoginSocialButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="{StaticResource IconFont}"
+                                   FontSize="{StaticResource FontSizeBodyLarge}"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Text="&#xE8D7;" />
+                        <TextBlock Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="{StaticResource FontSizeBodyLarge}"
+                                   Text="验证码登录" />
+                    </StackPanel>
+                </Button>
+
+                <Button Margin="0,10,0,0"
+                        Command="{Binding ForgotPasswordCommand}"
+                        Style="{StaticResource LoginSocialButtonStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="{StaticResource IconFont}"
+                                   FontSize="{StaticResource FontSizeBodyLarge}"
+                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                   Text="&#xE77B;" />
+                        <TextBlock Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="{StaticResource FontSizeBodyLarge}"
+                                   Text="工号登录" />
+                    </StackPanel>
+                </Button>
+
+                <TextBlock Margin="0,22,0,0"
+                           HorizontalAlignment="Center"
+                           FontSize="{StaticResource FontSizeSmall}"
+                           Foreground="{StaticResource TextTertiaryBrush}">
+                    <Run Text="没有账号？ " />
+                    <Run FontFamily="{StaticResource UiFontSemibold}"
+                         Foreground="{StaticResource TextPrimaryBrush}"
+                         Text="联系系统管理员开通" />
+                </TextBlock>
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="0,20,0,0">
+                <TextBlock Style="{StaticResource LoginFooterTextStyle}" Text="{Binding CopyrightYear, Mode=OneTime, StringFormat=© {0} RailWeld · 工业控制}" />
+                <TextBlock HorizontalAlignment="Right"
+                           Style="{StaticResource LoginFooterTextStyle}"
+                           Text="{Binding VersionText, Mode=OneTime}" />
+            </Grid>
+        </Grid>
+
+        <!--  右：点阵插画面板  -->
+        <Border Grid.Column="1"
+                Margin="0,12,12,12"
+                Background="{StaticResource LoginDotPatternBrush}"
+                BorderBrush="{StaticResource LoginPanelBorderBrush}"
+                BorderThickness="1"
+                ClipToBounds="True"
+                CornerRadius="{StaticResource RadiusLg}">
+
+            <Grid Margin="44,88,44,0" RowDefinitions="Auto,*">
+
+                <StackPanel>
+                    <TextBlock Style="{StaticResource LoginHeroHeadlineStyle}" Text="让每一道焊缝&#x0A;都有据可查" />
+                    <TextBlock Style="{StaticResource LoginHeroSublineStyle}" Text="200ms 采样 · S7 与 Modbus RTU 双通道" />
+                </StackPanel>
+
+                <Border HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource LoginStatusPillStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Style="{StaticResource LoginStatusDotStyle}" />
+                        <TextBlock Style="{StaticResource LoginStatusTextStyle}" />
+                    </StackPanel>
+                </Border>
+
+                <Image Grid.Row="1"
+                       Height="588"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       RenderOptions.BitmapScalingMode="HighQuality"
+                       Source="{StaticResource LoginHeroImage}"
+                       Stretch="Uniform" />
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

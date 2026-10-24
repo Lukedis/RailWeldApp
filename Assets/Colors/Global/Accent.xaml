@@ -1,0 +1,33 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        全局：主色与语义色
+        强调蓝：Accent / AccentHover / AccentPress + 由浅到深的 AccentTint*
+        语义色：Danger / Success / Warning / Purple / Lime（各带 hover、press、soft）
+ -->
+
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource Accent}" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentHover}" />
+    <SolidColorBrush x:Key="AccentPressBrush" Color="{StaticResource AccentPress}" />
+    <!-- 键盘焦点环（画在控件内侧，不会被父容器裁掉） -->
+
+<SolidColorBrush x:Key="AccentSelectionBrush" Color="{StaticResource AccentSelection}" />
+
+    <SolidColorBrush x:Key="AccentTint50Brush" Color="{StaticResource AccentTint50}" />
+    <SolidColorBrush x:Key="AccentTint100Brush" Color="{StaticResource AccentTint100}" />
+    <SolidColorBrush x:Key="AccentTint200Brush" Color="{StaticResource AccentTint200}" />
+    <SolidColorBrush x:Key="AccentTint300Brush" Color="{StaticResource AccentTint300}" />
+    <SolidColorBrush x:Key="AccentTint400Brush" Color="{StaticResource AccentTint400}" />
+
+    <SolidColorBrush x:Key="DangerBrush" Color="{StaticResource Danger}" />
+
+<SolidColorBrush x:Key="DangerSoftBrush" Color="{StaticResource DangerSoft}" />
+
+    <SolidColorBrush x:Key="DangerInkBrush" Color="{StaticResource DangerInk}" />
+
+    <SolidColorBrush x:Key="SuccessBrush" Color="{StaticResource Success}" />
+    <SolidColorBrush x:Key="SuccessDotBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="SuccessSoftBrush" Color="{StaticResource SuccessSoft}" />
+
+</ResourceDictionary>

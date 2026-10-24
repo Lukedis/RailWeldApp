@@ -1,0 +1,28 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：设备管理（AdminRealTimeDataView）
+        实时数据看板：轴运动表 / 传感器矩阵 / 执行机构指示灯 / 电参数数字读数。
+        色值全部来自 Primitives.xaml，这里只声明用途。
+    -->
+
+    <SolidColorBrush x:Key="EquipCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="EquipCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="EquipTableHeaderBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="EquipSeparatorBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="EquipMutedTextBrush" Color="{StaticResource InkTertiary}" />
+
+    <!-- 电参数量程条 -->
+    <SolidColorBrush x:Key="EquipBarFillBrush" Color="{StaticResource InkPrimary}" />
+    <SolidColorBrush x:Key="EquipBarTrackBrush" Color="{StaticResource SurfaceMuted}" />
+
+    <!-- 执行机构状态灯 -->
+    <SolidColorBrush x:Key="EquipActiveBrush" Color="{StaticResource Success}" />
+    <SolidColorBrush x:Key="EquipIdleBrush" Color="{StaticResource InkDisabled}" />
+
+    <!-- 页脚通讯状态 -->
+    <SolidColorBrush x:Key="EquipOnlineBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="EquipOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+</ResourceDictionary>

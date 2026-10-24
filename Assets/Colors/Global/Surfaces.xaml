@@ -1,0 +1,30 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        全局：背景 / 表面 / 描边 / 遮罩
+        Surface*  由浅到深的面（页面 → 卡片 → 输入框 → 悬停 → 按下）
+        Border*   描边层级
+        Overlay/Scrim  模态遮罩
+ -->
+
+    <SolidColorBrush x:Key="SurfaceCardBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="SurfaceCanvasBrush" Color="{StaticResource SurfaceCanvas}" />
+    <SolidColorBrush x:Key="SurfaceSubtleBrush" Color="{StaticResource SurfaceSubtle}" />
+
+    <SolidColorBrush x:Key="SurfaceMutedBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="SurfaceSunkenBrush" Color="{StaticResource SurfaceSunken}" />
+
+    <!-- 反白：叠在强调色/危险色上的文字与图标，浅色深色都是白色 -->
+    <SolidColorBrush x:Key="OnAccentBrush" Color="{StaticResource OnAccent}" />
+
+    <SolidColorBrush x:Key="DividerBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="BorderStrongBrush" Color="{StaticResource LineBorderStrong}" />
+
+    <SolidColorBrush x:Key="BorderControlBrush" Color="{StaticResource LineBorderControl}" />
+
+    <SolidColorBrush x:Key="OverlayBrush" Color="{StaticResource Overlay}" />
+    <SolidColorBrush x:Key="ScrimBrush" Color="{StaticResource Scrim}" />
+
+</ResourceDictionary>

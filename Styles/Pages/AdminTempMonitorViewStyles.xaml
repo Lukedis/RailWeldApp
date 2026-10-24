@@ -1,0 +1,110 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：温度监视（AdminTempMonitorView）专属样式
+        四张温度卡：通道名、大数字、电平条。
+    -->
+
+    <Style x:Key="TempCardStyle" TargetType="Border">
+        <Setter Property="Padding" Value="20,16" />
+        <Setter Property="Background" Value="{StaticResource TempCardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource TempCardBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
+    </Style>
+
+    <Style x:Key="TempNameStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="TempRangeStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="Foreground" Value="{StaticResource TempMutedBrush}" />
+    </Style>
+
+    <!-- 通道说明：一行小字，解释这一路采集的是什么 -->
+    <Style x:Key="TempCaptionStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="Foreground" Value="{StaticResource TempMutedBrush}" />
+    </Style>
+
+    <!-- 量程胶囊：卡片右上角 -->
+    <Style x:Key="TempRangeChipStyle" TargetType="Border">
+        <Setter Property="Padding" Value="8,3" />
+        <Setter Property="Background" Value="{StaticResource SurfaceSubtleBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    </Style>
+
+    <Style x:Key="TempValueStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeHeroLg}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="LineHeight" Value="{StaticResource FontSizeHeroLg}" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+    </Style>
+
+    <!-- 量程条下方的 0 / 满量程刻度 -->
+    <Style x:Key="TempScaleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="Foreground" Value="{StaticResource TempMutedBrush}" />
+    </Style>
+
+    <!-- 卡片底部：阈值说明与通道号 -->
+    <Style x:Key="TempSpecStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="TempChannelStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="Foreground" Value="{StaticResource TempMutedBrush}" />
+    </Style>
+
+    <!-- 底部浅色横幅 -->
+    <Style x:Key="TempBannerChipStyle" TargetType="Border">
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    </Style>
+
+    <Style x:Key="TempBannerChipTextStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="TempUnitStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="8,0,0,8" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource TempMutedBrush}" />
+    </Style>
+
+    <!-- 电平条：圆角轨道 + 实心指示条（PART_Track / PART_Indicator 是 ProgressBar 的约定名） -->
+    <Style x:Key="TempBarStyle" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Background" Value="{StaticResource TempTrackBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TempFillBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8" />
+                        <Border x:Name="PART_Track" />
+                        <Border x:Name="PART_Indicator"
+                                HorizontalAlignment="Left"
+                                Background="{TemplateBinding Foreground}"
+                                CornerRadius="8" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

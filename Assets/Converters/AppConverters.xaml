@@ -1,0 +1,11 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:RailWeldApp.Converters">
+
+    <converters:BoolToVisibility x:Key="BooleanToVisibility" />
+    <converters:IntToVisibilityConverter x:Key="IntToVisibility" />
+    <converters:HalfConverter x:Key="HalfConverter" />
+    <converters:AvatarIconSizeConverter x:Key="AvatarIconSizeConverter" />
+    <converters:BoolToVisibilityCollapsed x:Key="BoolToVisibilityCollapsed" />
+    <converters:BoolToVisibilityHidden x:Key="BoolToVisibilityHidden" />
+</ResourceDictionary>

@@ -1,0 +1,393 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:control="clr-namespace:RailWeldApp.Controls"
+                    xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties">
+
+    <!--
+        页面：管理台外壳（AdminView）与首页（AdminDashboardView）专属样式
+        · 顶部导航项：文字 + 底部 2px 选中线（替代原来的侧栏胶囊）
+        · 首页大图上的标题、正文、两个按钮
+        · 产品能力卡片
+    -->
+
+    <!--  顶部导航  -->
+
+    <Style x:Key="AdminNavItemStyle" TargetType="{x:Type control:NavigationButton}">
+        <Setter Property="Height" Value="76" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0,0,26,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource AdminNavTextBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type control:NavigationButton}">
+                    <Grid Background="Transparent">
+                        <StackPanel HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <ContentPresenter VerticalAlignment="Center"
+                                              TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+
+                            <!--  报警角标：InfoBadgeCount > 0 时出现  -->
+                            <Border x:Name="AlarmBadge"
+                                    Height="16"
+                                    MinWidth="16"
+                                    Margin="6,0,0,0"
+                                    Padding="5,0"
+                                    VerticalAlignment="Center"
+                                    Background="{StaticResource NavigationButtonInfoBadgeAttentionBackground}"
+                                    CornerRadius="{StaticResource RadiusXs}"
+                                    Visibility="Collapsed">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="10"
+                                           Foreground="{StaticResource NavigationButtonInfoBadgeForeground}"
+                                           Text="{Binding InfoBadgeCount, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Border>
+                        </StackPanel>
+
+                        <!--  选中线：贴在导航栏底边  -->
+                        <Border x:Name="ActiveLine"
+                                Height="2"
+                                VerticalAlignment="Bottom"
+                                Background="{StaticResource AdminNavActiveBrush}"
+                                Opacity="0" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource AdminNavActiveBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsActive" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource AdminNavActiveBrush}" />
+                            <Setter TargetName="ActiveLine" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="InfoBadgeKind" Value="Value">
+                            <Setter TargetName="AlarmBadge" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  顶部右侧：近黑方块按钮  -->
+    <!--  头像按钮：圆形、悬停描边、点开后保持选中态  -->
+    <Style x:Key="AccountAvatarButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="34" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ControlFocusVisualStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Ellipse x:Name="Ring"
+                                 Opacity="0"
+                                 Stroke="{StaticResource TextPrimaryBrush}"
+                                 StrokeThickness="1" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Ring" Property="Opacity" Value="0.3" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Ring" Property="Opacity" Value="1" />
+                            <Setter TargetName="Ring" Property="Stroke" Value="{StaticResource AccentBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AdminNavCtaStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Padding" Value="14,0,14,0" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="Fill"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="18">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AccentTint50Brush}" />
+                            <Setter TargetName="Fill" Property="BorderBrush" Value="{StaticResource AccentTint200Brush}" />
+                            <Setter Property="Foreground" Value="{StaticResource AccentPressBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AccentTint100Brush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  采集状态胶囊  -->
+    <Style x:Key="AdminStatusPillStyle" TargetType="Border">
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="Background" Value="{StaticResource AdminStatusPillSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AdminStatusPillBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="14" />
+    </Style>
+
+    <Style x:Key="AdminStatusDotStyle" TargetType="Ellipse">
+        <Setter Property="Width" Value="6" />
+        <Setter Property="Height" Value="6" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Fill" Value="{StaticResource AdminStatusOfflineBrush}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPlcOnline}" Value="True">
+                <Setter Property="Fill" Value="{StaticResource AdminStatusOnlineBrush}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="AdminStatusTextStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="7,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource AdminStatusTextBrush}" />
+        <Setter Property="Text" Value="采集离线" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsPlcOnline}" Value="True">
+                <Setter Property="Text" Value="采集在线" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  首页大图  -->
+
+    <Style x:Key="AdminHeroEyebrowStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="AdminHeroHeadlineStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,18,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeHeadline}" />
+        <Setter Property="LineHeight" Value="88" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="AdminHeroBodyStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,26,0,0" />
+        <Setter Property="MaxWidth" Value="620" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeLead}" />
+        <Setter Property="LineHeight" Value="34" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!--  大图主按钮：白底黑字  -->
+    <Style x:Key="AdminHeroPrimaryButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="42" />
+        <Setter Property="Padding" Value="22,0" />
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource OnAccentBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="Fill"
+                                Padding="10"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{StaticResource RadiusSm}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AccentHoverBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AccentPressBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  大图次按钮：透明底 + 1px 白描边  -->
+    <Style x:Key="AdminHeroGhostButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="42" />
+        <Setter Property="Padding" Value="22,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource AdminHeroGhostBorderBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Fill"
+                            Padding="10"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource RadiusSm}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                          TextElement.FontSize="{TemplateBinding FontSize}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AdminHeroGhostHoverBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  产品能力区  -->
+
+    <Style x:Key="AdminSectionKickerStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+    </Style>
+
+    <Style x:Key="AdminSectionTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,8,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeDisplay}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="AdminSectionSubtitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,8,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <!--  区块右上角的文字链  -->
+    <Style x:Key="AdminSectionLinkStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Padding" Value="4,0" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="Transparent" CornerRadius="{StaticResource RadiusXs}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontFamily="{TemplateBinding FontFamily}"
+                                          TextElement.FontSize="{TemplateBinding FontSize}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AdminFeatureCardStyle" TargetType="Border">
+        <Setter Property="Padding" Value="22,20" />
+        <Setter Property="Background" Value="{StaticResource AdminCardSurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource AdminCardBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusMd}" />
+    </Style>
+
+    <Style x:Key="AdminFeatureIconBoxStyle" TargetType="Border">
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{StaticResource AdminCardIconSurfaceBrush}" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusSm}" />
+    </Style>
+
+    <Style x:Key="AdminFeatureIconStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource IconFont}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource AdminCardIconBrush}" />
+    </Style>
+
+    <Style x:Key="AdminFeatureTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,14,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="AdminFeatureBodyStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,6,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="AdminFooterTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+    </Style>
+</ResourceDictionary>

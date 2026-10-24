@@ -1,0 +1,118 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        原始色值（唯一来源，单主题：浅色）
+        这里只是 <Color>，不直接给控件用；所有画刷（Assets/Colors/Global、
+        Controls、Pages 下的 SolidColorBrush / 渐变 / 阴影）都引用这里的键。
+        改主题色只改这个文件。
+
+        命名：
+          Neutral*  中性面与线（越往后越深）
+          Ink*      文字与图标（数字越小越深）
+          Accent*   主色蓝及其浅色调
+          Danger / Success / Warning / Purple / Lime  语义色
+          Overlay / Scrim  遮罩
+ -->
+
+    <Color x:Key="SurfaceCard">#FFFFFFFF</Color>
+    <Color x:Key="SurfaceCanvas">#FFF5F5F7</Color>
+    <Color x:Key="SurfaceSubtle">#FFF8F8FB</Color>
+    <Color x:Key="SurfaceInput">#FFFFFFFF</Color>
+    <Color x:Key="SurfaceMuted">#FFF0F0F4</Color>
+    <Color x:Key="SurfaceSunken">#FFF4F4F7</Color>
+
+    <Color x:Key="LineDivider">#FFEBEBEF</Color>
+    <Color x:Key="LineBorder">#FFE6E6EC</Color>
+    <Color x:Key="LineBorderStrong">#FFD1D1D6</Color>
+    <Color x:Key="LineBorderHover">#FFC7C7CC</Color>
+    <Color x:Key="LineBorderControl">#FFC7C7CC</Color>
+
+    <Color x:Key="InkPrimary">#FF1D1D1F</Color>
+    <Color x:Key="InkStrong">#FF3A3A3C</Color>
+    <Color x:Key="InkBody">#FF48484A</Color>
+    <Color x:Key="InkSecondary">#FF6E6E73</Color>
+    <Color x:Key="InkTertiary">#FF8E8E93</Color>
+    <Color x:Key="InkPlaceholder">#FFAEAEB2</Color>
+    <Color x:Key="InkDisabled">#FFC7C7CC</Color>
+
+    <Color x:Key="OnAccent">#FFFFFFFF</Color>
+
+    <Color x:Key="NoticeSurface">#FFF5F9FF</Color>
+    <Color x:Key="NoticeSurfaceStrong">#FFE9F1FF</Color>
+
+    <Color x:Key="Accent">#FF007AFF</Color>
+    <Color x:Key="AccentHover">#FF3B95FF</Color>
+    <Color x:Key="AccentPress">#FF0062CC</Color>
+    <Color x:Key="AccentSelection">#33007AFF</Color>
+
+    <Color x:Key="AccentTint50">#FFEDF5FF</Color>
+
+    <Color x:Key="AccentTint100">#FFD9EAFF</Color>
+    <Color x:Key="AccentTint200">#FFC7E0FF</Color>
+    <Color x:Key="AccentTint300">#FF9CC7FF</Color>
+    <Color x:Key="AccentTint400">#FF6AA9FF</Color>
+
+    <!-- 来源：Apple HIG Color 面板。同名色在深浅色下取值不同，这里只取浅色。 -->
+    <Color x:Key="SystemRed">#FFFF3B30</Color>
+    <Color x:Key="SystemOrange">#FFFF9500</Color>
+    <Color x:Key="SystemYellow">#FFFFCC00</Color>
+    <Color x:Key="SystemGreen">#FF34C759</Color>
+    <Color x:Key="SystemMint">#FF00C7BE</Color>
+    <Color x:Key="SystemTeal">#FF30B0C7</Color>
+    <Color x:Key="SystemCyan">#FF32ADE6</Color>
+    <Color x:Key="SystemBlue">#FF007AFF</Color>
+    <Color x:Key="SystemIndigo">#FF5856D6</Color>
+    <Color x:Key="SystemPurple">#FFAF52DE</Color>
+    <Color x:Key="SystemPink">#FFFF2D55</Color>
+    <Color x:Key="SystemBrown">#FFA2845E</Color>
+    <Color x:Key="SystemGray">#FF8E8E93</Color>
+
+    <!-- 用于控件底色、分组背景，是"黑/白 + 透明度"而不是实色 -->
+    <Color x:Key="FillPrimary">#1F000000</Color>
+    <Color x:Key="FillSecondary">#14000000</Color>
+    <Color x:Key="FillTertiary">#0A000000</Color>
+    <Color x:Key="FillQuaternary">#05000000</Color>
+
+    <!-- 键盘焦点环：系统蓝 50%，画在控件内侧 -->
+    <Color x:Key="FocusRing">#B3007AFF</Color>
+
+    <!-- 半透明白层，叠在画布上模拟毛玻璃；不叠加模糊（性能红线） -->
+
+    <Color x:Key="Danger">#FFFF3B30</Color>
+    <Color x:Key="DangerHover">#FFFF6259</Color>
+    <Color x:Key="DangerPress">#FFD70015</Color>
+    <Color x:Key="DangerSoft">#FFFFE5E3</Color>
+    <Color x:Key="DangerSoftInk">#FFFCA5A5</Color>
+    <Color x:Key="DangerInk">#FFC4271E</Color>
+
+    <Color x:Key="Success">#FF34C759</Color>
+    <Color x:Key="SuccessDot">#FF10B981</Color>
+    <Color x:Key="SuccessSoft">#FFF1FCF7</Color>
+
+    <Color x:Key="Warning">#FFFF9500</Color>
+    <Color x:Key="WarningSoft">#FFFFF9EE</Color>
+
+    <Color x:Key="Purple">#FF7C3AED</Color>
+    <Color x:Key="PurpleLight">#FF8B5CF6</Color>
+    <Color x:Key="PurpleDeep">#FF6D28D9</Color>
+
+    <Color x:Key="Lime">#FFC9F135</Color>
+    <Color x:Key="LimeHover">#FFBCE42A</Color>
+    <Color x:Key="LimePress">#FFAED51E</Color>
+
+    <Color x:Key="Overlay">#33000000</Color>
+    <Color x:Key="Scrim">#66000000</Color>
+    <Color x:Key="TransparentWhite">#00FFFFFF</Color>
+
+    <!-- 首页大图上的遮罩与反白文字 -->
+    <Color x:Key="HeroScrimStrong">#F2000000</Color>
+    <Color x:Key="HeroScrimMedium">#A6000000</Color>
+    <Color x:Key="HeroScrimSoft">#40000000</Color>
+    <Color x:Key="OnDarkPrimary">#FFFFFFFF</Color>
+    <Color x:Key="OnDarkSecondary">#C4FFFFFF</Color>
+    <Color x:Key="OnDarkTertiary">#8AFFFFFF</Color>
+    <Color x:Key="OnDarkHover">#26FFFFFF</Color>
+    <Color x:Key="TransparentBlack">#00000000</Color>
+
+</ResourceDictionary>

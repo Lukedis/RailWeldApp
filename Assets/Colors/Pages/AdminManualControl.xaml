@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：手动控制（AdminManualControlView）
+        轴反馈表 + 8 张控制卡（电源 / 喷风 / Y、Z 轴气缸 / 1#~4# 顶料气缸）。
+    -->
+
+    <SolidColorBrush x:Key="ManualCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="ManualCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="ManualSeparatorBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="ManualMutedTextBrush" Color="{StaticResource InkTertiary}" />
+
+    <!-- 圆形操作按钮 -->
+    <SolidColorBrush x:Key="ManualButtonSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="ManualButtonBorderBrush" Color="{StaticResource LineBorderStrong}" />
+    <SolidColorBrush x:Key="ManualButtonHoverBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="ManualButtonPressBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="ManualPrimarySurfaceBrush" Color="{StaticResource Accent}" />
+    <SolidColorBrush x:Key="ManualPrimaryHoverBrush" Color="{StaticResource AccentHover}" />
+
+    <!-- 设定值输入框 -->
+    <SolidColorBrush x:Key="ManualFieldSurfaceBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="ManualFieldBorderBrush" Color="{StaticResource LineBorder}" />
+
+    <!-- 手动模式提示 -->
+    <SolidColorBrush x:Key="ManualWarningSurfaceBrush" Color="{StaticResource WarningSoft}" />
+    <SolidColorBrush x:Key="ManualWarningDotBrush" Color="{StaticResource Warning}" />
+
+    <!-- 页脚通讯状态 -->
+    <SolidColorBrush x:Key="ManualOnlineBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="ManualOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+</ResourceDictionary>

@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：故障报警（AdminFaultAlarmView）
+        状态条、报警记录表、统计与操作。
+    -->
+
+    <SolidColorBrush x:Key="AlarmCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="AlarmCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="AlarmHeaderBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="AlarmSeparatorBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="AlarmHoverBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="AlarmMutedBrush" Color="{StaticResource InkTertiary}" />
+
+    <SolidColorBrush x:Key="AlarmActionSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="AlarmActionBorderBrush" Color="{StaticResource LineBorder}" />
+
+    <SolidColorBrush x:Key="AlarmOkBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="AlarmOkSoftBrush" Color="{StaticResource SuccessSoft}" />
+    <SolidColorBrush x:Key="AlarmWarnBrush" Color="{StaticResource Warning}" />
+    <SolidColorBrush x:Key="AlarmDangerBrush" Color="{StaticResource Danger}" />
+    <SolidColorBrush x:Key="AlarmDangerSoftBrush" Color="{StaticResource DangerSoft}" />
+    <SolidColorBrush x:Key="AlarmDangerSoftInkBrush" Color="{StaticResource DangerSoftInk}" />
+    <SolidColorBrush x:Key="AlarmDangerInkBrush" Color="{StaticResource DangerInk}" />
+    <SolidColorBrush x:Key="AlarmOnDangerBrush" Color="{StaticResource SurfaceCard}" />
+
+    <SolidColorBrush x:Key="AlarmOnlineBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="AlarmOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+</ResourceDictionary>

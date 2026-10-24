@@ -1,0 +1,29 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：温度监视（AdminTempMonitorView）
+        八路采集量的电平条与数值。
+    -->
+
+    <SolidColorBrush x:Key="TempCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="TempCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="TempFillBrush" Color="{StaticResource InkPrimary}" />
+    <SolidColorBrush x:Key="TempTrackBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="TempMutedBrush" Color="{StaticResource InkTertiary}" />
+    <SolidColorBrush x:Key="TempSeparatorBrush" Color="{StaticResource LineDivider}" />
+
+    <!-- 八路各一色，顺序即卡片顺序：红 橙 黄 绿 青 蓝 靛 紫 -->
+    <SolidColorBrush x:Key="TempChannel1Brush" Color="{StaticResource SystemRed}" />
+    <SolidColorBrush x:Key="TempChannel2Brush" Color="{StaticResource SystemOrange}" />
+    <SolidColorBrush x:Key="TempChannel3Brush" Color="{StaticResource SystemYellow}" />
+    <SolidColorBrush x:Key="TempChannel4Brush" Color="{StaticResource SystemGreen}" />
+    <SolidColorBrush x:Key="TempChannel5Brush" Color="{StaticResource SystemTeal}" />
+    <SolidColorBrush x:Key="TempChannel6Brush" Color="{StaticResource SystemBlue}" />
+    <SolidColorBrush x:Key="TempChannel7Brush" Color="{StaticResource SystemIndigo}" />
+    <SolidColorBrush x:Key="TempChannel8Brush" Color="{StaticResource SystemPurple}" />
+
+    <SolidColorBrush x:Key="TempOnlineBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="TempOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+</ResourceDictionary>

@@ -1,0 +1,23 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        控件：顶部导航项（NavigationButton）+ InfoBadge
+        这些键只被 Themes/NavigationButton.xaml 使用。
+ -->
+
+    <SolidColorBrush x:Key="NavigationButtonForeground" Color="{StaticResource InkPrimary}" />
+    <SolidColorBrush x:Key="NavigationButtonHoverBackground" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="NavigationButtonHoverForeground" Color="{StaticResource InkPrimary}" />
+    <SolidColorBrush x:Key="NavigationButtonPressedBackground" Color="{StaticResource SurfaceSunken}" />
+    <SolidColorBrush x:Key="NavigationButtonActiveBackground" Color="{StaticResource AccentTint50}" />
+    <SolidColorBrush x:Key="NavigationButtonActiveForeground" Color="{StaticResource Accent}" />
+    <SolidColorBrush x:Key="NavigationButtonActiveIndicator" Color="{StaticResource AccentTint50}" />
+    <SolidColorBrush x:Key="NavigationButtonActiveHoverBackground" Color="{StaticResource AccentHover}" />
+    <SolidColorBrush x:Key="NavigationButtonFocusBorder" Color="{StaticResource AccentTint50}" />
+
+    <SolidColorBrush x:Key="NavigationButtonInfoBadgeBackground" Color="{StaticResource AccentTint50}" />
+    <SolidColorBrush x:Key="NavigationButtonInfoBadgeForeground" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="NavigationButtonInfoBadgeAttentionBackground" Color="{StaticResource Danger}" />
+
+</ResourceDictionary>

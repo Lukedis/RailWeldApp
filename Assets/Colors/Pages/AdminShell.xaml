@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：管理台外壳（AdminView）
+        品牌 Logo、侧栏提示卡、顶部搜索框、通知抽屉里的三种提示卡。
+ -->
+
+    <LinearGradientBrush x:Key="AdminUpgradeBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Offset="0" Color="{StaticResource NoticeSurface}" />
+        <GradientStop Offset="1" Color="{StaticResource NoticeSurfaceStrong}" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="SearchBarBackgroundBrush" Color="{StaticResource SurfaceMuted}" />
+
+    <SolidColorBrush x:Key="NoticeInfoBackgroundBrush" Color="{StaticResource AccentTint50}" />
+    <SolidColorBrush x:Key="NoticeWarningBackgroundBrush" Color="{StaticResource WarningSoft}" />
+    <SolidColorBrush x:Key="NoticeSuccessBackgroundBrush" Color="{StaticResource SuccessSoft}" />
+    <SolidColorBrush x:Key="NoticeWarningDotBrush" Color="{StaticResource Warning}" />
+    <SolidColorBrush x:Key="NoticeSuccessDotBrush" Color="{StaticResource SuccessDot}" />
+
+</ResourceDictionary>

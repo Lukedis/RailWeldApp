@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        字体资源（MiSans）
+        MiSans 的三个字重是以"独立字体族"发布的，所以这里分三个键：
+          UiFont          → Regular（正文）
+          UiFontMedium    → Medium（次级标题、强调）
+          UiFontSemibold  → Semibold（主标题、数值）
+        用法：FontFamily="{StaticResource UiFontSemibold}"
+ -->
+
+    <FontFamily x:Key="UiFont">/RailWeldApp;component/Assets/Fonts/#MiSans</FontFamily>
+    <FontFamily x:Key="UiFontMedium">/RailWeldApp;component/Assets/Fonts/#MiSans Medium</FontFamily>
+    <FontFamily x:Key="UiFontSemibold">/RailWeldApp;component/Assets/Fonts/#MiSans Semibold</FontFamily>
+
+    <FontFamily x:Key="IconFont">Segoe Fluent Icons</FontFamily>
+
+</ResourceDictionary>

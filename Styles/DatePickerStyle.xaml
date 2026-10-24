@@ -1,0 +1,257 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties">
+
+    <!--
+        日期选择器（全局）
+        扁平圆角字段 + 右侧日历图标 + 卡片式日历，跟站内输入框保持同一套观感。
+
+        注意：DatePicker 内部的 Calendar 是它自己 new 出来的、直接塞进 PART_Popup 当 Child，
+        所以日历外观必须通过 DatePicker.CalendarStyle 给，模板里放 Calendar 是没用的。
+    -->
+
+    <!--  输入区：去掉默认的双层边框与水印底色  -->
+    <Style x:Key="DatePickerTextBoxStyle" TargetType="{x:Type DatePickerTextBox}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="CaretBrush" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePickerTextBox}">
+                    <Grid Background="Transparent">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="0"
+                                      VerticalAlignment="Center"
+                                      Focusable="False"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      VerticalScrollBarVisibility="Hidden" />
+                        <ContentControl x:Name="PART_Watermark"
+                                        Margin="0"
+                                        VerticalAlignment="Center"
+                                        Focusable="False"
+                                        FontSize="{TemplateBinding FontSize}"
+                                        Foreground="{StaticResource TextTertiaryBrush}"
+                                        IsHitTestVisible="False"
+                                        Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Text" Value="">
+                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="Text" Value="{x:Null}">
+                            <Setter TargetName="PART_Watermark" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  日历按钮：只有一个矢量图标  -->
+    <Style x:Key="DatePickerIconButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="34" />
+        <Setter Property="Height" Value="34" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="Fill"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{StaticResource RadiusSm}">
+                        <Path Width="15"
+                              Height="15"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="M3,3 L13,3 L13,14 L3,14 Z M3,7 L13,7 M6,1 L6,5 M10,1 L10,5"
+                              Stretch="Uniform"
+                              Stroke="{StaticResource TextSecondaryBrush}"
+                              StrokeEndLineCap="Round"
+                              StrokeLineJoin="Round"
+                              StrokeStartLineCap="Round"
+                              StrokeThickness="1.3" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  日历里的日期格：圆角块 + 悬停底色 + 选中实心  -->
+    <Style x:Key="CalendarDayButtonStyle" TargetType="{x:Type CalendarDayButton}">
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CalendarDayButton}">
+                    <Grid Background="Transparent">
+                        <Border x:Name="Fill"
+                                Background="Transparent"
+                                CornerRadius="{StaticResource RadiusSm}" />
+                        <Border x:Name="TodayRing"
+                                BorderBrush="{StaticResource AccentBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource RadiusSm}"
+                                Visibility="Collapsed" />
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsInactive" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsToday" Value="True">
+                            <Setter TargetName="TodayRing" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AccentBrush}" />
+                            <Setter TargetName="TodayRing" Property="Visibility" Value="Collapsed" />
+                            <Setter Property="Foreground" Value="{StaticResource OnAccentBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsBlackedOut" Value="True">
+                            <Setter Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  年 / 月视图里的格子  -->
+    <Style x:Key="CalendarButtonStyle" TargetType="{x:Type CalendarButton}">
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CalendarButton}">
+                    <Grid Background="Transparent">
+                        <Border x:Name="Fill"
+                                Background="Transparent"
+                                CornerRadius="{StaticResource RadiusSm}" />
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsInactive" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        </Trigger>
+                        <Trigger Property="HasSelectedDays" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                            <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="Fill" Property="Background" Value="{StaticResource AccentTint50Brush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  日历本体：卡片外观 + 自定义日期格（通过 DatePicker.CalendarStyle 应用）  -->
+    <Style x:Key="DatePickerCalendarStyle" TargetType="{x:Type Calendar}">
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="CalendarDayButtonStyle" Value="{StaticResource CalendarDayButtonStyle}" />
+        <Setter Property="CalendarButtonStyle" Value="{StaticResource CalendarButtonStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Calendar}">
+                    <Border Padding="10,8"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource RadiusMd}">
+                        <CalendarItem x:Name="PART_CalendarItem" Style="{TemplateBinding CalendarItemStyle}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  日期选择器本体  -->
+    <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+        <Setter Property="Height" Value="34" />
+        <Setter Property="Width" Value="160" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="CalendarStyle" Value="{StaticResource DatePickerCalendarStyle}" />
+        <Setter Property="SelectedDateFormat" Value="Short" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Grid>
+                        <Border x:Name="Field"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource RadiusSm}">
+                            <Grid ColumnDefinitions="*,34">
+                                <DatePickerTextBox x:Name="PART_TextBox"
+                                                   Margin="12,0,2,0"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{TemplateBinding FontFamily}"
+                                                   FontSize="{TemplateBinding FontSize}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   Style="{StaticResource DatePickerTextBoxStyle}" />
+
+                                <Button x:Name="PART_Button"
+                                        Grid.Column="1"
+                                        Style="{StaticResource DatePickerIconButtonStyle}" />
+                            </Grid>
+                        </Border>
+
+                        <Popup x:Name="PART_Popup"
+                               AllowsTransparency="True"
+                               StaysOpen="False" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource BorderStrongBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,304 @@
+<UserControl x:Class="RailWeldApp.Views.AdminView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:control="clr-namespace:RailWeldApp.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:RailWeldApp.Design"
+             xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:RailWeldApp.Views"
+             d:DataContext="{x:Static design:DesignData.AdminViewModel}"
+             d:DesignHeight="860"
+             d:DesignWidth="1400"
+             FontFamily="{StaticResource UiFont}"
+             mc:Ignorable="d">
+
+    <!--
+        管理台外壳（Web 式）
+        第 0 行：顶部导航（品牌 / 一级导航 / 采集状态 / 通知 / 头像 / 返回登录）
+        第 1 行：页面内容（首页 = 产品介绍，其余页面 = 各自的功能页）
+        通知抽屉覆盖整窗。
+    -->
+
+    <Border Background="{StaticResource SurfaceCardBrush}" ClipToBounds="True">
+        <Grid RowDefinitions="76,*">
+
+            <Border Grid.Row="0"
+                    Background="{StaticResource AdminNavSurfaceBrush}"
+                    BorderBrush="{StaticResource AdminNavBorderBrush}"
+                    BorderThickness="0,0,0,1">
+                <Grid Margin="40,0" ColumnDefinitions="Auto,*,Auto">
+
+                    <!--  品牌  -->
+                    <StackPanel Grid.Column="0"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+                        <Border Width="28"
+                                Height="28"
+                                Background="{StaticResource AdminNavActiveBrush}"
+                                CornerRadius="{StaticResource RadiusSm}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource UiFontSemibold}"
+                                       FontSize="{StaticResource FontSizeBodyLarge}"
+                                       Foreground="{StaticResource OnAccentBrush}"
+                                       Text="R" />
+                        </Border>
+                        <TextBlock Margin="9,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource UiFontSemibold}"
+                                   FontSize="{StaticResource FontSizeTitle}"
+                                   Foreground="{StaticResource TextPrimaryBrush}"
+                                   Text="RailWeld" />
+                    </StackPanel>
+
+                    <!--  一级导航  -->
+                    <StackPanel Grid.Column="1"
+                                Margin="56,0,0,0"
+                                VerticalAlignment="Stretch"
+                                Orientation="Horizontal">
+                        <control:NavigationButton x:Name="navDashboard"
+                                                  Command="{Binding NavigationToAdminDashboardCommand}"
+                                                  Content="总览"
+                                                  IsActive="{Binding IsActiveAdminDashboard}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navRealTimeData"
+                                                  Command="{Binding NavigationToAdminRealTimeDataCommand}"
+                                                  Content="实时数据"
+                                                  IsActive="{Binding IsActiveAdminRealTimeData}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navManualControl"
+                                                  Command="{Binding NavigationToAdminManualControlCommand}"
+                                                  Content="手动控制"
+                                                  IsActive="{Binding IsActiveAdminManualControl}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navAutoControl"
+                                                  Command="{Binding NavigationToAdminAutoControlCommand}"
+                                                  Content="自动控制"
+                                                  IsActive="{Binding IsActiveAdminAutoControl}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navTempMonitor"
+                                                  Command="{Binding NavigationToAdminTempMonitorCommand}"
+                                                  Content="温度监视"
+                                                  IsActive="{Binding IsActiveAdminTempMonitor}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navHistoryQuery"
+                                                  Command="{Binding NavigationToAdminHistoryQueryCommand}"
+                                                  Content="历史查询"
+                                                  IsActive="{Binding IsActiveAdminHistoryQuery}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navFaultAlarm"
+                                                  Command="{Binding NavigationToAdminFaultAlarmCommand}"
+                                                  Content="故障报警"
+                                                  IsActive="{Binding IsActiveAdminFaultAlarm}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navReportExport"
+                                                  Command="{Binding NavigationToAdminReportExportCommand}"
+                                                  Content="报告导出"
+                                                  InfoBadgeCount="{Binding AlarmCount}"
+                                                  IsActive="{Binding IsActiveAdminReportExport}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                        <control:NavigationButton x:Name="navSettings"
+                                                  Command="{Binding NavigationToAdminSettingsCommand}"
+                                                  Content="系统设置"
+                                                  IsActive="{Binding IsActiveAdminSettings}"
+                                                  Style="{StaticResource AdminNavItemStyle}" />
+                    </StackPanel>
+
+                    <!--  右侧动作  -->
+                    <StackPanel Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
+
+                        <Border Margin="0,0,16,0" Style="{StaticResource AdminStatusPillStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Style="{StaticResource AdminStatusDotStyle}" />
+                                <TextBlock Style="{StaticResource AdminStatusTextStyle}" />
+                            </StackPanel>
+                        </Border>
+
+                        <Button Width="34"
+                                Height="34"
+                                Margin="0,0,10,0"
+                                Command="{Binding OpenDrawerCommand}"
+                                Style="{StaticResource NotificationButtonStyle}"
+                                ToolTip="通知" />
+
+                        <!--  头像：点开账户面板（视图内开关，见 AdminView.xaml.cs）  -->
+                        <Button x:Name="AccountButton"
+                                Width="34"
+                                Height="34"
+                                Margin="0,0,18,0"
+                                Command="{Binding OpenAccountCommand}"
+                                Style="{StaticResource AccountAvatarButtonStyle}"
+                                ToolTip="账户">
+                            <Grid Width="34" Height="34">
+                                <Ellipse Fill="{StaticResource SurfaceMutedBrush}" />
+                                <Ellipse>
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="/Assets/Images/User.jpg" Stretch="UniformToFill" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <Ellipse>
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding CurrentUserAvatar}" Stretch="UniformToFill" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Grid>
+                        </Button>
+
+                        <Button Command="{Binding BackToLoginCommand}" Style="{StaticResource AdminNavCtaStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Width="12"
+                                      Height="12"
+                                      Margin="0,0,6,0"
+                                      VerticalAlignment="Center"
+                                      Data="M10,2 L4,8 L10,14 M4,8 L14,8"
+                                      Stretch="Uniform"
+                                      Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeLineJoin="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="1.6" />
+                                <TextBlock VerticalAlignment="Center" Text="返回登录" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <ContentControl x:Name="AdminContentHost"
+                            Grid.Row="1"
+                            Content="{Binding CurrentPage}" />
+
+            <control:DrawerControl x:Name="NotificationDrawer"
+                                   Grid.RowSpan="2"
+                                   Panel.ZIndex="100"
+                                   DrawerBackground="{StaticResource SurfaceCardBrush}"
+                                   DrawerSize="340"
+                                   IsHitTestVisible="{Binding IsDrawerOpen}"
+                                   IsOpen="{Binding IsDrawerOpen}"
+                                   Position="Right">
+
+                <control:DrawerControl.DrawerContent>
+                    <Grid RowDefinitions="Auto,*">
+
+                        <!--  Drawer Header  -->
+                        <Border Padding="22,18"
+                                BorderBrush="{StaticResource DividerBrush}"
+                                BorderThickness="0,0,0,1">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <StackPanel>
+                                    <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                               FontSize="{StaticResource FontSizeTitle}"
+                                               Foreground="{StaticResource TextPrimaryBrush}"
+                                               Text="通知" />
+                                    <TextBlock Margin="0,3,0,0"
+                                               FontSize="{StaticResource FontSizeCaption}"
+                                               Foreground="{StaticResource TextTertiaryBrush}"
+                                               Text="有 3 条新通知" />
+                                </StackPanel>
+
+                                <Button Grid.Column="1"
+                                        Command="{Binding CloseDrawerCommand}"
+                                        Content="✕"
+                                        FontSize="14"
+                                        Style="{StaticResource HeaderIconButton}" />
+                            </Grid>
+                        </Border>
+
+                        <!--  Drawer Content  -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="16">
+
+                                <Border Margin="0,0,0,10"
+                                        Padding="14"
+                                        Background="{StaticResource NoticeInfoBackgroundBrush}"
+                                        CornerRadius="{StaticResource RadiusLg}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Width="7"
+                                                     Height="7"
+                                                     Margin="0,0,8,0"
+                                                     VerticalAlignment="Center"
+                                                     Fill="{StaticResource AccentBrush}" />
+                                            <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                                       FontSize="{StaticResource FontSizeSmall}"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       Text="系统通知" />
+                                        </StackPanel>
+                                        <TextBlock Margin="15,5,0,0"
+                                                   FontSize="{StaticResource FontSizeCaption}"
+                                                   Foreground="{StaticResource TextBodyBrush}"
+                                                   Text="焊接系统已就绪。"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Margin="0,0,0,10"
+                                        Padding="14"
+                                        Background="{StaticResource NoticeWarningBackgroundBrush}"
+                                        CornerRadius="{StaticResource RadiusLg}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Width="7"
+                                                     Height="7"
+                                                     Margin="0,0,8,0"
+                                                     VerticalAlignment="Center"
+                                                     Fill="{StaticResource NoticeWarningDotBrush}" />
+                                            <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                                       FontSize="{StaticResource FontSizeSmall}"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       Text="维护提醒" />
+                                        </StackPanel>
+                                        <TextBlock Margin="15,5,0,0"
+                                                   FontSize="{StaticResource FontSizeCaption}"
+                                                   Foreground="{StaticResource TextBodyBrush}"
+                                                   Text="已安排钢轨巡检作业。"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Padding="14"
+                                        Background="{StaticResource NoticeSuccessBackgroundBrush}"
+                                        CornerRadius="{StaticResource RadiusLg}">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Ellipse Width="7"
+                                                     Height="7"
+                                                     Margin="0,0,8,0"
+                                                     VerticalAlignment="Center"
+                                                     Fill="{StaticResource NoticeSuccessDotBrush}" />
+                                            <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                                       FontSize="{StaticResource FontSizeSmall}"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       Text="生产完成" />
+                                        </StackPanel>
+                                        <TextBlock Margin="15,5,0,0"
+                                                   FontSize="{StaticResource FontSizeCaption}"
+                                                   Foreground="{StaticResource TextBodyBrush}"
+                                                   Text="今日焊接任务已完成。"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </control:DrawerControl.DrawerContent>
+            </control:DrawerControl>
+
+            <!--  账户面板（开工设置 / 注册操作员）  -->
+            <!--<Grid x:Name="AccountOverlay"
+                  Grid.RowSpan="2"
+                  Panel.ZIndex="200"
+                  Visibility="{Binding Dialog.CurrentDialog.IsOpen, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibility}}">
+                <Border Background="{StaticResource ScrimBrush}" />
+                <ContentControl x:Name="DialogHost"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding Dialog.CurrentDialog}" />
+            </Grid>-->
+        </Grid>
+    </Border>
+</UserControl>

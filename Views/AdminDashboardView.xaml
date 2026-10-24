@@ -1,0 +1,1131 @@
+<UserControl x:Class="RailWeldApp.Views.AdminDashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:RailWeldApp.Design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{x:Static design:DesignData.AdminDashboardViewModel}"
+             d:DesignHeight="900"
+             d:DesignWidth="1400"
+             mc:Ignorable="d">
+
+    <!--
+        总览（产品介绍页），参考 Apple 官网的产品页排版：
+        大标题 + 宽留白 + 圆角大卡片 + 数字先行，整页可以滚动。
+
+        只需要 VM（AdminDashboardViewModel）提供两个命令：
+        OpenRealTimeDataCommand   查看实时数据
+        OpenTempMonitorCommand    查看温度监视
+    -->
+
+    <ScrollViewer Background="{StaticResource SurfaceCardBrush}"
+                  HorizontalScrollBarVisibility="Disabled"
+                  VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+
+            <!--  首屏  -->
+            <Grid Height="620" ClipToBounds="True">
+                <Grid MaxWidth="1240"
+                      HorizontalAlignment="Stretch"
+                      ColumnDefinitions="*,Auto">
+
+                    <StackPanel Grid.Column="0"
+                                MaxWidth="560"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <Ellipse Width="6"
+                                     Height="6"
+                                     Margin="0,0,8,0"
+                                     VerticalAlignment="Center"
+                                     Fill="{StaticResource AccentBrush}" />
+                            <TextBlock Style="{StaticResource AdminHeroEyebrowStyle}" Text="RAILWELD · 焊接过程数字化平台" />
+                        </StackPanel>
+
+                        <TextBlock Style="{StaticResource AdminHeroHeadlineStyle}">
+                            <Run Text="让每一道焊缝" />
+                            <LineBreak />
+                            <Run Foreground="{StaticResource AccentBrush}" Text="都有据可查" />
+                        </TextBlock>
+
+                        <TextBlock Style="{StaticResource AdminHeroBodyStyle}" Text="参数采集、工艺执行与质量追溯，一条链路跑完。200ms 采样周期，S7 与 Modbus RTU 双通道并行采集。" />
+
+                        <StackPanel Margin="0,32,0,0" Orientation="Horizontal">
+                            <Button Height="44"
+                                    Padding="24,0"
+                                    Command="{Binding OpenRealTimeDataCommand}"
+                                    Content="查看实时数据"
+                                    Style="{StaticResource AdminHeroPrimaryButtonStyle}" />
+                            <Button Height="44"
+                                    Margin="12,0,0,0"
+                                    Padding="24,0"
+                                    Command="{Binding OpenTempMonitorCommand}"
+                                    Content="查看温度监视"
+                                    Style="{StaticResource AdminHeroGhostButtonStyle}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Grid.Column="1"
+                          Width="540"
+                          Height="500"
+                          Margin="40,0,0,0"
+                          VerticalAlignment="Center">
+                        <Viewbox Stretch="Uniform">
+                            <Canvas Width="640"
+                                    Height="540"
+                                    ClipToBounds="True">
+                                <Rectangle Width="640"
+                                           Height="540"
+                                           Opacity="0.9">
+                                    <Rectangle.Fill>
+                                        <DrawingBrush TileMode="Tile"
+                                                      Viewport="0,0,40,40"
+                                                      ViewportUnits="Absolute">
+                                            <DrawingBrush.Drawing>
+                                                <GeometryDrawing>
+                                                    <GeometryDrawing.Pen>
+                                                        <Pen Brush="{StaticResource DashBlueprintFaintBrush}" Thickness="0.7" />
+                                                    </GeometryDrawing.Pen>
+                                                    <GeometryDrawing.Geometry>
+                                                        <GeometryGroup>
+                                                            <LineGeometry StartPoint="0,0" EndPoint="40,0" />
+                                                            <LineGeometry StartPoint="0,0" EndPoint="0,40" />
+                                                        </GeometryGroup>
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Rectangle.Fill>
+                                    <Rectangle.OpacityMask>
+                                        <RadialGradientBrush Center="0.55,0.42" GradientOrigin="0.55,0.42" RadiusX="0.6" RadiusY="0.6">
+                                            <GradientStop Offset="0" Color="#FFFFFFFF" />
+                                            <GradientStop Offset="0.78" Color="#00FFFFFF" />
+                                        </RadialGradientBrush>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+
+                                <Ellipse Canvas.Left="300"
+                                         Canvas.Top="170"
+                                         Width="220"
+                                         Height="220"
+                                         Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                         StrokeDashArray="2 6"
+                                         StrokeThickness="1" />
+                                <Ellipse Canvas.Left="230"
+                                         Canvas.Top="100"
+                                         Width="360"
+                                         Height="360"
+                                         Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                         StrokeDashArray="3 7"
+                                         StrokeThickness="1" />
+                                <Ellipse Canvas.Left="160"
+                                         Canvas.Top="30"
+                                         Width="500"
+                                         Height="500"
+                                         Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                         StrokeDashArray="3 9"
+                                         StrokeThickness="1" />
+
+                                <Path Canvas.Left="365"
+                                      Canvas.Top="265"
+                                      Data="M0,0 L18,0 M9,0 L9,18"
+                                      Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1" />
+                                <Path Canvas.Left="200"
+                                      Canvas.Top="130"
+                                      Data="M0,0 L14,0 M7,0 L7,14"
+                                      Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1" />
+                                <Path Canvas.Left="520"
+                                      Canvas.Top="360"
+                                      Data="M0,0 L14,0 M7,0 L7,14"
+                                      Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1" />
+
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="2"
+                                      X1="70"
+                                      X2="640"
+                                      Y1="470"
+                                      Y2="470" />
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="2"
+                                      X1="70"
+                                      X2="640"
+                                      Y1="496"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="120"
+                                      X2="120"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="175"
+                                      X2="175"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="230"
+                                      X2="230"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="285"
+                                      X2="285"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="340"
+                                      X2="340"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="395"
+                                      X2="395"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="450"
+                                      X2="450"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="505"
+                                      X2="505"
+                                      Y1="470"
+                                      Y2="496" />
+                                <Line Stroke="{StaticResource DashBlueprintFaintBrush}"
+                                      StrokeThickness="2"
+                                      X1="560"
+                                      X2="560"
+                                      Y1="470"
+                                      Y2="496" />
+
+                                <Ellipse Canvas.Left="195"
+                                         Canvas.Top="438"
+                                         Width="90"
+                                         Height="46"
+                                         Fill="{StaticResource DashHeroGlowBrush}" />
+                                <Line Opacity="0.7"
+                                      Stroke="{StaticResource DashBlueprintDeepBrush}"
+                                      StrokeThickness="2"
+                                      X1="150"
+                                      X2="320"
+                                      Y1="482"
+                                      Y2="482" />
+
+                                <Ellipse Canvas.Left="420"
+                                         Canvas.Top="438"
+                                         Width="160"
+                                         Height="38"
+                                         Fill="{StaticResource DashBlueprintFaintBrush}"
+                                         Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                         StrokeThickness="1.5" />
+                                <Rectangle Canvas.Left="475"
+                                           Canvas.Top="398"
+                                           Width="60"
+                                           Height="52"
+                                           Fill="{StaticResource SurfaceCardBrush}"
+                                           RadiusX="10"
+                                           RadiusY="10"
+                                           Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                           StrokeThickness="1.5" />
+
+                                <Line Opacity="0.42"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="34"
+                                      X1="505"
+                                      X2="430"
+                                      Y1="410"
+                                      Y2="280" />
+                                <Line Opacity="0.42"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="30"
+                                      X1="430"
+                                      X2="310"
+                                      Y1="280"
+                                      Y2="215" />
+                                <Line Opacity="0.42"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="24"
+                                      X1="310"
+                                      X2="255"
+                                      Y1="215"
+                                      Y2="350" />
+
+                                <Line Stroke="{StaticResource SurfaceCardBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="26"
+                                      X1="505"
+                                      X2="430"
+                                      Y1="410"
+                                      Y2="280" />
+                                <Line Stroke="{StaticResource SurfaceCardBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="22"
+                                      X1="430"
+                                      X2="310"
+                                      Y1="280"
+                                      Y2="215" />
+                                <Line Stroke="{StaticResource SurfaceCardBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="16"
+                                      X1="310"
+                                      X2="255"
+                                      Y1="215"
+                                      Y2="350" />
+
+                                <Line Opacity="0.55"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="505"
+                                      X2="430"
+                                      Y1="410"
+                                      Y2="280" />
+                                <Line Opacity="0.55"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="430"
+                                      X2="310"
+                                      Y1="280"
+                                      Y2="215" />
+                                <Line Opacity="0.55"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="310"
+                                      X2="255"
+                                      Y1="215"
+                                      Y2="350" />
+
+                                <Line Opacity="0.3"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="510"
+                                      X2="435"
+                                      Y1="407"
+                                      Y2="277" />
+                                <Line Opacity="0.3"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="500"
+                                      X2="425"
+                                      Y1="413"
+                                      Y2="283" />
+                                <Line Opacity="0.3"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="432"
+                                      X2="312"
+                                      Y1="276"
+                                      Y2="211" />
+                                <Line Opacity="0.3"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="428"
+                                      X2="308"
+                                      Y1="284"
+                                      Y2="219" />
+                                <Line Opacity="0.3"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="314"
+                                      X2="259"
+                                      Y1="217"
+                                      Y2="352" />
+                                <Line Opacity="0.3"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="306"
+                                      X2="251"
+                                      Y1="213"
+                                      Y2="348" />
+
+                                <Line Opacity="0.2"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="472"
+                                      X2="493"
+                                      Y1="377"
+                                      Y2="365" />
+                                <Line Opacity="0.2"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="450"
+                                      X2="471"
+                                      Y1="338"
+                                      Y2="326" />
+                                <Line Opacity="0.2"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="389"
+                                      X2="399"
+                                      Y1="269"
+                                      Y2="252" />
+                                <Line Opacity="0.2"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="353"
+                                      X2="363"
+                                      Y1="250"
+                                      Y2="232" />
+                                <Line Opacity="0.2"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="283"
+                                      X2="298"
+                                      Y1="259"
+                                      Y2="265" />
+                                <Line Opacity="0.2"
+                                      Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1"
+                                      X1="264"
+                                      X2="279"
+                                      Y1="306"
+                                      Y2="312" />
+
+                                <Ellipse Canvas.Left="475"
+                                         Canvas.Top="380"
+                                         Width="60"
+                                         Height="60"
+                                         Fill="{StaticResource SurfaceCardBrush}"
+                                         Stroke="{StaticResource DashBlueprintBrush}"
+                                         StrokeThickness="1.5" />
+                                <Ellipse Canvas.Left="490"
+                                         Canvas.Top="395"
+                                         Width="30"
+                                         Height="30"
+                                         Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                         StrokeThickness="2" />
+                                <Ellipse Canvas.Left="500"
+                                         Canvas.Top="405"
+                                         Width="10"
+                                         Height="10"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+                                <Ellipse Canvas.Left="503"
+                                         Canvas.Top="384"
+                                         Width="4"
+                                         Height="4"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+                                <Ellipse Canvas.Left="503"
+                                         Canvas.Top="432"
+                                         Width="4"
+                                         Height="4"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+                                <Ellipse Canvas.Left="479"
+                                         Canvas.Top="408"
+                                         Width="4"
+                                         Height="4"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+                                <Ellipse Canvas.Left="527"
+                                         Canvas.Top="408"
+                                         Width="4"
+                                         Height="4"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+
+                                <Ellipse Canvas.Left="406"
+                                         Canvas.Top="256"
+                                         Width="48"
+                                         Height="48"
+                                         Fill="{StaticResource SurfaceCardBrush}"
+                                         Stroke="{StaticResource DashBlueprintBrush}"
+                                         StrokeThickness="1.5" />
+                                <Ellipse Canvas.Left="418"
+                                         Canvas.Top="268"
+                                         Width="24"
+                                         Height="24"
+                                         Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                         StrokeThickness="2" />
+                                <Ellipse Canvas.Left="426"
+                                         Canvas.Top="276"
+                                         Width="8"
+                                         Height="8"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+
+                                <Ellipse Canvas.Left="292"
+                                         Canvas.Top="197"
+                                         Width="36"
+                                         Height="36"
+                                         Fill="{StaticResource SurfaceCardBrush}"
+                                         Stroke="{StaticResource DashBlueprintBrush}"
+                                         StrokeThickness="1.5" />
+                                <Ellipse Canvas.Left="301"
+                                         Canvas.Top="206"
+                                         Width="18"
+                                         Height="18"
+                                         Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                         StrokeThickness="2" />
+                                <Ellipse Canvas.Left="307"
+                                         Canvas.Top="212"
+                                         Width="6"
+                                         Height="6"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+
+                                <Ellipse Canvas.Left="241"
+                                         Canvas.Top="336"
+                                         Width="28"
+                                         Height="28"
+                                         Fill="{StaticResource SurfaceCardBrush}"
+                                         Stroke="{StaticResource DashBlueprintBrush}"
+                                         StrokeThickness="1.5" />
+                                <Ellipse Canvas.Left="248"
+                                         Canvas.Top="343"
+                                         Width="14"
+                                         Height="14"
+                                         Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                         StrokeThickness="2" />
+                                <Ellipse Canvas.Left="252"
+                                         Canvas.Top="347"
+                                         Width="6"
+                                         Height="6"
+                                         Fill="{StaticResource DashBlueprintBrush}" />
+                                <Line Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      StrokeThickness="5"
+                                      X1="255"
+                                      X2="240"
+                                      Y1="364"
+                                      Y2="404" />
+                                <Rectangle Canvas.Left="230"
+                                           Canvas.Top="400"
+                                           Width="20"
+                                           Height="26"
+                                           Fill="{StaticResource SurfaceCardBrush}"
+                                           RadiusX="3"
+                                           RadiusY="3"
+                                           Stroke="{StaticResource DashBlueprintBrush}"
+                                           StrokeThickness="1.5" />
+                                <Path Data="M230,426 L250,426 L244,442 L236,442 Z" Fill="{StaticResource DashBlueprintBrush}" />
+
+                                <Line Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="226"
+                                      X2="214"
+                                      Y1="424"
+                                      Y2="414" />
+                                <Line Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="254"
+                                      X2="266"
+                                      Y1="424"
+                                      Y2="414" />
+                                <Line Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="230"
+                                      X2="220"
+                                      Y1="438"
+                                      Y2="450" />
+                                <Line Stroke="{StaticResource DashBlueprintBrush}"
+                                      StrokeThickness="1.2"
+                                      X1="250"
+                                      X2="260"
+                                      Y1="438"
+                                      Y2="450" />
+
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeDashArray="4 5"
+                                      StrokeThickness="1"
+                                      X1="80"
+                                      X2="80"
+                                      Y1="120"
+                                      Y2="500" />
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1"
+                                      X1="72"
+                                      X2="88"
+                                      Y1="120"
+                                      Y2="120" />
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1"
+                                      X1="72"
+                                      X2="88"
+                                      Y1="500"
+                                      Y2="500" />
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeDashArray="4 5"
+                                      StrokeThickness="1"
+                                      X1="80"
+                                      X2="600"
+                                      Y1="80"
+                                      Y2="80" />
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1"
+                                      X1="80"
+                                      X2="80"
+                                      Y1="72"
+                                      Y2="88" />
+                                <Line Stroke="{StaticResource DashBlueprintSoftBrush}"
+                                      StrokeThickness="1"
+                                      X1="600"
+                                      X2="600"
+                                      Y1="72"
+                                      Y2="88" />
+
+                                <TextBlock Canvas.Left="90"
+                                           Canvas.Top="88"
+                                           FontFamily="{StaticResource UiFontMedium}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource DashBlueprintSoftBrush}"
+                                           Text="3-AXIS / 200 ms" />
+                                <TextBlock Canvas.Left="90"
+                                           Canvas.Top="508"
+                                           FontFamily="{StaticResource UiFontMedium}"
+                                           FontSize="10"
+                                           Foreground="{StaticResource DashBlueprintSoftBrush}"
+                                           Text="RAIL ALIGNMENT ±0.02 mm" />
+                            </Canvas>
+                        </Viewbox>
+
+                        <Border Margin="0,0,6,6"
+                                Padding="12,8"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Background="{StaticResource SurfaceCardBrush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="12">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Ellipse Width="6"
+                                             Height="6"
+                                             Margin="0,0,6,0"
+                                             VerticalAlignment="Center"
+                                             Fill="{StaticResource AccentBrush}" />
+                                    <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                               FontSize="{StaticResource FontSizeCaption}"
+                                               Foreground="{StaticResource TextPrimaryBrush}"
+                                               Text="200 ms 实时采样" />
+                                </StackPanel>
+                                <TextBlock Margin="12,3,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextTertiaryBrush}"
+                                           Text="S7 · Modbus RTU / 双通道" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!--  数字条  -->
+            <Border Background="{StaticResource SurfaceSubtleBrush}"
+                    BorderBrush="{StaticResource DividerBrush}"
+                    BorderThickness="0,1,0,1">
+                <Grid MaxWidth="1240"
+                      Margin="0,34"
+                      HorizontalAlignment="Stretch"
+                      ColumnDefinitions="*,*,*,*">
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Style="{StaticResource DashStatValueStyle}" Text="200 ms" />
+                        <TextBlock Style="{StaticResource DashStatLabelStyle}" Text="采样周期" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Style="{StaticResource DashStatValueStyle}" Text="3 轴" />
+                        <TextBlock Style="{StaticResource DashStatLabelStyle}" Text="伺服联动控制" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Style="{StaticResource DashStatValueStyle}" Text="12 路" />
+                        <TextBlock Style="{StaticResource DashStatLabelStyle}" Text="温度 / 流量 / 位移模拟量" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="3">
+                        <TextBlock Style="{StaticResource DashStatValueStyle}" Text="8 路" />
+                        <TextBlock Style="{StaticResource DashStatLabelStyle}" Text="执行机构开关量" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!--  产品能力  -->
+            <StackPanel MaxWidth="1240"
+                        Margin="0,120,0,0"
+                        HorizontalAlignment="Stretch">
+                <TextBlock Style="{StaticResource DashSectionKickerStyle}" Text="产品能力" />
+                <TextBlock Style="{StaticResource DashSectionTitleStyle}" Text="把焊接过程变成可追溯的数据" />
+                <TextBlock Style="{StaticResource DashSectionLeadStyle}" Text="采集、执行、归档三件事，在同一个系统里完成。数据从 PLC 上来，经过工艺判定，最终落到报告与数据库。" />
+
+                <Grid Margin="0,56,0,0" ColumnDefinitions="*,24,*,24,*">
+                    <Border Grid.Column="0" Style="{StaticResource DashCardStyle}">
+                        <StackPanel>
+                            <Border Style="{StaticResource DashCardIconStyle}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{StaticResource IconFont}"
+                                           FontSize="24"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           Text="&#xE9D9;" />
+                            </Border>
+                            <TextBlock Style="{StaticResource DashCardTitleStyle}" Text="参数采集" />
+                            <TextBlock Style="{StaticResource DashCardBodyStyle}" Text="200ms 周期读取电流、电压、送丝速度与保护气压力，双通道并行，丢包自动重连。" />
+                            <TextBlock Style="{StaticResource DashCardLinkStyle}" Text="查看实时数据 →" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2" Style="{StaticResource DashCardStyle}">
+                        <StackPanel>
+                            <Border Style="{StaticResource DashCardIconStyle}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{StaticResource IconFont}"
+                                           FontSize="24"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           Text="&#xE945;" />
+                            </Border>
+                            <TextBlock Style="{StaticResource DashCardTitleStyle}" Text="工艺执行" />
+                            <TextBlock Style="{StaticResource DashCardBodyStyle}" Text="按焊缝任务下发工艺参数，逐段校验温度与功率，超差立即停机并记录原因。" />
+                            <TextBlock Style="{StaticResource DashCardLinkStyle}" Text="查看自动控制 →" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="4" Style="{StaticResource DashCardStyle}">
+                        <StackPanel>
+                            <Border Style="{StaticResource DashCardIconStyle}">
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="{StaticResource IconFont}"
+                                           FontSize="24"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           Text="&#xE9D2;" />
+                            </Border>
+                            <TextBlock Style="{StaticResource DashCardTitleStyle}" Text="质量追溯" />
+                            <TextBlock Style="{StaticResource DashCardBodyStyle}" Text="曲线、判定结果与操作人一并归档，随时按焊缝编号回查，报告一键导出。" />
+                            <TextBlock Style="{StaticResource DashCardLinkStyle}" Text="查看历史查询 →" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+
+            <!--  功能展示一：实时数据  -->
+            <Border MaxWidth="1240"
+                    Margin="0,120,0,0"
+                    HorizontalAlignment="Stretch"
+                    Background="{StaticResource SurfaceSubtleBrush}"
+                    Style="{StaticResource DashShowcaseStyle}">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0"
+                                MaxWidth="520"
+                                VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource DashSectionKickerStyle}" Text="实时数据" />
+                        <TextBlock Style="{StaticResource DashShowcaseTitleStyle}" Text="每一路信号，都看得见" />
+                        <TextBlock Style="{StaticResource DashShowcaseBodyStyle}" Text="三轴伺服、12 路模拟量、8 路开关量同时上图。异常自动标红，历史曲线随焊缝一起归档。" />
+
+                        <StackPanel Margin="0,24,0,0">
+                            <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                                <Ellipse Style="{StaticResource DashBulletDotStyle}" />
+                                <TextBlock Style="{StaticResource DashBulletTextStyle}" Text="电压 / 电流 / 功率 / 能量四路电参数" />
+                            </StackPanel>
+                            <StackPanel Margin="0,0,0,10" Orientation="Horizontal">
+                                <Ellipse Style="{StaticResource DashBulletDotStyle}" />
+                                <TextBlock Style="{StaticResource DashBulletTextStyle}" Text="温度、流量、位移共 12 路模拟量" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Style="{StaticResource DashBulletDotStyle}" />
+                                <TextBlock Style="{StaticResource DashBulletTextStyle}" Text="执行机构 8 路状态实时点亮" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Border Grid.Column="1"
+                            Width="360"
+                            Margin="48,0,0,0"
+                            Padding="28,24"
+                            Background="{StaticResource SurfaceCardBrush}"
+                            BorderBrush="{StaticResource BorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18">
+                        <StackPanel>
+                            <TextBlock FontSize="{StaticResource FontSizeSmall}"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Text="轨顶温度" />
+                            <TextBlock Margin="0,4,0,0"
+                                       FontFamily="{StaticResource UiFontSemibold}"
+                                       FontSize="{StaticResource FontSizeReadout}"
+                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                       Text="812.4 ℃" />
+                            <Border Height="8"
+                                    Margin="0,14,0,0"
+                                    Background="{StaticResource SurfaceMutedBrush}"
+                                    CornerRadius="4">
+                                <Border Width="270"
+                                        HorizontalAlignment="Left"
+                                        Background="{StaticResource AccentBrush}"
+                                        CornerRadius="4" />
+                            </Border>
+
+                            <TextBlock Margin="0,22,0,0"
+                                       FontSize="{StaticResource FontSizeSmall}"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Text="喷风压力" />
+                            <TextBlock Margin="0,4,0,0"
+                                       FontFamily="{StaticResource UiFontSemibold}"
+                                       FontSize="{StaticResource FontSizeDisplay}"
+                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                       Text="0.44 MPa" />
+
+                            <TextBlock Margin="0,22,0,0"
+                                       FontSize="{StaticResource FontSizeSmall}"
+                                       Foreground="{StaticResource TextSecondaryBrush}"
+                                       Text="采样延迟" />
+                            <TextBlock Margin="0,4,0,0"
+                                       FontFamily="{StaticResource UiFontSemibold}"
+                                       FontSize="{StaticResource FontSizeDisplay}"
+                                       Foreground="{StaticResource SuccessBrush}"
+                                       Text="16 ms" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!--  功能展示二：三阶段工艺  -->
+            <Border MaxWidth="1240"
+                    Margin="0,24,0,0"
+                    HorizontalAlignment="Stretch"
+                    Background="{StaticResource SurfaceSubtleBrush}"
+                    Style="{StaticResource DashShowcaseStyle}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource DashSectionKickerStyle}" Text="工艺执行" />
+                    <TextBlock Style="{StaticResource DashShowcaseTitleStyle}" Text="起始、转变、最终，三段都按设定走" />
+                    <TextBlock Style="{StaticResource DashShowcaseBodyStyle}" Text="每段独立设定温度、功率与冷却方式，执行时逐段校验；任何一段超差，立即停机并记录。" />
+
+                    <Grid Margin="0,32,0,0" ColumnDefinitions="*,16,*,16,*">
+                        <Border Grid.Column="0" Style="{StaticResource DashStageCardStyle}">
+                            <StackPanel>
+                                <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                           FontSize="{StaticResource FontSizeTitle}"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           Text="起始状态" />
+                                <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
+                                    <Border Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="650 ℃" />
+                                    </Border>
+                                    <Border Margin="8,0,0,0" Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="55 %" />
+                                    </Border>
+                                    <Border Margin="8,0,0,0" Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="时间控制" />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="2" Style="{StaticResource DashStageCardStyle}">
+                            <StackPanel>
+                                <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                           FontSize="{StaticResource FontSizeTitle}"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           Text="转变状态" />
+                                <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
+                                    <Border Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="780 ℃" />
+                                    </Border>
+                                    <Border Margin="8,0,0,0" Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="72 %" />
+                                    </Border>
+                                    <Border Margin="8,0,0,0" Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="温度控制" />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Grid.Column="4" Style="{StaticResource DashStageCardStyle}">
+                            <StackPanel>
+                                <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                           FontSize="{StaticResource FontSizeTitle}"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           Text="最终状态" />
+                                <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
+                                    <Border Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="720 ℃" />
+                                    </Border>
+                                    <Border Margin="8,0,0,0" Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="45 %" />
+                                    </Border>
+                                    <Border Margin="8,0,0,0" Style="{StaticResource DashChipStyle}">
+                                        <TextBlock Style="{StaticResource DashChipTextStyle}" Text="温度控制" />
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!--  五种能力：窄卡横排  -->
+            <Grid MaxWidth="1240"
+                  Margin="0,24,0,0"
+                  HorizontalAlignment="Stretch"
+                  ColumnDefinitions="*,16,*,16,*,16,*,16,*">
+                <Border Grid.Column="0" Style="{StaticResource DashMiniCardStyle}">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource DashMiniKickerStyle}" Text="参数采集" />
+                            <TextBlock Style="{StaticResource DashMiniTitleStyle}" Text="200ms 周期&#x0A;四路电参数" />
+                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="电压、电流、功率、能量同屏。" />
+                        </StackPanel>
+
+                        <Border Grid.Row="1" Style="{StaticResource DashMiniIconTileStyle}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource IconFont}"
+                                       FontSize="24"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       Text="&#xE9D9;" />
+                        </Border>
+
+                        <Border Grid.Row="2" Style="{StaticResource DashMiniArrowStyle}">
+                            <TextBlock Style="{StaticResource DashArrowTextStyle}" Text="›" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="2" Style="{StaticResource DashMiniCardStyle}">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource DashMiniKickerStyle}" Text="工艺执行" />
+                            <TextBlock Style="{StaticResource DashMiniTitleStyle}" Text="三段温度&#x0A;逐段校验" />
+                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="起始、转变、最终各段独立设定。" />
+                        </StackPanel>
+
+                        <Border Grid.Row="1" Style="{StaticResource DashMiniIconTileStyle}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource IconFont}"
+                                       FontSize="24"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       Text="&#xE945;" />
+                        </Border>
+
+                        <Border Grid.Row="2" Style="{StaticResource DashMiniArrowStyle}">
+                            <TextBlock Style="{StaticResource DashArrowTextStyle}" Text="›" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="4" Style="{StaticResource DashMiniCardStyle}">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource DashMiniKickerStyle}" Text="质量追溯" />
+                            <TextBlock Style="{StaticResource DashMiniTitleStyle}" Text="一缝一档&#x0A;随时回查" />
+                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="曲线、判定与操作人一起归档。" />
+                        </StackPanel>
+
+                        <Border Grid.Row="1" Style="{StaticResource DashMiniIconTileStyle}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource IconFont}"
+                                       FontSize="24"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       Text="&#xE9D2;" />
+                        </Border>
+
+                        <Border Grid.Row="2" Style="{StaticResource DashMiniArrowStyle}">
+                            <TextBlock Style="{StaticResource DashArrowTextStyle}" Text="›" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="6" Style="{StaticResource DashMiniCardStyle}">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource DashMiniKickerStyle}" Text="故障报警" />
+                            <TextBlock Style="{StaticResource DashMiniTitleStyle}" Text="分级提示&#x0A;不丢一条" />
+                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="通信中断、超差、停机都有记录。" />
+                        </StackPanel>
+
+                        <Border Grid.Row="1" Style="{StaticResource DashMiniIconTileStyle}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource IconFont}"
+                                       FontSize="24"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       Text="&#xE7BA;" />
+                        </Border>
+
+                        <Border Grid.Row="2" Style="{StaticResource DashMiniArrowStyle}">
+                            <TextBlock Style="{StaticResource DashArrowTextStyle}" Text="›" />
+                        </Border>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="8" Style="{StaticResource DashMiniCardStyle}">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource DashMiniKickerStyle}" Text="报告导出" />
+                            <TextBlock Style="{StaticResource DashMiniTitleStyle}" Text="一次成表&#x0A;直接打印" />
+                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="按班次或焊缝编号批量导出。" />
+                        </StackPanel>
+
+                        <Border Grid.Row="1" Style="{StaticResource DashMiniIconTileStyle}">
+                            <TextBlock HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource IconFont}"
+                                       FontSize="24"
+                                       Foreground="{StaticResource AccentBrush}"
+                                       Text="&#xE9F9;" />
+                        </Border>
+
+                        <Border Grid.Row="2" Style="{StaticResource DashMiniArrowStyle}">
+                            <TextBlock Style="{StaticResource DashArrowTextStyle}" Text="›" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!--  两张带图的大卡  -->
+            <Grid MaxWidth="1240"
+                  Margin="0,24,0,0"
+                  HorizontalAlignment="Stretch"
+                  ColumnDefinitions="*,24,*">
+
+                <Border Grid.Column="0" Style="{StaticResource DashPromoCardStyle}">
+                    <Grid RowDefinitions="300,Auto">
+                        <Grid Grid.Row="0" Height="300">
+                            <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="24,24,0,0" />
+                            <Image RenderOptions.BitmapScalingMode="HighQuality"
+                                   Source="{StaticResource AdminHomeRailSceneImage}"
+                                   Stretch="UniformToFill">
+                                <Image.Clip>
+                                    <RectangleGeometry RadiusX="24"
+                                                       RadiusY="24"
+                                                       Rect="0,0,600,300" />
+                                </Image.Clip>
+                            </Image>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Margin="32,26,32,32">
+                            <Border Style="{StaticResource DashNewChipStyle}">
+                                <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                           FontSize="{StaticResource FontSizeSmall}"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           Text="现场" />
+                            </Border>
+                            <TextBlock Style="{StaticResource DashPromoTitleStyle}" Text="无缝线路 · 现场采集" />
+                            <TextBlock Style="{StaticResource DashPromoBodyStyle}" Text="从轨顶温度到喷风压力，把现场每一路信号带回来，落成可追溯的焊缝档案。" />
+
+                            <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
+                                <Button Height="38"
+                                        Padding="20,0"
+                                        Command="{Binding OpenRealTimeDataCommand}"
+                                        Content="查看实时数据"
+                                        Style="{StaticResource AccentButton}" />
+                                <Button Height="38"
+                                        Margin="10,0,0,0"
+                                        Padding="20,0"
+                                        Command="{Binding OpenTempMonitorCommand}"
+                                        Content="温度监视"
+                                        Style="{StaticResource SecondaryButton}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource DashPromoCardStyle}">
+                    <Grid RowDefinitions="300,Auto">
+                        <Grid Grid.Row="0" Height="300">
+                            <Border Background="{StaticResource SurfaceMutedBrush}" CornerRadius="24,24,0,0" />
+                            <Image RenderOptions.BitmapScalingMode="HighQuality"
+                                   Source="{StaticResource AdminHomeSparksImage}"
+                                   Stretch="UniformToFill">
+                                <Image.Clip>
+                                    <RectangleGeometry RadiusX="24"
+                                                       RadiusY="24"
+                                                       Rect="0,0,600,300" />
+                                </Image.Clip>
+                            </Image>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Margin="32,26,32,32">
+                            <Border Style="{StaticResource DashNewChipStyle}">
+                                <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                           FontSize="{StaticResource FontSizeSmall}"
+                                           Foreground="{StaticResource AccentBrush}"
+                                           Text="工艺" />
+                            </Border>
+                            <TextBlock Style="{StaticResource DashPromoTitleStyle}" Text="闪光对焊 · 工艺执行" />
+                            <TextBlock Style="{StaticResource DashPromoBodyStyle}" Text="三段温度、功率与冷却方式逐段下发，超差立即停机，原因写进记录。" />
+
+                            <StackPanel Margin="0,24,0,0" Orientation="Horizontal">
+                                <Button Height="38"
+                                        Padding="20,0"
+                                        Command="{Binding OpenRealTimeDataCommand}"
+                                        Content="查看自动控制"
+                                        Style="{StaticResource AccentButton}" />
+                                <Button Height="38"
+                                        Margin="10,0,0,0"
+                                        Padding="20,0"
+                                        Command="{Binding OpenTempMonitorCommand}"
+                                        Content="了解更多"
+                                        Style="{StaticResource SecondaryButton}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!--  收尾  -->
+            <Border MaxWidth="1240"
+                    Margin="0,120,0,0"
+                    Padding="56,52"
+                    HorizontalAlignment="Stretch"
+                    CornerRadius="24">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0" Color="{StaticResource InkPrimary}" />
+                        <GradientStop Offset="1" Color="{StaticResource InkStrong}" />
+                    </LinearGradientBrush>
+                </Border.Background>
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0">
+                        <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                   FontSize="{StaticResource FontSizeHero}"
+                                   Foreground="{StaticResource SurfaceCardBrush}"
+                                   Text="从今天起，每一道焊缝都有据可查" />
+                        <TextBlock Margin="0,14,0,0"
+                                   FontSize="{StaticResource FontSizeBodyLarge}"
+                                   Foreground="{StaticResource AccentTint200Brush}"
+                                   Text="接入你的产线，历史数据自动归档，报告随时导出。" />
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Height="44"
+                            Padding="24,0"
+                            VerticalAlignment="Center"
+                            Command="{Binding OpenRealTimeDataCommand}"
+                            Content="查看实时数据"
+                            Style="{StaticResource AdminHeroPrimaryButtonStyle}" />
+                </Grid>
+            </Border>
+
+            <!--  页脚  -->
+            <Border Margin="0,64,0,0"
+                    Padding="0,22"
+                    BorderBrush="{StaticResource DividerBrush}"
+                    BorderThickness="0,1,0,0">
+                <Grid MaxWidth="1240"
+                      HorizontalAlignment="Stretch"
+                      ColumnDefinitions="*,Auto">
+                    <TextBlock FontSize="{StaticResource FontSizeSmall}"
+                               Foreground="{StaticResource TextTertiaryBrush}"
+                               Text="© 2026 RailWeld · 工业控制" />
+                    <TextBlock Grid.Column="1"
+                               FontSize="{StaticResource FontSizeSmall}"
+                               Foreground="{StaticResource TextTertiaryBrush}"
+                               Text="焊接过程数字化平台" />
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

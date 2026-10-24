@@ -1,0 +1,23 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：历史查询（AdminHistoryQueryView）
+        左侧焊缝列表 + 右侧指标统计与采样明细。
+    -->
+
+    <SolidColorBrush x:Key="HistoryCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="HistoryCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="HistoryHeaderBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="HistorySeparatorBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="HistoryHoverBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="HistoryMutedBrush" Color="{StaticResource InkTertiary}" />
+    <SolidColorBrush x:Key="HistoryBarTrackBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="HistoryBarFillBrush" Color="{StaticResource InkPrimary}" />
+
+    <SolidColorBrush x:Key="HistoryOkBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="HistoryAlarmBrush" Color="{StaticResource Danger}" />
+    <SolidColorBrush x:Key="HistoryOnlineBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="HistoryOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+</ResourceDictionary>

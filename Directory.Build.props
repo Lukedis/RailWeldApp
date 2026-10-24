@@ -1,0 +1,16 @@
+﻿<Project>
+
+  <!--
+    项目级构建约定：
+    1. EnforceCodeStyleInBuild 让 .editorconfig 里的风格规则在编译期参与分析
+    2. AnalysisLevel 用最新分析器，命名/风格问题会出现在构建输出里
+    3. 目前设为警告，避免一次性阻断构建；稳定后可改为 true 让警告变错误
+  -->
+  <PropertyGroup>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+</Project>

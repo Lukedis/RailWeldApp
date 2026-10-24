@@ -1,0 +1,34 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        图片资源（全局，只解码一次）
+        放进合并字典后，BAML 的资源是延迟实例化的：第一次用到时才解码，
+        之后所有页面复用同一份位图，来回切页不会重复解码。
+
+        登录页大图：LoginHero.png（1024×1536，约 800 KB）。
+        首页原来是焊接实拍位图，现已改为纯 XAML 的浅色渐变 + 钢轨示意，不再需要图片。
+    -->
+
+    <!--
+        登录页手机插画：924×1105 / 约 0.8 MB，解码后约 3.7 MB。
+        放在全局字典里只解码一次 —— 登录页是 Transient，退出再登录不会重复读盘/解码。
+        OnLoad：首次加载时一次读完，后面重绘不再碰磁盘。
+        原图已按显示高度压好，再设 DecodePixelWidth 反而多一次缩放。
+    -->
+    <BitmapImage x:Key="LoginHeroImage"
+                 CacheOption="OnLoad"
+                 CreateOptions="IgnoreColorProfile"
+                 DecodePixelHeight="900"
+                 UriSource="/Assets/Images/LoginHero.png" />
+
+    <!--  首页首屏已改为纯 XAML 的蓝紫渐变 + 机械臂线稿，不再使用位图。  -->
+
+    <!--  总览页装饰图：产线实景 / 焊接火花  -->
+    <BitmapImage x:Key="AdminHomeRailSceneImage"
+                 DecodePixelWidth="1200"
+                 UriSource="/Assets/Images/HomeRailScene.jpg" />
+
+    <BitmapImage x:Key="AdminHomeSparksImage"
+                 DecodePixelWidth="900"
+                 UriSource="/Assets/Images/HomeWeldSparks.jpg" />
+</ResourceDictionary>

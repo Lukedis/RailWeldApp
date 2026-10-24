@@ -1,0 +1,60 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <!--
+        页面：登录页（LoginView）
+        左：白底登录表单（近黑主按钮）  右：点阵插画面板 + 手机实拍图
+        单色为主的页面，色值仍来自 Primitives.xaml。
+    -->
+
+    <!-- 登录表单：近黑主按钮的三态 -->
+    <SolidColorBrush x:Key="LoginPrimarySurfaceBrush" Color="{StaticResource Accent}" />
+    <SolidColorBrush x:Key="LoginPrimaryHoverBrush" Color="{StaticResource AccentHover}" />
+    <SolidColorBrush x:Key="LoginPrimaryPressBrush" Color="{StaticResource AccentPress}" />
+
+    <!-- 第三方登录按钮：白底 + 1px 描边 -->
+    <SolidColorBrush x:Key="LoginSocialSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="LoginSocialBorderBrush" Color="{StaticResource LineBorderStrong}" />
+    <SolidColorBrush x:Key="LoginSocialHoverBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="LoginSocialPressBrush" Color="{StaticResource SurfaceMuted}" />
+
+    <!-- 右侧插画面板 -->
+    <SolidColorBrush x:Key="LoginPanelBorderBrush" Color="{StaticResource LineBorder}" />
+
+    <!--
+        点阵底纹
+        · 一个 18×18 的瓦片，中心一颗 1px 圆点，颜色用 DividerBrush，比描边更淡；
+        · Freeze 后画刷不可变，整页共享同一份资源；
+        · 不打开 CachingHint：瓦片缓存是按 96 DPI 烘成位图再放大，
+          在高 DPI 下圆点会糊成一圈灰晕，而这块面板是静态的，
+          WPF 只在失效时重绘，保留矢量反而既清晰又不费帧。
+    -->
+    <DrawingBrush x:Key="LoginDotPatternBrush"
+                  Stretch="None"
+                  TileMode="Tile"
+                  Viewbox="0,0,18,18"
+                  ViewboxUnits="Absolute"
+                  Viewport="0,0,18,18"
+                  ViewportUnits="Absolute"
+                  po:Freeze="True">
+        <DrawingBrush.Drawing>
+            <GeometryDrawing Brush="{StaticResource BorderBrush}">
+                <GeometryDrawing.Geometry>
+                    <EllipseGeometry Center="9,9" RadiusX="0.9" RadiusY="0.9" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <!-- 采集状态胶囊 -->
+    <SolidColorBrush x:Key="LoginStatusSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="LoginStatusBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="LoginStatusTextBrush" Color="{StaticResource InkSecondary}" />
+    <SolidColorBrush x:Key="LoginOnlineBrush" Color="{StaticResource Success}" />
+    <SolidColorBrush x:Key="LoginOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+    <SolidColorBrush x:Key="LoginErrorSurfaceBrush" Color="{StaticResource DangerSoft}" />
+    <SolidColorBrush x:Key="LoginErrorInkBrush" Color="{StaticResource DangerInk}" />
+
+</ResourceDictionary>

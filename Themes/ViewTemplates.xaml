@@ -1,0 +1,59 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:views="clr-namespace:RailWeldApp.Views"
+                    xmlns:vm="clr-namespace:RailWeldApp.ViewModels">
+
+    <!--
+        ViewModel → View 的映射（纯 MVVM 的关键）。
+        ContentControl 的 Content 只要绑定到 VM，WPF 就会用这里的模板自动建视图、自动设 DataContext，
+        视图里不需要任何 "把 VM 变成 View" 的代码。
+
+        新增页面时：在 ViewModels 里加 VM，在 Views 里加 View，然后在这里补一行 DataTemplate。
+    -->
+
+    <!--  窗口级页面  -->
+    <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+        <views:LoginView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminViewModel}">
+        <views:AdminView />
+    </DataTemplate>
+
+    <!--  管理台子页面  -->
+    <DataTemplate DataType="{x:Type vm:AdminDashboardViewModel}">
+        <views:AdminDashboardView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminRealTimeDataViewModel}">
+        <views:AdminRealTimeDataView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminManualControlViewModel}">
+        <views:AdminManualControlView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminAutoControlViewModel}">
+        <views:AdminAutoControlView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminTempMonitorViewModel}">
+        <views:AdminTempMonitorView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminHistoryQueryViewModel}">
+        <views:AdminHistoryQueryView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminFaultAlarmViewModel}">
+        <views:AdminFaultAlarmView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminReportExportViewModel}">
+        <views:AdminReportExportView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AdminSettingsViewModel}">
+        <views:AdminSettingsView />
+    </DataTemplate>
+</ResourceDictionary>

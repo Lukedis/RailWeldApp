@@ -1,0 +1,178 @@
+﻿// ============================================================================
+// AdminSettingsViewModel 的旧实现（已从源码中移除，仅作参考）
+// 原文件里这段代码整体被注释掉了，导致视图的 17 个绑定全部落空。
+// 接入 PLC / Modbus 真实连接时，可参照这里的写法：注入 IPlcService、订阅
+// ConnectionStateChanged、用 RunOnUiThread 切回 UI 线程、AddError 记录通信异常。
+// ============================================================================
+/// <summary>
+/// 通信配置页面 ViewModel。
+/// 负责 PLC 和 Modbus RTU 的连接控制及状态展示。
+/// </summary>
+    //private const int MaxErrorItems = 200;
+    //private const string PlcTypeName = "Siemens PLC";
+    //private const string ModbusTypeName = "Modbus RTU";
+    //private readonly IPlcService _plcService;
+    //private readonly ILogger<AdminSettingsViewModel> _logger;
+    //public AdminSettingsViewModel(IPlcService plcService, ILogger<AdminSettingsViewModel> logger)
+    //    : base(PageName.AdminSettings)
+    //{
+    //    _plcService = plcService;
+    //    _logger = logger;
+    //    _plcService.ConnectionStateChanged += OnPlcConnectionStateChanged;
+    //    ApplyPlcState(_plcService.IsConnected);
+    //    PlcLastError = _plcService.LastError;
+    //}
+    ///// <summary>
+    ///// 连接错误记录，最新的在最上面
+    ///// </summary>
+    //public ObservableCollection<CommunicationErrorItem> ConnectionErrors { get; } = [];
+    ///// <summary>
+    ///// PLC 是否已连接（驱动"断开连接"按钮可用、"连接设备"按钮禁用
+    ///// </summary>
+    //[ObservableProperty]
+    //private bool _isPlcConnected;
+    ///// <summary>
+    ///// PLC 是否处于可连接状态（未连接且不在连接过程中）
+    ///// </summary>
+    //[ObservableProperty]
+    //private bool _isPlcDisconnected = true;
+    ///// <summary>
+    ///// 连接/断开进行中：两个按钮都禁用，状态徽标显示"连接中…"
+    ///// </summary>
+    //[ObservableProperty]
+    //private bool _isPlcBusy;
+    ///// <summary>
+    ///// 状态徽标文案：未连接 / 连接中… / 已连接
+    ///// </summary>
+    //[ObservableProperty]
+    //private string _plcConnectionStatus = "未连接";
+    ///// <summary>
+    ///// 最近一次连接失败或意外断开的原因；连接成功后清空
+    ///// </summary>
+    //[ObservableProperty]
+    //private string? _plcLastError;
+    ///// <summary>
+    ///// 连接按钮命令
+    ///// </summary>
+    //[RelayCommand]
+    //private async Task ConnectPlcAsync()
+    //{
+    //    if (IsPlcBusy || _plcService.IsConnected)
+    //        return;
+    //    IsPlcBusy = true;
+    //    ApplyPlcState(_plcService.IsConnected);
+    //    try
+    //    {
+    //        var connected = await _plcService.ConnectAsync();
+    //        if (connected)
+    //        {
+    //            ApplyPlcState(connected);
+    //        }
+    //        else
+    //        {
+    //            var message = _plcService.LastError ?? "PLC 连接失败。";
+    //            PlcLastError = message;
+    //            AddError(PlcTypeName, message);
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        PlcLastError = ex.Message;
+    //        AddError(PlcTypeName, ex.Message);
+    //        _logger.LogError(ex, "PLC 连接过程中发生异常。");
+    //    }
+    //    finally
+    //    {
+    //        IsPlcBusy = false;
+    //        ApplyPlcState(_plcService.IsConnected);
+    //    }
+    //}
+    ///// <summary>
+    ///// 断开按钮命令
+    ///// </summary>
+    //[RelayCommand]
+    //private async Task DisconnectPlcAsync()
+    //{
+    //    if (IsPlcBusy)
+    //        return;
+    //    IsPlcBusy = true;
+    //    ApplyPlcState(_plcService.IsConnected);
+    //    try
+    //    {
+    //        await _plcService.DisconnectAsync();
+    //        _logger.LogInformation("已主动断开 PLC。");
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        PlcLastError = ex.Message;
+    //        AddError(PlcTypeName, ex.Message);
+    //        _logger.LogError(ex, "断开 PLC 时发生异常。");
+    //    }
+    //    finally
+    //    {
+    //        IsPlcBusy = false;
+    //        ApplyPlcState(_plcService.IsConnected);
+    //    }
+    //}
+    ///// <summary>
+    ///// PLC 连接状态变化（后台线程）。主动断开时 LastError 已被清空，不会重复记一条
+    ///// </summary>
+    //private void OnPlcConnectionStateChanged(object? sender, bool connected)
+    //{
+    //    RunOnUiThread(() =>
+    //    {
+    //        ApplyPlcState(connected);
+    //        if (connected) return;
+    //        // 非主动断开（PLC 断电、掉线、心跳超阈值）才把原因写进记录。
+    //        var message = _plcService.LastError;
+    //        if (!string.IsNullOrWhiteSpace(message))
+    //        {
+    //            PlcLastError = message;
+    //            AddError(PlcTypeName, message);
+    //        }
+    //    });
+    //}
+    //private void ApplyPlcState(bool connected)
+    //{
+    //    IsPlcConnected = connected;
+    //    IsPlcDisconnected = !connected && !IsPlcBusy;
+    //    PlcConnectionStatus = connected ? "已连接" : IsPlcBusy ? "连接中…" : "未连接";
+    //    if (connected)
+    //        PlcLastError = null;
+    //}
+    //// ==================== Modbus RTU（服务尚未接入） ====================
+    //// 先保留属性与命令，让界面绑定有落点：命令的 CanExecute 恒为 false，
+    //// 因此两个按钮保持灰色，不会出现"点了没反应"的假按钮。
+    //[ObservableProperty]
+    //private bool _isModbusConnected;
+    //[ObservableProperty]
+    //private bool _isModbusDisconnected = true;
+    //[ObservableProperty]
+    //private string _modbusConnectionStatus = "未连接";
+    //[ObservableProperty]
+    //private string? _modbusLastError;
+    //private static bool CanOperateModbus() => false;
+    //[RelayCommand(CanExecute = nameof(CanOperateModbus))]
+    //private Task ConnectModbusAsync() => Task.CompletedTask;
+    //[RelayCommand(CanExecute = nameof(CanOperateModbus))]
+    //private Task DisconnectModbusAsync() => Task.CompletedTask;
+    ///// <summary>
+    ///// UI 线程调度器；设计期没有 Application 时退回到当前线程的调度器
+    ///// </summary>
+    //private static void RunOnUiThread(Action action)
+    //{
+    //    var dispatcher = Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher; ;
+    //    if (dispatcher.CheckAccess())
+    //        action();
+    //    else
+    //        dispatcher.Invoke(action);
+    //}
+    ///// <summary>
+    ///// 追加一条错误记录（最新的在最上面，超出上限时丢弃最旧的
+    ///// </summary>
+    //private void AddError(string communicationType, string message) => RunOnUiThread(() =>
+    //{
+    //    ConnectionErrors.Insert(0, new CommunicationErrorItem(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), communicationType, message));
+    //    while (ConnectionErrors.Count > MaxErrorItems)
+    //        ConnectionErrors.RemoveAt(ConnectionErrors.Count - 1);
+    //});

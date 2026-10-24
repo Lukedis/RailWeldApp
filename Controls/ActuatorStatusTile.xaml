@@ -1,0 +1,134 @@
+<UserControl x:Class="RailWeldApp.Controls.ActuatorStatusTile"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="Self"
+             FontFamily="{StaticResource UiFont}">
+
+    <!--
+        执行机构状态磁贴：
+        左侧图标框（勾 / 横线），右侧名称 + 状态文字。
+        开启：浅绿底 + 白图标框 + 绿色勾；关闭：浅灰底 + 灰横线。
+        比单个小圆点更容易扫读，也不依赖图标字体。
+    -->
+    <Border Padding="12,9"
+            BorderThickness="1"
+            CornerRadius="{StaticResource RadiusMd}">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="{StaticResource SurfaceSubtleBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource DividerBrush}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsOn, ElementName=Self}" Value="True">
+                        <Setter Property="Background" Value="{StaticResource SuccessSoftBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SuccessSoftBrush}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <Grid ColumnDefinitions="Auto,*">
+            <Border Width="30"
+                    Height="30"
+                    CornerRadius="{StaticResource RadiusSm}">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsOn, ElementName=Self}" Value="True">
+                                <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <Grid>
+                    <Path Width="14"
+                          Height="14"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="M3,8 L6,11 L13,3"
+                          Stretch="Uniform"
+                          Stroke="{StaticResource SuccessDotBrush}"
+                          StrokeEndLineCap="Round"
+                          StrokeLineJoin="Round"
+                          StrokeStartLineCap="Round"
+                          StrokeThickness="2">
+                        <Path.Style>
+                            <Style TargetType="Path">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOn, ElementName=Self}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+
+                    <Path Width="12"
+                          Height="2"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Data="M1,1 L11,1"
+                          Stretch="Fill"
+                          Stroke="{StaticResource TextTertiaryBrush}"
+                          StrokeEndLineCap="Round"
+                          StrokeStartLineCap="Round"
+                          StrokeThickness="2">
+                        <Path.Style>
+                            <Style TargetType="Path">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOn, ElementName=Self}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Column="1"
+                        Margin="10,0,0,0"
+                        VerticalAlignment="Center">
+                <TextBlock FontSize="{StaticResource FontSizeSmall}"
+                           Foreground="{StaticResource TextPrimaryBrush}"
+                           Text="{Binding Label, ElementName=Self}"
+                           TextTrimming="CharacterEllipsis" />
+
+                <Grid Margin="0,2,0,0">
+                    <TextBlock FontSize="{StaticResource FontSizeCaption}"
+                               Foreground="{StaticResource TextTertiaryBrush}"
+                               Text="{Binding OffText, ElementName=Self}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOn, ElementName=Self}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <TextBlock FontSize="{StaticResource FontSizeCaption}"
+                               Foreground="{StaticResource SuccessDotBrush}"
+                               Text="{Binding OnText, ElementName=Self}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsOn, ElementName=Self}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Border>
+</UserControl>

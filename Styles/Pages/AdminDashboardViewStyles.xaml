@@ -1,0 +1,238 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        总览页（产品介绍）的排版样式，参考 Apple 官网产品页：
+        大标题、宽留白、圆角大卡片、数字先行。
+    -->
+
+    <Style x:Key="DashSectionKickerStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <Style x:Key="DashSectionTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,14,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeHeroLg}" />
+        <Setter Property="LineHeight" Value="62" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="DashSectionLeadStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,20,0,0" />
+        <Setter Property="MaxWidth" Value="900" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeLead}" />
+        <Setter Property="LineHeight" Value="34" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- 数字条 -->
+    <Style x:Key="DashStatValueStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeDisplayLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="DashStatLabelStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,12,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <!-- 大卡片 -->
+    <Style x:Key="DashCardStyle" TargetType="Border">
+        <Setter Property="Padding" Value="44,40" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="24" />
+    </Style>
+
+    <Style x:Key="DashCardIconStyle" TargetType="Border">
+        <Setter Property="Width" Value="68" />
+        <Setter Property="Height" Value="68" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{StaticResource AccentTint50Brush}" />
+        <Setter Property="CornerRadius" Value="18" />
+    </Style>
+
+    <Style x:Key="DashCardTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,32,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSubTitle}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="DashCardBodyStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,16,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}" />
+        <Setter Property="LineHeight" Value="30" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="DashCardLinkStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,28,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <!-- 左右交替的功能展示块 -->
+    <Style x:Key="DashShowcaseStyle" TargetType="Border">
+        <Setter Property="Padding" Value="80,72" />
+        <Setter Property="CornerRadius" Value="28" />
+    </Style>
+
+    <Style x:Key="DashShowcaseTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,16,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeHeroLg}" />
+        <Setter Property="LineHeight" Value="62" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="DashShowcaseBodyStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,22,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeLead}" />
+        <Setter Property="LineHeight" Value="34" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- 要点行：小圆点 + 文字 -->
+    <Style x:Key="DashBulletDotStyle" TargetType="Ellipse">
+        <Setter Property="Width" Value="7" />
+        <Setter Property="Height" Value="7" />
+        <Setter Property="Margin" Value="0,0,14,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Fill" Value="{StaticResource AccentBrush}" />
+    </Style>
+
+    <Style x:Key="DashBulletTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <!-- 工艺阶段小卡 -->
+    <Style x:Key="DashStageCardStyle" TargetType="Border">
+        <Setter Property="Padding" Value="36,32" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="22" />
+    </Style>
+
+    <Style x:Key="DashChipStyle" TargetType="Border">
+        <Setter Property="Padding" Value="16,8" />
+        <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+        <Setter Property="CornerRadius" Value="10" />
+    </Style>
+
+    <Style x:Key="DashChipTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+
+    <!-- 五种能力卡（窄卡横排，参考 Apple 官网的服务卡） -->
+    <Style x:Key="DashMiniCardStyle" TargetType="Border">
+        <Setter Property="Padding" Value="24,22" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="20" />
+    </Style>
+
+    <Style x:Key="DashMiniKickerStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
+    </Style>
+
+    <Style x:Key="DashMiniTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,10,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="DashMiniBodyStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,10,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="LineHeight" Value="20" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="DashMiniIconTileStyle" TargetType="Border">
+        <Setter Property="Width" Value="56" />
+        <Setter Property="Height" Value="56" />
+        <Setter Property="Margin" Value="0,18,0,18" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{StaticResource AccentTint50Brush}" />
+        <Setter Property="CornerRadius" Value="16" />
+    </Style>
+
+    <Style x:Key="DashMiniArrowStyle" TargetType="Border">
+        <Setter Property="Width" Value="28" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Background" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="CornerRadius" Value="14" />
+    </Style>
+
+    <Style x:Key="DashArrowTextStyle" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource SurfaceCardBrush}" />
+    </Style>
+
+    <!-- 双大卡（参考 Apple 官网的产品对比卡） -->
+    <Style x:Key="DashPromoCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="24" />
+    </Style>
+
+    <Style x:Key="DashNewChipStyle" TargetType="Border">
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Background" Value="{StaticResource AccentTint50Brush}" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style x:Key="DashPromoTitleStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,14,0,0" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSubTitle}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="DashPromoBodyStyle" TargetType="TextBlock">
+        <Setter Property="Margin" Value="0,12,0,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBodyLarge}" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+</ResourceDictionary>

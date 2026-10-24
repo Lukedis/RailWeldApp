@@ -1,0 +1,102 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <!--  只带英文卫星资源：本应用界面文案全部写死在 XAML/代码里，不需要各语言包  -->
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\Fonts\HarmonyOS_Sans_SC_Regular.ttf" />
+    <None Remove="Assets\Fonts\MiSans-Medium.ttf" />
+    <None Remove="Assets\Fonts\MiSans-Regular.ttf" />
+    <None Remove="Assets\Fonts\MiSans-Semibold.ttf" />
+    <None Remove="Assets\Images\HomeImage.png" />
+    <None Remove="Assets\Images\LoginImage.png" />
+    <None Remove="Assets\Images\LoginHero.png" />
+    <None Remove="Assets\Images\User.jpg" />
+    <None Remove="Assets\Sound\button.wav" />
+    <None Remove="Assets\Sound\caution.wav" />
+    <None Remove="Assets\Sound\celebration.wav" />
+    <None Remove="Assets\Sound\disabled.wav" />
+    <None Remove="Assets\Sound\Failure.wav" />
+    <None Remove="Assets\Sound\notification.wav" />
+    <None Remove="Assets\Sound\OpenUI.mp3" />
+    <None Remove="Assets\Sound\Popup.wav" />
+    <None Remove="Assets\Sound\progress_loop.wav" />
+    <None Remove="Assets\Sound\ringtone_loop.wav" />
+    <None Remove="Assets\Sound\select.wav" />
+    <None Remove="Assets\Sound\Success.wav" />
+    <None Remove="Assets\Sound\swipe.wav" />
+    <None Remove="Assets\Sound\swipe_01.wav" />
+    <None Remove="Assets\Sound\swipe_02.wav" />
+    <None Remove="Assets\Sound\swipe_03.wav" />
+    <None Remove="Assets\Sound\swipe_04.wav" />
+    <None Remove="Assets\Sound\swipe_05.wav" />
+    <None Remove="Assets\Sound\tap_01.wav" />
+    <None Remove="Assets\Sound\tap_02.wav" />
+    <None Remove="Assets\Sound\tap_03.wav" />
+    <None Remove="Assets\Sound\tap_04.wav" />
+    <None Remove="Assets\Sound\tap_05.wav" />
+    <None Remove="Assets\Sound\toggle_off.wav" />
+    <None Remove="Assets\Sound\toggle_on.wav" />
+    <None Remove="Assets\Sound\transition_down.wav" />
+    <None Remove="Assets\Sound\transition_up.wav" />
+    <None Remove="Assets\Sound\type_01.wav" />
+    <None Remove="Assets\Sound\type_02.wav" />
+    <None Remove="Assets\Sound\type_03.wav" />
+    <None Remove="Assets\Sound\type_04.wav" />
+    <None Remove="Assets\Sound\type_05.wav" />
+    <None Remove="Assets\Sound\UIError.mp3" />
+    <None Remove="Assets\Sound\UIError.wav" />
+    <None Remove="Assets\Sound\UINotification.wav" />
+    <None Remove="Assets\Sound\UISuccess.wav" />
+    <None Remove="Assets\Sound\UISwipe.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.13" />
+    <PackageReference Include="NModbus" Version="3.0.83" />
+    <PackageReference Include="NModbus.Serial" Version="3.0.83" />
+    <PackageReference Include="S7netplus" Version="0.20.0" />
+	<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.13" />
+	<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.13" />
+	<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
+	<PackageReference Include="Serilog.Settings.Configuration" Version="10.0.1" />
+	<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+	<PackageReference Include="System.IO.Ports" Version="10.0.13" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\MiSans-Medium.ttf" />
+    <Resource Include="Assets\Fonts\MiSans-Regular.ttf" />
+    <Resource Include="Assets\Fonts\MiSans-Semibold.ttf" />
+    <!--  首页右侧实拍图（CC BY-SA 4.0，见 Assets/Images/CREDITS.md）  -->
+    <Resource Include="Assets\Images\HomeHero.jpg" />
+    <Resource Include="Assets\Images\HomeRailScene.jpg" />
+    <Resource Include="Assets\Images\HomeWeldSparks.jpg" />
+    <Resource Include="Assets\Images\LoginHero.png" />
+    <Resource Include="Assets\Images\User.jpg" />
+    <Resource Include="Assets\Sound\Failure.wav" />
+    <Resource Include="Assets\Sound\Popup.wav" />
+    <Resource Include="Assets\Sound\Success.wav" />
+  </ItemGroup>
+
+</Project>

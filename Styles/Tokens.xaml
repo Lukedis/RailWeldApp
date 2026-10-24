@@ -1,0 +1,32 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+
+    <CornerRadius x:Key="RadiusXs">4</CornerRadius>
+    <CornerRadius x:Key="RadiusSm">6</CornerRadius>
+    <CornerRadius x:Key="RadiusMd">8</CornerRadius>
+    <CornerRadius x:Key="RadiusLg">8</CornerRadius>
+    <CornerRadius x:Key="RadiusXl">8</CornerRadius>
+    <CornerRadius x:Key="Radius2Xl">8</CornerRadius>
+    <sys:Double x:Key="ControlHeightSm">28</sys:Double>
+    <sys:Double x:Key="ControlHeightMd">32</sys:Double>
+    <sys:Double x:Key="ControlHeightLg">36</sys:Double>
+
+    <sys:Double x:Key="ControlHeight2Xl">44</sys:Double>
+
+    <sys:Double x:Key="FontSizeCaption">13</sys:Double>
+    <sys:Double x:Key="FontSizeSmall">14</sys:Double>
+    <sys:Double x:Key="FontSizeBody">16</sys:Double>
+    <sys:Double x:Key="FontSizeBodyLarge">18</sys:Double>
+    <sys:Double x:Key="FontSizeTitle">21</sys:Double>
+    <sys:Double x:Key="FontSizeDisplay">30</sys:Double>
+    <sys:Double x:Key="FontSizeHero">36</sys:Double>
+    <sys:Double x:Key="FontSizeDisplayLarge">56</sys:Double>
+    <sys:Double x:Key="FontSizeReadout">40</sys:Double>
+    <sys:Double x:Key="FontSizeLead">19</sys:Double>
+    <sys:Double x:Key="FontSizeSubTitle">30</sys:Double>
+    <sys:Double x:Key="FontSizeHeroLg">48</sys:Double>
+    <sys:Double x:Key="FontSizeHeadline">68</sys:Double>
+
+    <sys:Double x:Key="SpaceSm">8</sys:Double>
+</ResourceDictionary>

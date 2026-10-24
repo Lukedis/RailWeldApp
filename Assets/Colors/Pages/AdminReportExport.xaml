@@ -1,0 +1,30 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：报告导出（AdminReportExportView）
+        左侧待生成报告的焊缝，右侧 A4 版式的质量报告预览。
+    -->
+
+    <SolidColorBrush x:Key="ReportCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="ReportCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="ReportHeaderBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="ReportSeparatorBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="ReportHoverBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="ReportMutedBrush" Color="{StaticResource InkTertiary}" />
+
+    <SolidColorBrush x:Key="ReportPaperSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="ReportPaperBorderBrush" Color="{StaticResource LineBorder}" />
+
+    <SolidColorBrush x:Key="ReportOkBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="ReportOkSoftBrush" Color="{StaticResource SuccessSoft}" />
+    <SolidColorBrush x:Key="ReportAlarmBrush" Color="{StaticResource Danger}" />
+    <SolidColorBrush x:Key="ReportAlarmSoftBrush" Color="{StaticResource DangerSoft}" />
+    <SolidColorBrush x:Key="ReportAlarmInkBrush" Color="{StaticResource DangerInk}" />
+
+    <SolidColorBrush x:Key="ReportOnInkBrush" Color="{StaticResource SurfaceCard}" />
+
+    <SolidColorBrush x:Key="ReportOnlineBrush" Color="{StaticResource SuccessDot}" />
+    <SolidColorBrush x:Key="ReportOfflineBrush" Color="{StaticResource InkTertiary}" />
+
+</ResourceDictionary>

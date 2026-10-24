@@ -1,0 +1,89 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties">
+
+    <!--
+        账户面板（Views/AccountPanelView）专属样式
+        纯面板：不含遮罩与显隐逻辑，宿主自己决定用弹窗、抽屉还是页面承载。
+    -->
+
+    <Style x:Key="AccountDialogStyle" TargetType="Border">
+        <Setter Property="Width" Value="640" />
+        <Setter Property="Padding" Value="26,22" />
+        <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource DividerBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource RadiusXl}" />
+    </Style>
+
+    <Style x:Key="AccountNameStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+    </Style>
+
+    <Style x:Key="AccountHintStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="AccountFieldLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeCaption}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+    </Style>
+
+    <Style x:Key="AccountTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Border x:Name="Root"
+                            Margin="0,0,4,0"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0,0,0,2">
+                        <ContentPresenter Margin="14,10,14,8"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          ContentSource="Header" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+                            <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+                            <Setter TargetName="Root" Property="BorderBrush" Value="{StaticResource TextPrimaryBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AccountTabControlStyle" TargetType="{x:Type TabControl}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource AccountTabItemStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid RowDefinitions="Auto,*">
+                        <Border Grid.Row="0"
+                                BorderBrush="{StaticResource DividerBrush}"
+                                BorderThickness="0,0,0,1">
+                            <TabPanel Background="Transparent" IsItemsHost="True" />
+                        </Border>
+                        <ContentPresenter Grid.Row="1"
+                                          Margin="0,18,0,0"
+                                          ContentSource="SelectedContent" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,31 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：自动控制（AdminAutoControlView）
+        参数设定表单 + 工艺参数管理。
+    -->
+
+    <SolidColorBrush x:Key="AutoCardSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="AutoCardBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="AutoSeparatorBrush" Color="{StaticResource LineDivider}" />
+    <SolidColorBrush x:Key="AutoMutedTextBrush" Color="{StaticResource InkTertiary}" />
+    <SolidColorBrush x:Key="AutoTableHeaderBrush" Color="{StaticResource SurfaceSubtle}" />
+
+    <!-- 输入框与按钮 -->
+    <SolidColorBrush x:Key="AutoFieldSurfaceBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="AutoFieldBorderBrush" Color="{StaticResource LineBorder}" />
+    <SolidColorBrush x:Key="AutoActionSurfaceBrush" Color="{StaticResource SurfaceCard}" />
+    <SolidColorBrush x:Key="AutoActionBorderBrush" Color="{StaticResource LineBorderStrong}" />
+    <SolidColorBrush x:Key="AutoActionHoverBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="AutoActionPressBrush" Color="{StaticResource SurfaceMuted}" />
+    <SolidColorBrush x:Key="AutoPrimarySurfaceBrush" Color="{StaticResource InkPrimary}" />
+    <SolidColorBrush x:Key="AutoPrimaryHoverBrush" Color="{StaticResource InkStrong}" />
+    <SolidColorBrush x:Key="AutoDangerTextBrush" Color="{StaticResource DangerInk}" />
+
+    <!-- 开关 -->
+    <SolidColorBrush x:Key="AutoSwitchOffBrush" Color="{StaticResource LineBorderStrong}" />
+    <SolidColorBrush x:Key="AutoSwitchOnBrush" Color="{StaticResource Success}" />
+    <SolidColorBrush x:Key="AutoSwitchThumbBrush" Color="{StaticResource SurfaceCard}" />
+
+</ResourceDictionary>

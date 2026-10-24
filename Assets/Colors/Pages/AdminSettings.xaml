@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        页面：设置页（AdminSettingsView）
+        页面底色、卡片、状态徽章、错误记录表头。
+ -->
+
+    <SolidColorBrush x:Key="SettingsPageBackgroundBrush" Color="{StaticResource SurfaceCanvas}" />
+
+<SolidColorBrush x:Key="SettingsPanelBackgroundBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="SettingsTableHeaderBackgroundBrush" Color="{StaticResource SurfaceSubtle}" />
+    <SolidColorBrush x:Key="SettingsTableRowDividerBrush" Color="{StaticResource SurfaceMuted}" />
+
+</ResourceDictionary>

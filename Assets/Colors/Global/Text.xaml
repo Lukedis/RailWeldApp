@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        全局：文字与图标
+        TextPrimary  标题 / 主要信息
+        TextStrong   卡片小标题
+        TextBody     正文
+        TextSecondary 次要说明
+        TextTertiary 弱提示 / 图标 / 分组标题
+        TextPlaceholder 输入框占位
+        TextDisabled 禁用与未完成的占位文案
+ -->
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="{StaticResource InkPrimary}" />
+    <SolidColorBrush x:Key="TextStrongBrush" Color="{StaticResource InkStrong}" />
+    <SolidColorBrush x:Key="TextBodyBrush" Color="{StaticResource InkBody}" />
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource InkSecondary}" />
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="{StaticResource InkTertiary}" />
+    <SolidColorBrush x:Key="TextPlaceholderBrush" Color="{StaticResource InkPlaceholder}" />
+    <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource InkDisabled}" />
+
+</ResourceDictionary>

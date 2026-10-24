@@ -1,0 +1,349 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties">
+
+    <!--
+        按钮样式（macOS 27 语言）
+        规则（对照 macOS 控件规范）：
+        · 形状：胶囊（圆角 = 高度一半），没有渐变、没有阴影；
+        · 主按钮：实心系统蓝 + 白字；次按钮：果冻灰实心 + 主文字色；
+        · 破坏性：淡红实心 + 深红字；纯文字按钮：透明底 + 蓝字；
+        · 键盘焦点：外侧 3px 半透明蓝"焦点环"（不挤压内容、不改变边框）；
+        · 按下：整体轻微变暗（不位移、不缩放）。
+        所有形状都通过 helper:CornerRadiusHelper 控制，一份模板服务标准/胶囊两种尺寸。
+    -->
+
+    <!--
+        焦点框：只在用键盘（Tab）移动焦点时出现，鼠标点击不显示。
+        这是 WPF 内置的 ShowKeyboardCues 机制，比 IsKeyboardFocused 触发器更符合预期。
+    -->
+    <Style x:Key="ControlFocusVisualStyle">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Margin="-3"
+                            BorderBrush="{StaticResource AccentBrush}"
+                            BorderThickness="1.5"
+                            CornerRadius="9"
+                            SnapsToDevicePixels="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AccentButton" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="{StaticResource ControlHeightMd}" />
+        <Setter Property="Padding" Value="14,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="Foreground" Value="{StaticResource OnAccentBrush}" />
+        <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="helper:CornerRadiusHelper.CornerRadius" Value="{StaticResource RadiusSm}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <!--  焦点环画在外侧，不影响布局  -->
+
+                        <Border x:Name="ButtonFill"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{StaticResource RadiusSm}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonFill" Property="Background" Value="{StaticResource AccentHoverBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonFill" Property="Background" Value="{StaticResource AccentPressBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ButtonFill" Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="{StaticResource ControlHeightMd}" />
+        <Setter Property="Padding" Value="14,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="FontFamily" Value="{StaticResource UiFontSemibold}" />
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="helper:CornerRadiusHelper.CornerRadius" Value="{StaticResource RadiusSm}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="ButtonFill"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="{StaticResource RadiusSm}">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              RecognizesAccessKey="True"
+                                              TextElement.FontSize="{TemplateBinding FontSize}"
+                                              TextElement.FontWeight="{TemplateBinding FontWeight}"
+                                              TextElement.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonFill" Property="Background" Value="{StaticResource SurfaceSunkenBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="ButtonFill" Property="Background" Value="{StaticResource BorderBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="ButtonFill" Property="Opacity" Value="0.4" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GhostButton" TargetType="{x:Type Button}">
+        <Setter Property="Padding" Value="6,2" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ButtonFill"
+                            Background="Transparent"
+                            CornerRadius="{StaticResource RadiusXs}">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontSize="{TemplateBinding FontSize}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonFill" Property="Background" Value="{StaticResource AccentTint50Brush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource TextDisabledBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="LinkButtonStyle"
+           BasedOn="{StaticResource GhostButton}"
+           TargetType="{x:Type Button}">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+    </Style>
+
+    <Style x:Key="IconTextButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="{StaticResource ControlHeightSm}" />
+        <Setter Property="Padding" Value="8,0" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="ButtonFill"
+                            Background="Transparent"
+                            CornerRadius="{StaticResource RadiusSm}">
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontSize="{TemplateBinding FontSize}"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="ButtonFill" Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HeaderIconButton"
+           BasedOn="{StaticResource IconTextButtonStyle}"
+           TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="{StaticResource ControlHeightSm}" />
+        <Setter Property="Height" Value="{StaticResource ControlHeightSm}" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="NotificationButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="{StaticResource ControlHeightSm}" />
+        <Setter Property="Height" Value="{StaticResource ControlHeightSm}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="HoverCircle"
+                                Background="Transparent"
+                                CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource HalfConverter}}" />
+
+                        <!--  铃铛  -->
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="{StaticResource IconFont}"
+                                   FontSize="16"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Text="&#xEA8F;" />
+
+                        <!--  未读角标：NumberCount > 0 时显示  -->
+                        <Border x:Name="CountBadge"
+                                Height="14"
+                                MinWidth="14"
+                                Margin="0,-8,-8,0"
+                                Padding="4,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="{StaticResource DangerBrush}"
+                                CornerRadius="7"
+                                Visibility="Collapsed">
+                            <TextBlock x:Name="CountText"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontFamily="{StaticResource UiFontSemibold}"
+                                       FontSize="9"
+                                       Foreground="{StaticResource OnAccentBrush}"
+                                       Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HoverCircle" Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        </Trigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="0">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="1">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="2">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="3">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="4">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="5">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.NumberCount)}" Value="9">
+                            <Setter TargetName="CountBadge" Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="UserAvatarButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="{StaticResource ControlHeightLg}" />
+        <Setter Property="Height" Value="{StaticResource ControlHeightLg}" />
+        <Setter Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse Fill="{TemplateBinding Background}" />
+                        <Ellipse Margin="1.5" Stretch="Uniform">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(helper:ButtonHelper.ProfilePictureSource)}" Stretch="UniformToFill" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse x:Name="HoverOverlay"
+                                 Margin="1.5"
+                                 Fill="{StaticResource ScrimBrush}"
+                                 Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="HoverOverlay" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        按钮家族（对照「Examples - Light, Over Glass」）
+        灰色填充      SecondaryButton        灰底 + 深字
+        蓝色浅填充    TintedButtonStyle      淡蓝底 + 蓝字
+        红色浅填充    DangerButton           淡红底 + 深红字
+        蓝色实心      AccentButton           蓝底 + 白字
+        红色实心      DangerFilledButton     红底 + 白字（慎用，只给"删除"这类不可逆操作）
+        纯文字        GhostButton            透明底 + 蓝字
+        圆角统一 6（标准 32 高）/ 8（大号 44 高）
+    -->
+
+    <Style x:Key="CircleIconButton"
+           BasedOn="{StaticResource IconTextButtonStyle}"
+           TargetType="{x:Type Button}">
+        <Setter Property="Width" Value="32" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="CircleFill"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource HalfConverter}}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="CircleFill" Property="Background" Value="{StaticResource SurfaceMutedBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="CircleFill" Property="Background" Value="{StaticResource SurfaceSunkenBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

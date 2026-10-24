@@ -1,0 +1,229 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties"
+                    xmlns:local="clr-namespace:RailWeldApp.Controls">
+
+    <Style x:Key="InfoBadgeStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="Height" Value="16" />
+        <Setter Property="MinWidth" Value="16" />
+        <Setter Property="Padding" Value="4,0" />
+        <Setter Property="Background" Value="{StaticResource NavigationButtonInfoBadgeBackground}" />
+        <Setter Property="Foreground" Value="{StaticResource NavigationButtonInfoBadgeForeground}" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ContentControl}">
+                    <Border x:Name="BadgeRoot"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{StaticResource RadiusSm}"
+                            SnapsToDevicePixels="True">
+
+                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding Content}"
+                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          TextBlock.FontSize="{TemplateBinding FontSize}"
+                                          TextBlock.FontWeight="{TemplateBinding FontWeight}"
+                                          TextBlock.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <!-- 没有内容：退化成 6 x 6 圆点 -->
+                        <Trigger Property="Content" Value="{x:Null}">
+                            <Setter TargetName="BadgeRoot" Property="Width" Value="6" />
+                            <Setter TargetName="BadgeRoot" Property="Height" Value="6" />
+                            <Setter TargetName="BadgeRoot" Property="CornerRadius" Value="3" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--
+        导航项里的徽章：行高 44，徽章加高到 18 才和行高、14 号字配得平。
+        （InfoBadgeStyle 保持 WinUI 的 16 标准，供别处单独使用）
+ -->
+    <Style x:Key="NavigationButtonInfoBadgeStyle"
+           BasedOn="{StaticResource InfoBadgeStyle}"
+           TargetType="{x:Type ContentControl}">
+        <Setter Property="Height" Value="18" />
+        <Setter Property="MinWidth" Value="18" />
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="FontSize" Value="11.5" />
+    </Style>
+
+    <!-- WinUI 3 焦点框：2px 圆角描边，略向外扩 -->
+    <Style x:Key="NavigationButtonFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="-2"
+                               RadiusX="8"
+                               RadiusY="8"
+                               SnapsToDevicePixels="True"
+                               Stroke="{StaticResource NavigationButtonFocusBorder}"
+                               StrokeThickness="2" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:NavigationButton}">
+        <!-- 行高与圆角：240 宽侧栏里用 44 / 10，视觉重量刚好；想更紧凑就调回 36 / 4 -->
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Margin" Value="8,3" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource NavigationButtonForeground}" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource NavigationButtonFocusVisual}" />
+
+        <!-- InfoBadge 默认外观（可在单个按钮上覆盖） -->
+        <Setter Property="InfoBadgeKind" Value="None" />
+        <Setter Property="InfoBadgeBackground" Value="{StaticResource NavigationButtonInfoBadgeBackground}" />
+        <Setter Property="InfoBadgeForeground" Value="{StaticResource NavigationButtonInfoBadgeForeground}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:NavigationButton}">
+                    <Border x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource RadiusSm}"
+                            SnapsToDevicePixels="True">
+
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="20" />
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="12" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- macOS 侧栏不使用左侧指示条，选中态只靠底色 -->
+                            <!-- 选中态：左侧 3px 蓝色竖条，无底色 -->
+                            <Border x:Name="ActiveIndicator"
+                                    Grid.Column="0"
+                                    Width="3"
+                                    Height="20"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Background="{StaticResource AccentBrush}"
+                                    CornerRadius="1.5"
+                                    SnapsToDevicePixels="True"
+                                    Visibility="Collapsed" />
+
+                            <!-- Icon -->
+                            <Grid Grid.Column="1"
+                                  Width="20"
+                                  Height="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+
+                                <TextBlock x:Name="Icon"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe Fluent Icons"
+                                           FontSize="18"
+                                           FontWeight="Normal"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Text="{TemplateBinding IconText}"
+                                           TextAlignment="Center" />
+                            </Grid>
+
+                            <!-- Content -->
+                            <ContentPresenter Grid.Column="2"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              RecognizesAccessKey="True" />
+
+                            <!-- InfoBadge：Dot -->
+                            <Border x:Name="InfoBadgeDot"
+                                    Grid.Column="3"
+                                    Width="7"
+                                    Height="7"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Background="{TemplateBinding InfoBadgeBackground}"
+                                    CornerRadius="3.5"
+                                    SnapsToDevicePixels="True"
+                                    Visibility="Collapsed" />
+
+                            <!-- InfoBadge：Value -->
+                            <ContentControl x:Name="InfoBadge"
+                                            Grid.Column="3"
+                                            Margin="8,0,0,0"
+                                            Background="{TemplateBinding InfoBadgeBackground}"
+                                            Content="{TemplateBinding InfoBadgeValue}"
+                                            Foreground="{TemplateBinding InfoBadgeForeground}"
+                                            Style="{StaticResource NavigationButtonInfoBadgeStyle}"
+                                            Visibility="Collapsed" />
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+
+                        <!-- Hover -->
+                        <Trigger Property="IsMouseOver" Value="True" />
+
+                        <!-- Pressed -->
+                        <!--<Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="{StaticResource NavigationButtonPressedBackground}" />
+                        </Trigger>-->
+
+                        <!-- Active -->
+                        <Trigger Property="IsActive" Value="True">
+                            <Setter TargetName="Root" Property="Background" Value="Transparent" />
+                            <Setter TargetName="ActiveIndicator" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="Icon" Property="Foreground" Value="{StaticResource NavigationButtonActiveForeground}" />
+                            <Setter Property="Foreground" Value="{StaticResource NavigationButtonActiveForeground}" />
+                        </Trigger>
+
+                        <!-- Active + Hover -->
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsActive" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                        </MultiTrigger>
+
+                        <!-- InfoBadge：Dot 形态 -->
+                        <Trigger Property="InfoBadgeKind" Value="Dot">
+                            <Setter TargetName="InfoBadgeDot" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <!-- InfoBadge：Value 形态 -->
+                        <Trigger Property="InfoBadgeKind" Value="Value">
+                            <Setter TargetName="InfoBadge" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <!-- Disabled -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
