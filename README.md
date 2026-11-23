@@ -81,8 +81,9 @@ dotnet test .\RailWeldApp.slnx
 - 数据库：`%LocalAppData%\RailWeldApp\RailWeld.db`
 - 日志：输出目录下 `Logs/railweld-*.log`（按天滚动，保留 30 天）
 
-没有现场设备时，PLC 默认指向 `127.0.0.1`，可配合 `RailWeldSimulator` 模拟数据块读写；
-Modbus RTU 需要虚拟串口对（如 com0com）或真实串口。
+没有现场设备时，PLC 地址默认为 `127.0.0.1`，需要自备 S7 协议模拟器（Snap7 / S7 仿真等）才能连通采集；
+Modbus RTU 需要虚拟串口对（如 com0com）或真实串口。设备未连接时，登录、页面浏览、历史数据与报表等
+功能仍可正常使用。
 
 ## 配置
 
