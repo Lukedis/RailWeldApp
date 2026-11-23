@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# IDE / 本地环境
+.idea/
+.vscode/
+*.DotSettings.user
+

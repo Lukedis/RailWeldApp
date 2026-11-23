@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="RailWeldApp.csproj" />
-  <Project Path="..\RailWeldApp.Core\RailWeldApp.Core.csproj" />
-  <Project Path="..\RailWeldApp.Infrastructure\RailWeldApp.Infrastructure.csproj" />
-  <Project Path="..\RailWeldApp.Tests\RailWeldApp.Tests.csproj" />
+  <Project Path="src\RailWeldApp\RailWeldApp.csproj" />
+  <Project Path="src\RailWeldApp.Core\RailWeldApp.Core.csproj" />
+  <Project Path="src\RailWeldApp.Infrastructure\RailWeldApp.Infrastructure.csproj" />
+  <Project Path="src\RailWeldApp.Tests\RailWeldApp.Tests.csproj" />
 </Solution>
