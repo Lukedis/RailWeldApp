@@ -5,6 +5,22 @@
 
 > 感应加热 · 三段温控 · 自动找缝 · 全程追溯
 
+## 界面截图
+
+> 截图在本机无 PLC 环境下拍摄，因此采集状态显示「离线」、数值为 0；排版与交互与现场一致。
+
+| 登录 | 总览 |
+| :---: | :---: |
+| ![登录](docs/screenshots/01-login.png) | ![总览](docs/screenshots/02-overview.png) |
+
+| 实时数据 | 手动控制 |
+| :---: | :---: |
+| ![实时数据](docs/screenshots/03-realtime.png) | ![手动控制](docs/screenshots/04-manual.png) |
+
+| 温度监视 | 报告导出 |
+| :---: | :---: |
+| ![温度监视](docs/screenshots/05-temperature.png) | ![报告导出](docs/screenshots/06-report.png) |
+
 ---
 
 ## 功能
