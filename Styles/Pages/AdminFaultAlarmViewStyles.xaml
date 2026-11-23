@@ -38,7 +38,7 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
     </Style>
 
-    <!--  顶部状态条：有活动报警时变红  -->
+    <!--  顶部状态条：采集中断为琥珀色，连接正常且无报警为绿色，有活动报警为红色  -->
     <Style x:Key="AlarmBannerStyle" TargetType="Border">
         <Setter Property="Height" Value="56" />
         <Setter Property="Padding" Value="20,0" />
@@ -47,10 +47,18 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="{StaticResource RadiusLg}" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding HasActiveAlarm, FallbackValue=False}" Value="True">
+            <DataTrigger Binding="{Binding IsPlcConnected, FallbackValue=False}" Value="False">
+                <Setter Property="Background" Value="{StaticResource AlarmWarnSoftBrush}" />
+                <Setter Property="BorderBrush" Value="{StaticResource AlarmWarnBrush}" />
+            </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding HasActiveAlarm, FallbackValue=False}" Value="True" />
+                    <Condition Binding="{Binding IsPlcConnected, FallbackValue=False}" Value="True" />
+                </MultiDataTrigger.Conditions>
                 <Setter Property="Background" Value="{StaticResource AlarmDangerSoftBrush}" />
                 <Setter Property="BorderBrush" Value="{StaticResource AlarmDangerSoftInkBrush}" />
-            </DataTrigger>
+            </MultiDataTrigger>
         </Style.Triggers>
     </Style>
 
@@ -59,9 +67,16 @@
         <Setter Property="Height" Value="9" />
         <Setter Property="Fill" Value="{StaticResource AlarmOkBrush}" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding HasActiveAlarm, FallbackValue=False}" Value="True">
-                <Setter Property="Fill" Value="{StaticResource AlarmDangerBrush}" />
+            <DataTrigger Binding="{Binding IsPlcConnected, FallbackValue=False}" Value="False">
+                <Setter Property="Fill" Value="{StaticResource AlarmWarnBrush}" />
             </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding HasActiveAlarm, FallbackValue=False}" Value="True" />
+                    <Condition Binding="{Binding IsPlcConnected, FallbackValue=False}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Fill" Value="{StaticResource AlarmDangerBrush}" />
+            </MultiDataTrigger>
         </Style.Triggers>
     </Style>
 
@@ -72,9 +87,16 @@
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
         <Setter Property="Text" Value="系统正常 · 暂无活动报警" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding HasActiveAlarm, FallbackValue=False}" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource AlarmDangerInkBrush}" />
+            <DataTrigger Binding="{Binding IsPlcConnected, FallbackValue=False}" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource AlarmWarnInkBrush}" />
             </DataTrigger>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding HasActiveAlarm, FallbackValue=False}" Value="True" />
+                    <Condition Binding="{Binding IsPlcConnected, FallbackValue=False}" Value="True" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{StaticResource AlarmDangerInkBrush}" />
+            </MultiDataTrigger>
         </Style.Triggers>
     </Style>
 

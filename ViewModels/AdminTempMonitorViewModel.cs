@@ -41,11 +41,4 @@ public partial class AdminTempMonitorViewModel : PageViewModel
     public double FlowTop => Snapshot?.ActFlow1 ?? 0;
     public double FlowWeb => Snapshot?.ActFlow2 ?? 0;
     public double FlowBottom => Snapshot?.ActFlow3 ?? 0;
-
-    // 页脚
-    public string AppVersion => "v1.0.0";
-
-    public bool IsCommunicationOk => _plcDataCache.IsConnected;
-    public int CommunicationDelayMs => 0;
-    public string ClockText => DateTime.Now.ToString("HH:mm:ss");
 }

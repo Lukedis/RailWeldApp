@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Windows.Data;
 
 namespace RailWeldApp.Converters
@@ -16,7 +14,7 @@ namespace RailWeldApp.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            => throw new NotSupportedException();
+            => Binding.DoNothing;
     }
 
     public class AvatarIconSizeConverter : IValueConverter
@@ -29,6 +27,6 @@ namespace RailWeldApp.Converters
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-            => throw new NotSupportedException();
+            => Binding.DoNothing;
     }
 }

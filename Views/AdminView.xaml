@@ -168,6 +168,7 @@
                 </Grid>
             </Border>
 
+            <!--  内容  -->
             <ContentControl x:Name="AdminContentHost"
                             Grid.Row="1"
                             Content="{Binding CurrentPage}" />
@@ -288,17 +289,16 @@
                 </control:DrawerControl.DrawerContent>
             </control:DrawerControl>
 
-            <!--  账户面板（开工设置 / 注册操作员）  -->
-            <!--<Grid x:Name="AccountOverlay"
+            <!--  对话框遮罩：对话框 VM 由 DialogService 管理  -->
+            <Grid x:Name="DialogOverlay"
                   Grid.RowSpan="2"
                   Panel.ZIndex="200"
-                  Visibility="{Binding Dialog.CurrentDialog.IsOpen, FallbackValue=Collapsed, Converter={StaticResource BooleanToVisibility}}">
+                  Visibility="{Binding Dialog.CurrentDialog.IsOpen, Converter={StaticResource BoolToVisibilityCollapsed}, FallbackValue=Collapsed}">
                 <Border Background="{StaticResource ScrimBrush}" />
-                <ContentControl x:Name="DialogHost"
-                                HorizontalAlignment="Center"
+                <ContentControl HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Content="{Binding Dialog.CurrentDialog}" />
-            </Grid>-->
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

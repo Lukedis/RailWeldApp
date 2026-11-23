@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="RailWeldApp.csproj" />
+  <Project Path="..\RailWeldApp.Core\RailWeldApp.Core.csproj" />
+  <Project Path="..\RailWeldApp.Infrastructure\RailWeldApp.Infrastructure.csproj" />
+  <Project Path="..\RailWeldApp.Tests\RailWeldApp.Tests.csproj" />
 </Solution>

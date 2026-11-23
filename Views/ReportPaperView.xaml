@@ -1,0 +1,231 @@
+<UserControl x:Class="RailWeldApp.Views.ReportPaperView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:RailWeldApp.Design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{x:Static design:DesignData.AdminReportExportViewModel}"
+             d:DesignHeight="1123"
+             d:DesignWidth="794"
+             mc:Ignorable="d">
+    <!--
+        运行时不设置 DataContext：
+        它放在 AdminReportExportView 的 Viewbox 中，会继承父页面的 AdminReportExportViewModel。
+        d:DataContext 仅供设计器预览。
+    -->
+    <!--  A4 报告纸张。父页面的 PrintDialog / PDF 导出都使用这个控件作为打印源。  -->
+    <Border x:Name="PaperRoot"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource ReportPaperStyle}">
+        <StackPanel>
+
+            <TextBlock Style="{StaticResource ReportPaperTitleStyle}" Text="焊接接头热处理质量报告" />
+            <TextBlock Style="{StaticResource ReportPaperSubtitleStyle}" Text="全自动钢轨焊接接头热处理设备 · 中频感应加热正火" />
+
+            <Border Height="1"
+                    Margin="0,12,0,0"
+                    Background="{StaticResource ReportSeparatorBrush}" />
+
+            <!--  基本信息  -->
+            <Grid Margin="0,12,0,0"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="16,16,16,16">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="账户" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.AccountName, FallbackValue='—'}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="操作员" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.OperatorName, FallbackValue='—'}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="工号" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.JobNumber, FallbackValue='—'}" />
+                </StackPanel>
+                <StackPanel Grid.Row="1"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="生产日期" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.ProducedAt, FallbackValue='—'}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="设备编号" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.EquipmentName, FallbackValue='—'}" />
+                </StackPanel>
+                <StackPanel Grid.Row="2"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="工艺配方" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.RecipeName, FallbackValue='—'}" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="生产线 / 班次" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.ShiftName, FallbackValue='—'}" />
+                </StackPanel>
+                <StackPanel Grid.Row="3"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="报告编号" />
+                    <TextBlock Style="{StaticResource ReportPaperValueStyle}" Text="{Binding Report.ReportNo, FallbackValue='—'}" />
+                </StackPanel>
+            </Grid>
+
+            <!--  工艺参数  -->
+            <TextBlock Style="{StaticResource ReportPaperSectionStyle}" Text="工艺参数" />
+            <Border Height="22"
+                    Margin="0,6,0,0"
+                    Background="{StaticResource ReportHeaderBrush}"
+                    CornerRadius="{StaticResource RadiusXs}">
+                <Grid Margin="8,0" ColumnDefinitions="*,68,68,70,84">
+                    <TextBlock Style="{StaticResource ReportPaperTableHeaderStyle}" Text="程序段" />
+                    <TextBlock Grid.Column="1"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="温度 ℃" />
+                    <TextBlock Grid.Column="2"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="功率 %" />
+                    <TextBlock Grid.Column="3"
+                               Style="{StaticResource ReportPaperTableHeaderStyle}"
+                               Text="冷却方式" />
+                    <TextBlock Grid.Column="4"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="冷却参数" />
+                </Grid>
+            </Border>
+            <ItemsControl ItemsSource="{Binding Report.ProcessRows}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="18"
+                              Margin="8,0"
+                              ColumnDefinitions="*,68,68,70,84">
+                            <TextBlock Style="{StaticResource ReportPaperCellStyle}" Text="{Binding Section}" />
+                            <TextBlock Grid.Column="1"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding TempText}" />
+                            <TextBlock Grid.Column="2"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding PowerText}" />
+                            <TextBlock Grid.Column="3"
+                                       Style="{StaticResource ReportPaperCellStyle}"
+                                       Text="{Binding CoolingMode}" />
+                            <TextBlock Grid.Column="4"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding CoolingParam}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!--  实测统计  -->
+            <TextBlock Style="{StaticResource ReportPaperSectionStyle}" Text="实测统计" />
+            <Border Height="22"
+                    Margin="0,6,0,0"
+                    Background="{StaticResource ReportHeaderBrush}"
+                    CornerRadius="{StaticResource RadiusXs}">
+                <Grid Margin="8,0" ColumnDefinitions="*,44,44,44,44,64,38,44">
+                    <TextBlock Style="{StaticResource ReportPaperTableHeaderStyle}" Text="指标" />
+                    <TextBlock Grid.Column="1"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="起始" />
+                    <TextBlock Grid.Column="2"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="峰值" />
+                    <TextBlock Grid.Column="3"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="末值" />
+                    <TextBlock Grid.Column="4"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="均值" />
+                    <TextBlock Grid.Column="5"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="上下限" />
+                    <TextBlock Grid.Column="6"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="超限" />
+                    <TextBlock Grid.Column="7"
+                               Style="{StaticResource ReportPaperTableHeaderRightStyle}"
+                               Text="判定" />
+                </Grid>
+            </Border>
+            <ItemsControl ItemsSource="{Binding Report.MetricRows}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Height="16"
+                              Margin="8,0"
+                              ColumnDefinitions="*,44,44,44,44,64,38,44">
+                            <TextBlock Style="{StaticResource ReportPaperCellStyle}" Text="{Binding Name}" />
+                            <TextBlock Grid.Column="1"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding Start}" />
+                            <TextBlock Grid.Column="2"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding Peak}" />
+                            <TextBlock Grid.Column="3"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding End}" />
+                            <TextBlock Grid.Column="4"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding Average}" />
+                            <TextBlock Grid.Column="5"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding MinText}" />
+                            <TextBlock Grid.Column="6"
+                                       Style="{StaticResource ReportPaperOverStyle}"
+                                       Text="{Binding OverCount}" />
+                            <TextBlock Grid.Column="7"
+                                       Style="{StaticResource ReportPaperCellRightStyle}"
+                                       Text="{Binding Judgement}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <!--  判定  -->
+            <TextBlock Style="{StaticResource ReportPaperSectionStyle}" Text="判定结论" />
+            <Grid Margin="0,6,0,0" ColumnDefinitions="Auto,*">
+                <Border Style="{StaticResource ReportQualifiedBadgeStyle}">
+                    <TextBlock Style="{StaticResource ReportQualifiedTextStyle}" Text="{Binding Report.ResultText, FallbackValue='待判定'}" />
+                </Border>
+                <TextBlock Grid.Column="1"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           FontSize="{StaticResource FontSizeCaption}"
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           Text="{Binding Report.ResultDetail, FallbackValue='—'}"
+                           TextTrimming="CharacterEllipsis" />
+            </Grid>
+
+            <!--  签字  -->
+            <Grid Margin="0,12,0,0" ColumnDefinitions="*,*,*">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="操作员签字" />
+                    <Border Height="1"
+                            Margin="0,16,16,0"
+                            Background="{StaticResource ReportSeparatorBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="质检员签字" />
+                    <Border Height="1"
+                            Margin="0,16,16,0"
+                            Background="{StaticResource ReportSeparatorBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Style="{StaticResource ReportPaperLabelStyle}" Text="日期" />
+                    <Border Height="1"
+                            Margin="0,16,0,0"
+                            Background="{StaticResource ReportSeparatorBrush}" />
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Margin="0,12,0,0"
+                       HorizontalAlignment="Right"
+                       FontSize="{StaticResource FontSizeCaption}"
+                       Foreground="{StaticResource ReportMutedBrush}"
+                       Text="{Binding Report.GeneratedAt, FallbackValue='—'}" />
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -4,6 +4,7 @@
              xmlns:control="clr-namespace:RailWeldApp.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:RailWeldApp.Design"
+             xmlns:controls="clr-namespace:RailWeldApp.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{x:Static design:DesignData.AdminRealTimeDataViewModel}"
              d:DesignHeight="900"
@@ -12,8 +13,8 @@
 
     <!--
         实时数据：设备实时看板（纯前端）
-        布局：页头（设备名 + 焊缝编号）→ 左列三张表（轴运动 / 传感器 / 执行机构）
-        + 右列电参数（电压 / 电流 / 功率 / 能量，大数字 + 量程条）→ 页脚状态条
+        布局：页头（设备名 + 当前账户）→ 左列三张表（轴运动 / 传感器 / 执行机构）
+        + 右列电参数（电压 / 电流 / 功率 / 能量，大数字 + 量程条）→ 装饰页脚
 
         需要 VM（AdminRealTimeDataViewModel）提供的属性：
         轴（double）：XAxisActualPosition   XAxisActualSpeed   XAxisTargetPosition
@@ -28,8 +29,6 @@
         （600 V / 400 A / 200 kW / 20000 kW·s），现场量程不同就改这四个数字
         注意：RangeBase.Value 默认 TwoWay，这里显式写了 Mode=OneWay，
         VM 用只读属性（只有 getter）也不会抛“无法对只读属性进行 TwoWay 绑定”
-        页脚：AppVersion(string)  IsCommunicationOk(bool)  CommunicationDelayMs(int)
-        ClockText(string)  WeldId(string)
         所有绑定都带 FallbackValue，VM 没接好时显示 0.000 / 灰灯，不会报绑定错误。
     -->
 
@@ -59,13 +58,13 @@
                             <TextBlock VerticalAlignment="Center"
                                        FontSize="{StaticResource FontSizeSmall}"
                                        Foreground="{StaticResource TextTertiaryBrush}"
-                                       Text="焊缝编号" />
+                                       Text="当前账户" />
                             <TextBlock Margin="8,0,0,0"
                                        VerticalAlignment="Center"
                                        FontFamily="{StaticResource UiFontMedium}"
                                        FontSize="{StaticResource FontSizeBody}"
                                        Foreground="{StaticResource TextPrimaryBrush}"
-                                       Text="{Binding WeldId, FallbackValue=—}" />
+                                       Text="{Binding CurrentAccount, FallbackValue=—}" />
                         </StackPanel>
                     </Border>
 
@@ -573,69 +572,6 @@
             </Grid>
         </Grid>
 
-        <!--  页脚状态条  -->
-        <Border Grid.Row="1"
-                Height="46"
-                BorderBrush="{StaticResource EquipSeparatorBrush}"
-                BorderThickness="0,1,0,0">
-            <Grid Margin="64,0" ColumnDefinitions="Auto,*,Auto">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource EquipFooterTextStyle}" Text="版本" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource EquipFooterEmphasisStyle}"
-                               Text="{Binding AppVersion, FallbackValue=—}" />
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource EquipFooterTextStyle}"
-                               Text="当前界面" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource EquipFooterEmphasisStyle}"
-                               Text="实时数据" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource EquipFooterTextStyle}" Text="通讯状态" />
-                    <Ellipse Width="7"
-                             Height="7"
-                             Margin="7,0,0,0"
-                             VerticalAlignment="Center">
-                        <Ellipse.Style>
-                            <Style TargetType="Ellipse">
-                                <Setter Property="Fill" Value="{StaticResource EquipOfflineBrush}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource EquipOnlineBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Margin="6,0,0,0">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource EquipFooterEmphasisStyle}" TargetType="TextBlock">
-                                <Setter Property="Text" Value="中断" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Text" Value="正常" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource EquipFooterTextStyle}"
-                               Text="通讯延迟" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource EquipFooterEmphasisStyle}"
-                               Text="{Binding CommunicationDelayMs, StringFormat={}{0} ms, FallbackValue='0 ms'}" />
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource EquipFooterTextStyle}"
-                               Text="{Binding ClockText, FallbackValue=—}" />
-                </StackPanel>
-            </Grid>
-        </Border>
+        <controls:PageFooter Grid.Row="1" />
     </Grid>
 </UserControl>

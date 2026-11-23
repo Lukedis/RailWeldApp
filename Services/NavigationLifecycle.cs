@@ -10,6 +10,7 @@ internal static class NavigationLifecycle
     // 调用旧页面的 OnNavigatedFrom；异常只记日志，不阻断导航。
     public static void Leave(ViewModelBase? view, ILogger logger)
     {
+        // 判断是否实现了 INavigationAware 接口，如果没有实现则直接返回
         if (view is not INavigationAware aware)
         {
             return;
@@ -29,6 +30,7 @@ internal static class NavigationLifecycle
     // 调用新页面的 OnNavigatedTo；异常只记日志，不阻断导航。
     public static void Enter(ViewModelBase? view, ILogger logger)
     {
+        // 判断是否实现了 INavigationAware 接口，如果没有实现则直接返回
         if (view is not INavigationAware aware)
         {
             return;

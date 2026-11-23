@@ -1,6 +1,7 @@
 <UserControl x:Class="RailWeldApp.Views.AdminTempMonitorView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:RailWeldApp.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:RailWeldApp.Design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,7 +20,6 @@
         RailTopTemp  RailFootTemp  RailInnerFootTemp  CoolingTemp        （℃）
         AirPressure                                                        （MPa）
         FlowTop  FlowWeb  FlowBottom                                       （L/min）
-        页脚：AppVersion(string)  IsCommunicationOk(bool)  CommunicationDelayMs(int)  ClockText(string)
         其余什么都不用做：量程与阈值写死在 XAML 里，每 200ms 刷新这 8 个数即可。
 
         性能：数值 TextBlock 给了固定宽度，数字长短变化不会引起卡片重新排版；
@@ -32,8 +32,8 @@
         <ScrollViewer Grid.Row="0"
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
-            <Grid Margin="64,22,64,16"
-                  MinHeight="720"
+            <Grid MinHeight="720"
+                  Margin="64,22,64,16"
                   RowDefinitions="Auto,16,*,14,Auto">
 
                 <!--  页头  -->
@@ -75,7 +75,9 @@
                       RowDefinitions="*,16,*">
 
                     <!--  1 轨顶温度  -->
-                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="0"
+                            Grid.Column="0"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -108,7 +110,9 @@
                                              Value="{Binding RailTopTemp, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="1000 ℃" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="1000 ℃" />
                                 </Grid>
                             </StackPanel>
 
@@ -120,13 +124,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="报警上限 900 ℃ · 超限标红" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 01" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 01" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  2 轨脚温度  -->
-                    <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="0"
+                            Grid.Column="2"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -159,7 +167,9 @@
                                              Value="{Binding RailFootTemp, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="1000 ℃" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="1000 ℃" />
                                 </Grid>
                             </StackPanel>
 
@@ -171,13 +181,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="报警上限 900 ℃ · 超限标红" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 02" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 02" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  3 内轨脚温度  -->
-                    <Border Grid.Row="0" Grid.Column="4" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="0"
+                            Grid.Column="4"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -210,7 +224,9 @@
                                              Value="{Binding RailInnerFootTemp, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="1000 ℃" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="1000 ℃" />
                                 </Grid>
                             </StackPanel>
 
@@ -222,13 +238,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="报警上限 900 ℃ · 超限标红" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 03" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 03" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  4 冷却温度  -->
-                    <Border Grid.Row="0" Grid.Column="6" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="0"
+                            Grid.Column="6"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -261,7 +281,9 @@
                                              Value="{Binding CoolingTemp, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="200 ℃" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="200 ℃" />
                                 </Grid>
                             </StackPanel>
 
@@ -273,13 +295,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="报警上限 60 ℃ · 回水检测" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 04" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 04" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  5 喷风压力  -->
-                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="2"
+                            Grid.Column="0"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -312,7 +338,9 @@
                                              Value="{Binding AirPressure, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="1.0 MPa" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="1.0 MPa" />
                                 </Grid>
                             </StackPanel>
 
@@ -324,13 +352,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="正常 0.4–0.6 MPa · 低压禁止喷风" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 05" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 05" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  6 轨顶流量  -->
-                    <Border Grid.Row="2" Grid.Column="2" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="2"
+                            Grid.Column="2"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -363,7 +395,9 @@
                                              Value="{Binding FlowTop, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="20 L/min" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="20 L/min" />
                                 </Grid>
                             </StackPanel>
 
@@ -375,13 +409,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="正常 10–15 L/min · 断流报警" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 06" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 06" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  7 轨腰流量  -->
-                    <Border Grid.Row="2" Grid.Column="4" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="2"
+                            Grid.Column="4"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -414,7 +452,9 @@
                                              Value="{Binding FlowWeb, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="20 L/min" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="20 L/min" />
                                 </Grid>
                             </StackPanel>
 
@@ -426,13 +466,17 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="正常 10–15 L/min · 断流报警" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 07" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 07" />
                             </Grid>
                         </Grid>
                     </Border>
 
                     <!--  8 轨底流量  -->
-                    <Border Grid.Row="2" Grid.Column="6" Style="{StaticResource TempCardStyle}">
+                    <Border Grid.Row="2"
+                            Grid.Column="6"
+                            Style="{StaticResource TempCardStyle}">
                         <Grid RowDefinitions="Auto,*,Auto,Auto">
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <Ellipse Width="8"
@@ -465,7 +509,9 @@
                                              Value="{Binding FlowBottom, Mode=OneWay, FallbackValue=0}" />
                                 <Grid Margin="0,7,0,0" ColumnDefinitions="Auto,*,Auto">
                                     <TextBlock Style="{StaticResource TempScaleStyle}" Text="0" />
-                                    <TextBlock Grid.Column="2" Style="{StaticResource TempScaleStyle}" Text="20 L/min" />
+                                    <TextBlock Grid.Column="2"
+                                               Style="{StaticResource TempScaleStyle}"
+                                               Text="20 L/min" />
                                 </Grid>
                             </StackPanel>
 
@@ -477,7 +523,9 @@
                                   Margin="0,10,0,0"
                                   ColumnDefinitions="*,Auto">
                                 <TextBlock Style="{StaticResource TempSpecStyle}" Text="正常 10–15 L/min · 断流报警" />
-                                <TextBlock Grid.Column="1" Style="{StaticResource TempChannelStyle}" Text="CH 08" />
+                                <TextBlock Grid.Column="1"
+                                           Style="{StaticResource TempChannelStyle}"
+                                           Text="CH 08" />
                             </Grid>
                         </Grid>
                     </Border>
@@ -519,7 +567,7 @@
                             <TextBlock Margin="0,6,0,0"
                                        FontSize="{StaticResource FontSizeSmall}"
                                        Foreground="{StaticResource TextSecondaryBrush}"
-                                       Text="温度、压力与冷却水流量同步刷新；超限通道标红，曲线随焊缝编号一起归档。" />
+                                       Text="温度、压力与冷却水流量同步刷新；超限通道标红，曲线随账户与操作记录一起归档。" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="2"
@@ -540,67 +588,6 @@
             </Grid>
         </ScrollViewer>
 
-        <!--  页脚状态条  -->
-        <Border Grid.Row="1"
-                Height="46"
-                BorderBrush="{StaticResource TempSeparatorBrush}"
-                BorderThickness="0,1,0,0">
-            <Grid Margin="64,0" ColumnDefinitions="Auto,*,Auto">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="版本" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding AppVersion, FallbackValue=—}" />
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="当前界面" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="温度监视" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2" VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="通讯状态" />
-                    <Ellipse Width="7"
-                             Height="7"
-                             Margin="7,0,0,0"
-                             VerticalAlignment="Center">
-                        <Ellipse.Style>
-                            <Style TargetType="Ellipse">
-                                <Setter Property="Fill" Value="{StaticResource TempOfflineBrush}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource TempOnlineBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Margin="6,0,0,0">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource ManualFooterEmphasisStyle}" TargetType="TextBlock">
-                                <Setter Property="Text" Value="中断" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Text" Value="正常" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="通讯延迟" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding CommunicationDelayMs, StringFormat={}{0} ms, FallbackValue='0 ms'}" />
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="{Binding ClockText, FallbackValue=—}" />
-                </StackPanel>
-            </Grid>
-        </Border>
+        <controls:PageFooter Grid.Row="1" />
     </Grid>
 </UserControl>

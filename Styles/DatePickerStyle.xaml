@@ -201,13 +201,13 @@
 
     <!--  日期选择器本体  -->
     <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
-        <Setter Property="Height" Value="34" />
-        <Setter Property="Width" Value="160" />
-        <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Width" Value="170" />
+        <Setter Property="FontSize" Value="14" />
         <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource WebForegroundBrush}" />
         <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource WebInputBorderBrush}" />
         <Setter Property="CalendarStyle" Value="{StaticResource DatePickerCalendarStyle}" />
         <Setter Property="SelectedDateFormat" Value="Short" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -241,13 +241,13 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource BorderStrongBrush}" />
+                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource WebMutedForegroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource WebForegroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
-                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                            <Setter TargetName="Field" Property="BorderBrush" Value="{StaticResource WebForegroundBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

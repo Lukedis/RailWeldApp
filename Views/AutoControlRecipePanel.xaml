@@ -1,0 +1,139 @@
+<UserControl x:Class="RailWeldApp.Views.AutoControlRecipePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:design="clr-namespace:RailWeldApp.Design"
+             xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{x:Static design:DesignData.AdminAutoControlViewModel}"
+             d:DesignHeight="650"
+             d:DesignWidth="420"
+             mc:Ignorable="d">
+    <!--
+        运行时不在这里设置 DataContext：
+        它作为 AdminAutoControlView 的子控件，会继承父页面的 AdminAutoControlViewModel。
+        d:DataContext 只用于 XAML 设计器预览，不影响运行时。
+    -->
+    <!-- 自动控制右侧：配方名称、配方下拉、操作按钮和参数列表。 -->
+    <Border Style="{StaticResource AutoCardStyle}">
+        <Grid RowDefinitions="Auto,10,Auto,10,Auto,12,Auto,14,Auto,6,*,Auto">
+
+            <TextBlock Grid.Row="0"
+                       Style="{StaticResource AutoCardTitleStyle}"
+                       Text="工艺参数管理" />
+
+            <TextBox Grid.Row="2"
+                     helper:TextBoxHelper.Placeholder="请输入参数名称"
+                     Style="{StaticResource TextBoxStyle}"
+                     Text="{Binding SelectedParameterSettingsItem.ParameterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            <ComboBox Grid.Row="4"
+                      ItemsSource="{Binding ParameterSettings}"
+                      SelectedValue="{Binding SelectedParameterSettingsId, Mode=TwoWay}"
+                      SelectedValuePath="Id"
+                      Style="{StaticResource AutoComboBoxStyle}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding ParameterName}" TextTrimming="CharacterEllipsis" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Grid Grid.Row="6" ColumnDefinitions="*,8,*,8,*,8,*">
+                <Button Grid.Column="0"
+                        Command="{Binding AddNewParameterSettingsItemCommand}"
+                        Content="新建"
+                        Style="{StaticResource AutoActionButtonStyle}" />
+                <Button Grid.Column="2"
+                        Command="{Binding SaveParameterSettingsItemCommand}"
+                        Content="保存"
+                        Style="{StaticResource AutoActionButtonStyle}" />
+                <Button Grid.Column="4"
+                        Command="{Binding LoadToPlcCommand}"
+                        Content="装载"
+                        Style="{StaticResource AutoActionButtonStyle}" />
+                <Button Grid.Column="6"
+                        Command="{Binding RemoveParameterSettingsItemCommand}"
+                        CommandParameter="{Binding SelectedParameterSettingsId}"
+                        Content="删除"
+                        Foreground="{StaticResource AutoDangerTextBrush}"
+                        Style="{StaticResource AutoActionButtonStyle}" />
+            </Grid>
+
+            <Border Grid.Row="8"
+                    Padding="10,6"
+                    Background="{StaticResource AutoTableHeaderBrush}"
+                    CornerRadius="{StaticResource RadiusXs}">
+                <Grid ColumnDefinitions="90,*">
+                    <TextBlock Style="{StaticResource AutoTableHeaderStyle}" Text="编号" />
+                    <TextBlock Grid.Column="1"
+                               Style="{StaticResource AutoTableHeaderStyle}"
+                               Text="名称" />
+                </Grid>
+            </Border>
+
+            <ListBox Grid.Row="10"
+                     ItemsSource="{Binding ParameterSettings}"
+                     SelectedValue="{Binding SelectedParameterSettingsId, Mode=TwoWay}"
+                     SelectedValuePath="Id"
+                     Style="{StaticResource AutoListBoxStyle}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="90,*">
+                            <TextBlock VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSizeCaption}"
+                                       Foreground="{StaticResource AutoMutedTextBrush}"
+                                       Text="{Binding Id}"
+                                       TextTrimming="CharacterEllipsis" />
+                            <TextBlock Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       FontSize="{StaticResource FontSizeBody}"
+                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                       Text="{Binding ParameterName}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Grid.Row="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="1"
+                        IsHitTestVisible="False">
+                <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ParameterSettings.Count, FallbackValue=0}" Value="0">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBlock HorizontalAlignment="Center"
+                           FontFamily="{StaticResource IconFont}"
+                           FontSize="22"
+                           Foreground="{StaticResource TextDisabledBrush}"
+                           Text="&#xE9D9;" />
+                <TextBlock Margin="0,10,0,0"
+                           HorizontalAlignment="Center"
+                           FontSize="{StaticResource FontSizeSmall}"
+                           Foreground="{StaticResource TextSecondaryBrush}"
+                           Text="当前配方还没有参数" />
+                <TextBlock Margin="0,4,0,0"
+                           HorizontalAlignment="Center"
+                           FontSize="{StaticResource FontSizeCaption}"
+                           Foreground="{StaticResource AutoMutedTextBrush}"
+                           Text="点击上方“新建”，再在左侧填写参数" />
+            </StackPanel>
+
+            <TextBlock Grid.Row="11"
+                       Margin="0,10,0,0"
+                       FontSize="{StaticResource FontSizeCaption}"
+                       Foreground="{StaticResource AutoMutedTextBrush}"
+                       Text="配方按账户保存；修改后先保存再装载。"
+                       TextWrapping="Wrap" />
+        </Grid>
+    </Border>
+</UserControl>

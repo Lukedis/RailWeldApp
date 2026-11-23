@@ -2,9 +2,11 @@ using System.ComponentModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RailWeldApp.Enums;
 using RailWeldApp.Interfaces;
 using RailWeldApp.Models;
+using RailWeldApp.Options;
 
 namespace RailWeldApp.ViewModels;
 
@@ -15,27 +17,24 @@ namespace RailWeldApp.ViewModels;
 // - 未连接 PLC 时按钮禁用，所有写操作直接返回。
 public partial class AdminManualControlViewModel : PageViewModel, INavigationAware
 {
-    // DB7 手动控制点表（来自旧系统说明 4.3）
-    private const string _powerOnAddress = "DB7.DBX66.0";
-
-    private const string _powerOffAddress = "DB7.DBX66.1";
-    private const string _airBlowStartAddress = "DB7.DBX72.0";
-    private const string _airBlowStopAddress = "DB7.DBX72.1";
-    private const string _yAxisLeftAddress = "DB7.DBX74.0";
-    private const string _yAxisRightAddress = "DB7.DBX74.1";
-    private const string _zAxisUpAddress = "DB7.DBX74.2";
-    private const string _zAxisDownAddress = "DB7.DBX74.3";
-    private const string _jack1UpAddress = "DB7.DBX76.0";
-    private const string _jack1DownAddress = "DB7.DBX76.1";
-    private const string _jack2UpAddress = "DB7.DBX76.2";
-    private const string _jack2DownAddress = "DB7.DBX76.3";
-    private const string _jack3UpAddress = "DB7.DBX76.4";
-    private const string _jack3DownAddress = "DB7.DBX76.5";
-    private const string _jack4UpAddress = "DB7.DBX76.6";
-    private const string _jack4DownAddress = "DB7.DBX76.7";
-
-    private const string _powerSetpointAddress = "DB7.DBD80";
-    private const string _timeSetpointAddress = "DB7.DBD68";
+    private readonly string _powerOnAddress;
+    private readonly string _powerOffAddress;
+    private readonly string _airBlowStartAddress;
+    private readonly string _airBlowStopAddress;
+    private readonly string _yAxisLeftAddress;
+    private readonly string _yAxisRightAddress;
+    private readonly string _zAxisUpAddress;
+    private readonly string _zAxisDownAddress;
+    private readonly string _jack1UpAddress;
+    private readonly string _jack1DownAddress;
+    private readonly string _jack2UpAddress;
+    private readonly string _jack2DownAddress;
+    private readonly string _jack3UpAddress;
+    private readonly string _jack3DownAddress;
+    private readonly string _jack4UpAddress;
+    private readonly string _jack4DownAddress;
+    private readonly string _powerSetpointAddress;
+    private readonly string _timeSetpointAddress;
 
     private static readonly TimeSpan _pulseWidth = TimeSpan.FromMilliseconds(80);
     private static readonly TimeSpan _setpointWriteDelay = TimeSpan.FromMilliseconds(300);
@@ -48,12 +47,37 @@ public partial class AdminManualControlViewModel : PageViewModel, INavigationAwa
     private CancellationTokenSource? _powerSetpointCts;
     private CancellationTokenSource? _timeSetpointCts;
 
-    public AdminManualControlViewModel(PlcDataCache plcDataCache, IPlcService plcService, ILogger<AdminManualControlViewModel> logger)
+    public AdminManualControlViewModel(
+        PlcDataCache plcDataCache,
+        IPlcService plcService,
+        IOptions<ManualControlPointConfigurationOptions> addressOptions,
+        ILogger<AdminManualControlViewModel> logger)
         : base(PageName.AdminManualControl)
     {
         _plcDataCache = plcDataCache;
         _plcService = plcService;
         _logger = logger;
+
+        ManualControlPointConfigurationOptions addresses = addressOptions.Value;
+
+        _powerOnAddress = addresses.PowerOn;
+        _powerOffAddress = addresses.PowerOff;
+        _airBlowStartAddress = addresses.AirBlowStart;
+        _airBlowStopAddress = addresses.AirBlowStop;
+        _yAxisLeftAddress = addresses.YAxisLeft;
+        _yAxisRightAddress = addresses.YAxisRight;
+        _zAxisUpAddress = addresses.ZAxisUp;
+        _zAxisDownAddress = addresses.ZAxisDown;
+        _jack1UpAddress = addresses.Jack1Up;
+        _jack1DownAddress = addresses.Jack1Down;
+        _jack2UpAddress = addresses.Jack2Up;
+        _jack2DownAddress = addresses.Jack2Down;
+        _jack3UpAddress = addresses.Jack3Up;
+        _jack3DownAddress = addresses.Jack3Down;
+        _jack4UpAddress = addresses.Jack4Up;
+        _jack4DownAddress = addresses.Jack4Down;
+        _powerSetpointAddress = addresses.PowerSetpoint;
+        _timeSetpointAddress = addresses.TimeSetpoint;
 
         SubscribeWeak<INotifyPropertyChanged, PropertyChangedEventArgs>(
             _plcDataCache,
@@ -106,6 +130,12 @@ public partial class AdminManualControlViewModel : PageViewModel, INavigationAwa
     // 点动：true -> 80ms -> false。PLC 侧负责自锁/互锁。
     private async Task PulseAsync(string address)
     {
+        if (string.IsNullOrWhiteSpace(address))
+        {
+            _logger.LogWarning("手动点动地址为空，已跳过。");
+            return;
+        }
+
         if (!CanOperate())
         {
             return;
@@ -140,6 +170,12 @@ public partial class AdminManualControlViewModel : PageViewModel, INavigationAwa
 
     private void ScheduleSetpointWrite(ref CancellationTokenSource? cts, string address, float value)
     {
+        if (string.IsNullOrWhiteSpace(address))
+        {
+            _logger.LogWarning("手动设定值地址为空，已跳过。");
+            return;
+        }
+
         if (!CanOperate())
         {
             return;
@@ -281,11 +317,4 @@ public partial class AdminManualControlViewModel : PageViewModel, INavigationAwa
 
     [RelayCommand(CanExecute = nameof(CanOperate))]
     private Task Jack4DownAsync() => PulseAsync(_jack4DownAddress);
-
-    // 页脚
-    public string AppVersion => "v1.0.0";
-
-    public bool IsCommunicationOk => _plcDataCache.IsConnected;
-    public int CommunicationDelayMs => 0;
-    public string ClockText => DateTime.Now.ToString("HH:mm:ss");
 }

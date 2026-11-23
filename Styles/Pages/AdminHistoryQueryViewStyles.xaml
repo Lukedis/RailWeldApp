@@ -71,18 +71,18 @@
         </Style.Triggers>
     </Style>
 
-    <!-- 右侧摘要里的判定（绑到 SelectedWeld） -->
+    <!-- 右侧摘要里的判定（绑到 SelectedRecord） -->
     <Style x:Key="HistorySummaryStatusStyle" TargetType="TextBlock">
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeBody}" />
         <Setter Property="Text" Value="● 正常" />
         <Setter Property="Foreground" Value="{StaticResource HistoryOkBrush}" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding SelectedWeld.IsAbnormal, FallbackValue=False}" Value="True">
+            <DataTrigger Binding="{Binding SelectedRecord.IsAbnormal, FallbackValue=False}" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource HistoryAlarmBrush}" />
                 <Setter Property="Text" Value="● 超限" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding SelectedWeld}" Value="{x:Null}">
+            <DataTrigger Binding="{Binding SelectedRecord}" Value="{x:Null}">
                 <Setter Property="Foreground" Value="{StaticResource HistoryMutedBrush}" />
                 <Setter Property="Text" Value="● 未选择" />
             </DataTrigger>

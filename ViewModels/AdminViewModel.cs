@@ -6,16 +6,37 @@ using RailWeldApp.Interfaces;
 
 namespace RailWeldApp.ViewModels;
 
+/// <summary>
+/// 管理台外壳：顶部导航、页面容器、抽屉和对话框遮罩都挂在这里。
+/// 子页面由 AdminNavigationService 管理，不直接创建 View。
+/// </summary>
 public partial class AdminViewModel : PageViewModel, INavigationAware
 {
     private readonly INavigationService _navigationService;
     private readonly IAdminNavigationService _adminNavigationService;
 
-    public AdminViewModel(INavigationService navigationService, IAdminNavigationService adminNavigationService)
+    // 传给 AdminView 的遮罩绑定：Dialog.CurrentDialog.IsOpen。
+    public IDialogService Dialog { get; }
+
+    private readonly IDatabaseService _databaseService;
+    private readonly IPasswordService _passwordService;
+    private readonly IUserSession _userSession;
+
+    public AdminViewModel(
+        INavigationService navigationService,
+        IAdminNavigationService adminNavigationService,
+        IDialogService dialogService,
+        IDatabaseService databaseService,
+        IPasswordService passwordService,
+        IUserSession userSession)
         : base(PageName.Admin)
     {
         _navigationService = navigationService;
         _adminNavigationService = adminNavigationService;
+        Dialog = dialogService;
+        _databaseService = databaseService;
+        _passwordService = passwordService;
+        _userSession = userSession;
 
         // 用弱事件：AdminViewModel 是单例，即便以后改成 Transient 也不会被服务反向留住。
         SubscribeWeak<INotifyPropertyChanged, PropertyChangedEventArgs>(
@@ -105,6 +126,20 @@ public partial class AdminViewModel : PageViewModel, INavigationAware
     {
         IsDrawerOpen = true;
         NumberCount = 0;
+    }
+
+    /// <summary>
+    /// 点击头像打开账户管理：创建账户、启用/禁用、角色和密码重置。
+    /// </summary>
+    [RelayCommand]
+    private async Task OpenAccountAsync()
+    {
+        var dialog = new AccountManagementDialogViewModel(
+            _databaseService,
+            _passwordService,
+            _userSession);
+
+        await Dialog.ShowDialogAsync(dialog);
     }
 
     [RelayCommand]

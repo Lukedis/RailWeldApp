@@ -124,18 +124,4 @@
         </Setter>
     </Style>
 
-    <!-- 页脚 -->
-    <Style x:Key="EquipFooterTextStyle" TargetType="TextBlock">
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
-        <Setter Property="Foreground" Value="{StaticResource TextTertiaryBrush}" />
-    </Style>
-
-    <Style x:Key="EquipFooterEmphasisStyle"
-           BasedOn="{StaticResource EquipFooterTextStyle}"
-           TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource UiFontMedium}" />
-        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
-    </Style>
-
 </ResourceDictionary>

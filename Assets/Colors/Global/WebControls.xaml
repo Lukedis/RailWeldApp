@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- shadcn/ui 风格的中性色 -->
+    <SolidColorBrush x:Key="WebForegroundBrush" Color="#09090B" />
+    <SolidColorBrush x:Key="WebMutedForegroundBrush" Color="#71717A" />
+    <SolidColorBrush x:Key="WebBorderBrush" Color="#E4E4E7" />
+    <SolidColorBrush x:Key="WebInputBorderBrush" Color="#D4D4D8" />
+    <SolidColorBrush x:Key="WebMutedBrush" Color="#F4F4F5" />
+    <SolidColorBrush x:Key="WebMutedHoverBrush" Color="#E4E4E7" />
+    <SolidColorBrush x:Key="WebPrimaryHoverBrush" Color="#27272A" />
+    <SolidColorBrush x:Key="WebPrimaryPressBrush" Color="#3F3F46" />
+    <SolidColorBrush x:Key="WebRingBrush" Color="#09090B" />
+
+</ResourceDictionary>

@@ -20,7 +20,6 @@ public static class ServiceCollectionExtensions
     public static void AddCommandService(this IServiceCollection services)
     {
         // 1. 配置：读取输出目录下的 appsettings.json
-        // 桌面 HMI 的参数只在启动时读一次；关掉文件监听，省掉一个 FileSystemWatcher 和配置重载路径。
         IConfiguration configuration = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
@@ -30,7 +29,6 @@ public static class ServiceCollectionExtensions
 
         // 2. 数据库：SQLite 文件，路径来自配置
         // 用 DbContextFactory 而不是 AddDbContext：每次用时 new 一个短生命周期上下文，
-        // 适合 WPF 这种"操作零散、不常驻"的界面程序。
         var databasePath = configuration["Database:Path"] ?? throw new InvalidOperationException("appsettings.json 里缺少 Database:Path");
 
         databasePath = Environment.ExpandEnvironmentVariables(databasePath);
@@ -56,30 +54,38 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISoundService, SoundService>();
 
         // 5. PLC（S7）：连接服务 + 采集缓存 + 后台轮询任务
-        services.AddOptions<PlcOptions>().BindConfiguration("PLC");
         services.AddSingleton<PlcDataCache>();
         services.AddSingleton<IPlcService, PlcService>();
+        services.AddSingleton<IProcessParameterService, ProcessParameterService>();
         services.AddSingleton<IPlcPollingBackgroundService, PlcPollingBackgroundService>();
+        services.AddSingleton<WorkRecordRecorder>();
+
+        // 选项
+        services.AddOptions<PlcConfigurationOptions>().BindConfiguration("PLC");
+        services.AddOptions<ModbusRtuConfigurationOptions>().BindConfiguration("ModbusRTU");
+        services.AddOptions<RealtimeDataOptions>().BindConfiguration(RealtimeDataOptions.SectionName);
+        services.AddOptions<ManualControlPointConfigurationOptions>().BindConfiguration(ManualControlPointConfigurationOptions.SectionName);
+        services.AddOptions<BootstrapAdminOptions>().BindConfiguration(BootstrapAdminOptions.SectionName);
+        services.AddOptions<ProcessParametersConfigurationOptions>().BindConfiguration("ProcessParametersAddress");
 
         // 6. Modbus RTU（串口）
-        services.AddOptions<ModbusRtuOptions>().BindConfiguration("ModbusRTU");
         services.AddSingleton<IModbusRtuService, ModbusRtuService>();
 
         // 对话框服务
         services.AddSingleton<IDialogService, DialogService>();
+        services.AddSingleton<IUserSession, UserSession>();
+        services.AddSingleton<IPasswordService, PasswordService>();
 
         // 7. 导航：窗口级 + 管理台内部级
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<IAdminNavigationService, AdminNavigationService>();
 
-        // 8. 窗口（一个进程只有一份）
-        // 视图不注册进 DI：MainWindow/AdminView/各页面 View 都由 ViewTemplates.xaml 的 DataTemplate 创建。
+        // 8. 窗口
         services.AddSingleton<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<AdminViewModel>();
 
-        // 9. 页面 VM（Transient：每次进入都是干净的新状态）
-        // 新增页面时：在 ViewModels 加 VM、在 Views 加 View，并在 Themes/ViewTemplates.xaml 补一行 DataTemplate。
+        // 9. 页面 VM
         services.AddTransient<LoginViewModel>();
         services.AddTransient<AdminDashboardViewModel>();
         services.AddTransient<AdminSettingsViewModel>();
@@ -96,5 +102,6 @@ public static class ServiceCollectionExtensions
 
         // 数据库服务
         services.AddSingleton<DatabaseService>();
+        services.AddSingleton<IDatabaseService>(provider => provider.GetRequiredService<DatabaseService>());
     }
 }

@@ -1,6 +1,7 @@
 <UserControl x:Class="RailWeldApp.Views.AdminManualControlView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:RailWeldApp.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:RailWeldApp.Design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +14,7 @@
         手动控制（纯前端）
         上：轴运动实时反馈（点动时看目标 / 实际是否对上）
         中：8 张控制卡，4×2 排列 —— 电源 / 喷风 / Y 轴 / Z 轴 / 1#~4# 顶料气缸
-        下：页脚状态条
+        下：装饰页脚
         卡片行高用 *，窗口越高卡片越高；整页包一层 ScrollViewer，小屏时滚动而不是裁切。
 
         需要 VM（AdminManualControlViewModel）提供的成员：
@@ -29,7 +30,6 @@
         Jack2UpCommand  Jack2DownCommand
         Jack3UpCommand  Jack3DownCommand
         Jack4UpCommand  Jack4DownCommand
-        页脚：AppVersion(string)  IsCommunicationOk(bool)  CommunicationDelayMs(int)  ClockText(string)
         绑定都带 FallbackValue，VM 没接好时显示 0.000 / 灰灯，不会报绑定错误。
     -->
 
@@ -48,8 +48,8 @@
         <ScrollViewer Grid.Row="0"
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
-            <Grid Margin="64,18,64,10"
-                  MinHeight="720"
+            <Grid MinHeight="720"
+                  Margin="64,18,64,10"
                   RowDefinitions="Auto,8,Auto,10,*">
 
                 <!--  页头  -->
@@ -216,7 +216,8 @@
                                 <Grid ColumnDefinitions="Auto,*,Auto,Auto">
                                     <TextBlock Style="{StaticResource ManualFieldLabelStyle}" Text="功率设定" />
                                     <TextBox Grid.Column="2"
-                                             Style="{StaticResource ManualNumberBoxStyle}"
+                                             Width="100"
+                                             Style="{StaticResource LoginTextBoxStyle}"
                                              Text="{Binding PowerSetpoint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=0}" />
                                     <TextBlock Grid.Column="3"
                                                Margin="6,0,0,0"
@@ -226,8 +227,9 @@
                                 <Grid Margin="0,8,0,0" ColumnDefinitions="Auto,*,Auto,Auto">
                                     <TextBlock Style="{StaticResource ManualFieldLabelStyle}" Text="时间设定" />
                                     <TextBox Grid.Column="2"
+                                             Width="100"
                                              Margin="0,0,3,0"
-                                             Style="{StaticResource ManualNumberBoxStyle}"
+                                             Style="{StaticResource LoginTextBoxStyle}"
                                              Text="{Binding TimeSetpoint, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=0}" />
                                     <TextBlock Grid.Column="3"
                                                Margin="6,0,0,0"
@@ -792,69 +794,6 @@
             </Grid>
         </ScrollViewer>
 
-        <!--  页脚状态条  -->
-        <Border Grid.Row="1"
-                Height="46"
-                BorderBrush="{StaticResource ManualSeparatorBrush}"
-                BorderThickness="0,1,0,0">
-            <Grid Margin="64,0" ColumnDefinitions="Auto,*,Auto">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="版本" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding AppVersion, FallbackValue=—}" />
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="当前界面" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="手动控制" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="通讯状态" />
-                    <Ellipse Width="7"
-                             Height="7"
-                             Margin="7,0,0,0"
-                             VerticalAlignment="Center">
-                        <Ellipse.Style>
-                            <Style TargetType="Ellipse">
-                                <Setter Property="Fill" Value="{StaticResource ManualOfflineBrush}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource ManualOnlineBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Margin="6,0,0,0">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource ManualFooterEmphasisStyle}" TargetType="TextBlock">
-                                <Setter Property="Text" Value="中断" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Text" Value="正常" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="通讯延迟" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding CommunicationDelayMs, StringFormat={}{0} ms, FallbackValue='0 ms'}" />
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="{Binding ClockText, FallbackValue=—}" />
-                </StackPanel>
-            </Grid>
-        </Border>
+        <controls:PageFooter Grid.Row="1" />
     </Grid>
 </UserControl>

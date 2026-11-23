@@ -20,6 +20,14 @@
         <views:AdminView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm:ConfirmDialogViewModel}">
+        <views:ConfirmDialogView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm:AccountManagementDialogViewModel}">
+        <views:AccountManagementDialogView />
+    </DataTemplate>
+
     <!--  管理台子页面  -->
     <DataTemplate DataType="{x:Type vm:AdminDashboardViewModel}">
         <views:AdminDashboardView />

@@ -1,6 +1,7 @@
 <UserControl x:Class="RailWeldApp.Views.AdminFaultAlarmView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:RailWeldApp.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:RailWeldApp.Design"
              xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties"
@@ -26,7 +27,6 @@
         LevelOptions    (集合)   筛选下拉的选项，例如 全部 / 故障 / 警告 / 提示
         SelectedLevel   (string) 当前筛选，TwoWay
         AcknowledgeAllCommand / ResetCommand  (命令)
-        页脚：AppVersion(string)  IsCommunicationOk(bool)  CommunicationDelayMs(int)  ClockText(string)
 
         AlarmRow : Time(string)  LevelText(string：故障/警告/提示)  Code(string，如 F1000)
         Message(string)  IsActive(bool)  DurationText(string)
@@ -259,69 +259,6 @@
             </Grid>
         </Grid>
 
-        <!--  页脚状态条  -->
-        <Border Grid.Row="1"
-                Height="46"
-                BorderBrush="{StaticResource AlarmSeparatorBrush}"
-                BorderThickness="0,1,0,0">
-            <Grid Margin="64,0" ColumnDefinitions="Auto,*,Auto">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="版本" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding AppVersion, FallbackValue=—}" />
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="当前界面" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="故障报警" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="通讯状态" />
-                    <Ellipse Width="7"
-                             Height="7"
-                             Margin="7,0,0,0"
-                             VerticalAlignment="Center">
-                        <Ellipse.Style>
-                            <Style TargetType="Ellipse">
-                                <Setter Property="Fill" Value="{StaticResource AlarmOfflineBrush}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource AlarmOnlineBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Margin="6,0,0,0">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource ManualFooterEmphasisStyle}" TargetType="TextBlock">
-                                <Setter Property="Text" Value="中断" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Text" Value="正常" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="通讯延迟" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding CommunicationDelayMs, StringFormat={}{0} ms, FallbackValue='0 ms'}" />
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="{Binding ClockText, FallbackValue=—}" />
-                </StackPanel>
-            </Grid>
-        </Border>
+        <controls:PageFooter Grid.Row="1" />
     </Grid>
 </UserControl>

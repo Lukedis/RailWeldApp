@@ -4,6 +4,7 @@
 
     <CornerRadius x:Key="RadiusXs">4</CornerRadius>
     <CornerRadius x:Key="RadiusSm">6</CornerRadius>
+    <CornerRadius x:Key="RadiusFull">18</CornerRadius>
     <CornerRadius x:Key="RadiusMd">8</CornerRadius>
     <CornerRadius x:Key="RadiusLg">8</CornerRadius>
     <CornerRadius x:Key="RadiusXl">8</CornerRadius>

@@ -13,10 +13,10 @@
         AllowsTransparency="False"
         Background="{StaticResource SurfaceCanvasBrush}"
         FontFamily="{StaticResource UiFont}"
-        mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
+        WindowStyle="None"
+        mc:Ignorable="d">
 
     <!--
         主窗口（自定义标题栏）

@@ -19,7 +19,7 @@ public static class LoggingExtensions
         ArgumentNullException.ThrowIfNull(builder);
         ArgumentNullException.ThrowIfNull(configuration);
 
-        // 绝对路径：始终跟着 exe 走，不受"从哪个目录启动"影响
+        // 绝对路径
         var logDirectory = Path.Combine(AppContext.BaseDirectory, "Logs");
 
         Directory.CreateDirectory(logDirectory);

@@ -62,14 +62,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RailWeldApp.Core\RailWeldApp.Core.csproj" />
+    <ProjectReference Include="..\RailWeldApp.Infrastructure\RailWeldApp.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.13" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.13" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.13" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.13" />
-    <PackageReference Include="NModbus" Version="3.0.83" />
-    <PackageReference Include="NModbus.Serial" Version="3.0.83" />
-    <PackageReference Include="S7netplus" Version="0.20.0" />
+    <PackageReference Include="QuestPDF" Version="2026.9.1" />
 	<PackageReference Include="Microsoft.Extensions.Options" Version="10.0.13" />
 	<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.13" />
 	<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />

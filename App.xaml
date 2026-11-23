@@ -20,6 +20,7 @@
                 <ResourceDictionary Source="/Assets/Colors/Global/Surfaces.xaml" />
                 <ResourceDictionary Source="/Assets/Colors/Global/Text.xaml" />
                 <ResourceDictionary Source="/Assets/Colors/Global/Accent.xaml" />
+                <ResourceDictionary Source="/Assets/Colors/Global/WebControls.xaml" />
                 <ResourceDictionary Source="/Assets/Colors/Global/Gradients.xaml" />
                 <ResourceDictionary Source="/Assets/Colors/Controls/NavigationButton.xaml" />
                 <ResourceDictionary Source="/Assets/Colors/Pages/Login.xaml" />

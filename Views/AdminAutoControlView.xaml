@@ -1,9 +1,11 @@
 <UserControl x:Class="RailWeldApp.Views.AdminAutoControlView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:RailWeldApp.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:RailWeldApp.Design"
              xmlns:helper="clr-namespace:RailWeldApp.DependencyProperties"
+             xmlns:views="clr-namespace:RailWeldApp.Views"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              d:DataContext="{x:Static design:DesignData.AdminAutoControlViewModel}"
              d:DesignHeight="900"
@@ -12,31 +14,29 @@
 
     <!--
         自动控制（纯前端）
-        页头右侧：当前焊缝编号（只读显示；开工设置在点击头像弹出的账户弹窗里）
+        页头右侧：当前账户（只读显示；开工设置在点击头像弹出的账户弹窗里）
         左：位移传感器参数 / 伺服轴运动位置 / 工艺参数
         右：工艺参数管理（名称 + 配方下拉 + 新建/保存/装载/删除 + 参数列表）
 
         需要 VM（AdminAutoControlViewModel）提供的成员：
-        页头焊缝显示（开工设置见 AdminView 的账户弹窗）：
-                 CurrentWeldNumber（string，如 "072T2609203"；为空显示"未开工"）
-                 CurrentWeldMeta  （string，如 "1 线 / 白班 / 张伟"）
+        页头账户显示（开工设置见 AdminView 的账户弹窗）：
+        CurrentAccount（string，登录账号；为空显示"未登录"）
         位移传感器：YSensorValue  ZSensorValue                       （double，只读显示）
-                    YWeldSeamZero  WeldSeamHeight  YCompensationZero  ZCompensationZero（double）
-                    IsCompensationEnabled  IsSeamSearchEnabled       （bool）
+        YWeldSeamZero  WeldSeamHeight  YCompensationZero  ZCompensationZero（double）
+        IsCompensationEnabled  IsSeamSearchEnabled       （bool）
         伺服轴：XActualPosition / YActualPosition / ZActualPosition   （double，只读显示）
-                每轴 8 个输入：XStartPosition XStartSpeed  XWeldLimitPosition XWeldLimitSpeed
-                               XHeatDistance  XHeatSpeed  XAirDistance      XAirSpeed（Y/Z 同名）
+        每轴 8 个输入：XStartPosition XStartSpeed  XWeldLimitPosition XWeldLimitSpeed
+        XHeatDistance  XHeatSpeed  XAirDistance      XAirSpeed（Y/Z 同名）
         工艺参数：StartTemp StartPower StartCoolingParam
-                 TransitionTemp TransitionPower TransitionCoolingParam
-                 FinalTemp FinalPower FinalCoolingParam               （double）
-                 冷却方式：CoolingModes（IEnumerable&lt;string&gt;，下拉选项，想加几种都行）
-                          StartCoolingMode / TransitionCoolingMode / FinalCoolingMode（string）
+        TransitionTemp TransitionPower TransitionCoolingParam
+        FinalTemp FinalPower FinalCoolingParam               （double）
+        冷却方式：CoolingModes（IEnumerable&lt;string&gt;，下拉选项，想加几种都行）
+        StartCoolingMode / TransitionCoolingMode / FinalCoolingMode（string）
         阈值：AirPressureActual/Max/Min  FlowActual/Max/Min  EnergyActual/Max/Min（double）
         配方：ParameterSettings（集合）  SelectedParameterSettingsId
-              SelectedParameterSettingsItem（当前选中项，所有左侧参数都从这里取）
-              AddNewParameterSettingsItemCommand  SaveParameterSettingsItemCommand
-              LoadToPlcCommand  RemoveParameterSettingsItemCommand
-        页脚：AppVersion(string)  IsCommunicationOk(bool)  CommunicationDelayMs(int)  ClockText(string)
+        SelectedParameterSettingsItem（当前选中项，所有左侧参数都从这里取）
+        AddNewParameterSettingsItemCommand  SaveParameterSettingsItemCommand
+        LoadToPlcCommand  RemoveParameterSettingsItemCommand
         绑定都带 FallbackValue，VM 没接好时显示 0.000 / 空列表，不会报绑定错误。
     -->
 
@@ -73,18 +73,13 @@
                                        FontFamily="{StaticResource UiFontMedium}"
                                        FontSize="{StaticResource FontSizeSmall}"
                                        Foreground="{StaticResource TextPrimaryBrush}"
-                                       Text="{Binding CurrentWeldNumber, StringFormat=当前焊缝 {0}, FallbackValue='未开工'}" />
-                            <TextBlock Margin="8,0,0,0"
-                                       VerticalAlignment="Center"
-                                       FontSize="{StaticResource FontSizeSmall}"
-                                       Foreground="{StaticResource TextSecondaryBrush}"
-                                       Text="{Binding CurrentWeldMeta, FallbackValue=''}" />
+                                       Text="{Binding CurrentAccount, StringFormat=当前账户 {0}, FallbackValue='未登录'}" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
             </Grid>
 
-            <!--  PLC 未连接提示 -->
+            <!--  PLC 未连接提示  -->
             <Border Grid.Row="2"
                     Padding="12,7"
                     Background="{StaticResource SurfaceSubtleBrush}"
@@ -125,7 +120,7 @@
                   ColumnDefinitions="*,16,420"
                   IsEnabled="{Binding IsPlcConnected}">
 
-                <!--  左列：没有配方时显示引导 -->
+                <!--  左列：没有配方时显示引导  -->
                 <Border Grid.Column="0"
                         Padding="32"
                         Background="{StaticResource SurfaceSubtleBrush}"
@@ -829,193 +824,10 @@
                 </ScrollViewer>
 
                 <!--  右列：工艺参数管理  -->
-                <Border Grid.Column="2" Style="{StaticResource AutoCardStyle}">
-                    <Grid RowDefinitions="Auto,10,Auto,10,Auto,12,Auto,14,Auto,6,*,Auto">
-
-                        <TextBlock Grid.Row="0"
-                                   Style="{StaticResource AutoCardTitleStyle}"
-                                   Text="工艺参数管理" />
-
-                        <TextBox Grid.Row="2"
-                                 helper:TextBoxHelper.Placeholder="请输入参数名称"
-                                 Style="{StaticResource TextBoxStyle}"
-                                 Text="{Binding SelectedParameterSettingsItem.ParameterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                        <ComboBox Grid.Row="4"
-                                  ItemsSource="{Binding ParameterSettings}"
-                                  SelectedValue="{Binding SelectedParameterSettingsId, Mode=TwoWay}"
-                                  SelectedValuePath="Id"
-                                  Style="{StaticResource AutoComboBoxStyle}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ParameterName}" TextTrimming="CharacterEllipsis" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-
-                        <Grid Grid.Row="6" ColumnDefinitions="*,8,*,8,*,8,*">
-                            <Button Grid.Column="0"
-                                    Command="{Binding AddNewParameterSettingsItemCommand}"
-                                    Content="新建"
-                                    Style="{StaticResource AutoActionButtonStyle}" />
-                            <Button Grid.Column="2"
-                                    Command="{Binding SaveParameterSettingsItemCommand}"
-                                    Content="保存"
-                                    Style="{StaticResource AutoActionButtonStyle}" />
-                            <Button Grid.Column="4"
-                                    Command="{Binding LoadToPlcCommand}"
-                                    Content="装载"
-                                    Style="{StaticResource AutoActionButtonStyle}" />
-                            <Button Grid.Column="6"
-                                    Command="{Binding RemoveParameterSettingsItemCommand}"
-                                    CommandParameter="{Binding SelectedParameterSettingsId}"
-                                    Content="删除"
-                                    Foreground="{StaticResource AutoDangerTextBrush}"
-                                    Style="{StaticResource AutoActionButtonStyle}" />
-                        </Grid>
-
-                        <Border Grid.Row="8"
-                                Padding="10,6"
-                                Background="{StaticResource AutoTableHeaderBrush}"
-                                CornerRadius="{StaticResource RadiusXs}">
-                            <Grid ColumnDefinitions="90,*">
-                                <TextBlock Style="{StaticResource AutoTableHeaderStyle}" Text="编号" />
-                                <TextBlock Grid.Column="1"
-                                           Style="{StaticResource AutoTableHeaderStyle}"
-                                           Text="名称" />
-                            </Grid>
-                        </Border>
-
-                        <ListBox Grid.Row="10"
-                                 ItemsSource="{Binding ParameterSettings}"
-                                 SelectedValue="{Binding SelectedParameterSettingsId, Mode=TwoWay}"
-                                 SelectedValuePath="Id"
-                                 Style="{StaticResource AutoListBoxStyle}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid ColumnDefinitions="90,*">
-                                        <TextBlock VerticalAlignment="Center"
-                                                   FontSize="{StaticResource FontSizeCaption}"
-                                                   Foreground="{StaticResource AutoMutedTextBrush}"
-                                                   Text="{Binding Id}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                        <TextBlock Grid.Column="1"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="{StaticResource FontSizeBody}"
-                                                   Foreground="{StaticResource TextPrimaryBrush}"
-                                                   Text="{Binding ParameterName}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-
-                        <StackPanel Grid.Row="10"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Panel.ZIndex="1"
-                                    IsHitTestVisible="False">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ParameterSettings.Count, FallbackValue=0}" Value="0">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                            <TextBlock HorizontalAlignment="Center"
-                                       FontFamily="{StaticResource IconFont}"
-                                       FontSize="22"
-                                       Foreground="{StaticResource TextDisabledBrush}"
-                                       Text="&#xE9D9;" />
-                            <TextBlock Margin="0,10,0,0"
-                                       HorizontalAlignment="Center"
-                                       FontSize="{StaticResource FontSizeSmall}"
-                                       Foreground="{StaticResource TextSecondaryBrush}"
-                                       Text="当前配方还没有参数" />
-                            <TextBlock Margin="0,4,0,0"
-                                       HorizontalAlignment="Center"
-                                       FontSize="{StaticResource FontSizeCaption}"
-                                       Foreground="{StaticResource AutoMutedTextBrush}"
-                                       Text="点击上方“新建”，再在左侧填写参数" />
-                        </StackPanel>
-
-                        <TextBlock Grid.Row="11"
-                                   Margin="0,10,0,0"
-                                   FontSize="{StaticResource FontSizeCaption}"
-                                   Foreground="{StaticResource AutoMutedTextBrush}"
-                                   Text="配方随焊缝任务下发；修改后先保存再装载。"
-                                   TextWrapping="Wrap" />
-                    </Grid>
-                </Border>
+                <views:AutoControlRecipePanel Grid.Column="2" />
             </Grid>
         </Grid>
 
-        <!--  页脚状态条  -->
-        <Border Grid.Row="1"
-                Height="46"
-                BorderBrush="{StaticResource AutoSeparatorBrush}"
-                BorderThickness="0,1,0,0">
-            <Grid Margin="64,0" ColumnDefinitions="Auto,*,Auto">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="版本" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding AppVersion, FallbackValue=—}" />
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="当前界面" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="自动控制" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2"
-                            VerticalAlignment="Center"
-                            Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource ManualFooterTextStyle}" Text="通讯状态" />
-                    <Ellipse Width="7"
-                             Height="7"
-                             Margin="7,0,0,0"
-                             VerticalAlignment="Center">
-                        <Ellipse.Style>
-                            <Style TargetType="Ellipse">
-                                <Setter Property="Fill" Value="{StaticResource ManualOfflineBrush}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Fill" Value="{StaticResource ManualOnlineBrush}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Ellipse.Style>
-                    </Ellipse>
-                    <TextBlock Margin="6,0,0,0">
-                        <TextBlock.Style>
-                            <Style BasedOn="{StaticResource ManualFooterEmphasisStyle}" TargetType="TextBlock">
-                                <Setter Property="Text" Value="中断" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsCommunicationOk, FallbackValue=False}" Value="True">
-                                        <Setter Property="Text" Value="正常" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="通讯延迟" />
-                    <TextBlock Margin="6,0,0,0"
-                               Style="{StaticResource ManualFooterEmphasisStyle}"
-                               Text="{Binding CommunicationDelayMs, StringFormat={}{0} ms, FallbackValue='0 ms'}" />
-
-                    <TextBlock Margin="18,0,0,0"
-                               Style="{StaticResource ManualFooterTextStyle}"
-                               Text="{Binding ClockText, FallbackValue=—}" />
-                </StackPanel>
-            </Grid>
-        </Border>
+        <controls:PageFooter Grid.Row="1" />
     </Grid>
 </UserControl>

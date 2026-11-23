@@ -8,7 +8,7 @@ namespace RailWeldApp.Interfaces
     {
         ViewModelBase? CurrentView { get; }
 
-        // 创建并切换到目标子页面。init 在页面成为 CurrentView 之前执行（用于传焊缝编号等）。
+        // 创建并切换到目标子页面。init 在页面成为 CurrentView 之前执行（用于传账户/查询条件）。
         void NavigateTo<TViewModel>(Action<TViewModel>? init = null) where TViewModel : ViewModelBase;
     }
 }

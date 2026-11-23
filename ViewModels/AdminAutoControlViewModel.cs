@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using RailWeldApp.DataModels;
 using RailWeldApp.Enums;
 using RailWeldApp.Extensions;
+using RailWeldApp.Interfaces;
 using RailWeldApp.Models;
 using RailWeldApp.Services;
 
@@ -14,15 +15,27 @@ namespace RailWeldApp.ViewModels
 {
     public partial class AdminAutoControlViewModel : PageViewModel
     {
-        private readonly DatabaseService _databaseService;
+        private readonly IDatabaseService _databaseService;
         private readonly PlcDataCache _plcDataCache;
+        private readonly IUserSession _userSession;
+        private readonly IDialogService _dialogService;
+        private readonly IProcessParameterService _processParameterService;
         private readonly ILogger<AdminAutoControlViewModel> _logger;
 
-        public AdminAutoControlViewModel(DatabaseService databaseService, PlcDataCache plcDataCache, ILogger<AdminAutoControlViewModel> logger)
+        public AdminAutoControlViewModel(
+            IDatabaseService databaseService,
+            PlcDataCache plcDataCache,
+            IUserSession userSession,
+            IDialogService dialogService,
+            IProcessParameterService processParameterService,
+            ILogger<AdminAutoControlViewModel> logger)
             : base(PageName.AdminAutoControl)
         {
             _databaseService = databaseService;
             _plcDataCache = plcDataCache;
+            _userSession = userSession;
+            _dialogService = dialogService;
+            _processParameterService = processParameterService;
             _logger = logger;
 
             SubscribeWeak<INotifyPropertyChanged, PropertyChangedEventArgs>(
@@ -115,7 +128,7 @@ namespace RailWeldApp.ViewModels
         }
 
         [RelayCommand]
-        private void RemoveParameterSettingsItem(string id)
+        private async Task RemoveParameterSettingsItemAsync(string id)
         {
             ParameterSettingsItem? item = ParameterSettings.FirstOrDefault(x => x.Id == id);
 
@@ -124,7 +137,20 @@ namespace RailWeldApp.ViewModels
                 return;
             }
 
-            // TODO: 确认用户是否删除
+            var dialog = new ConfirmDialogViewModel
+            {
+                Title = "删除工艺参数",
+                Message = $"确定删除“{item.ParameterName}”吗？删除后无法恢复。",
+                ConfirmText = "删除",
+                CancelText = "取消",
+            };
+
+            await _dialogService.ShowDialogAsync(dialog);
+
+            if (!dialog.Result)
+            {
+                return;
+            }
 
             // 新建但还没入库的记录，只从 UI 删除，不要碰数据库。
             if (!item.IsNewItem)
@@ -172,9 +198,36 @@ namespace RailWeldApp.ViewModels
         }
 
         [RelayCommand]
-        private void LoadToPlc()
+        private async Task LoadToPlcAsync()
         {
-            // TODO: 把当前配方写入 PLC
+            ParameterSettingsItem? item = SelectedParameterSettingsItem;
+
+            if (item is null)
+                return;
+
+            try
+            {
+                await _processParameterService.LoadAsync(item.ToDataModel());
+
+                await ShowMessageAsync("加载工艺参数", $"“{item.ParameterName}”已写入 PLC。");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "工艺参数加载 PLC 失败：{ParameterName}", item.ParameterName);
+
+                await ShowMessageAsync("加载失败", ex.Message);
+            }
+        }
+
+        private Task ShowMessageAsync(string title, string message)
+        {
+            return _dialogService.ShowDialogAsync(new ConfirmDialogViewModel
+            {
+                Title = title,
+                Message = message,
+                ConfirmText = "知道了",
+                CancelText = "关闭",
+            });
         }
 
         // 页面顶部的实时反馈
@@ -194,13 +247,8 @@ namespace RailWeldApp.ViewModels
         public IReadOnlyList<CoolingModes> CoolingModes { get; } = Enum.GetValues<CoolingModes>();
 
         // 页头/页脚
-        public string CurrentWeldNumber => "—";
+        public string CurrentAccount => _userSession.Account;
 
-        public string CurrentWeldMeta => string.Empty;
         public bool IsPlcConnected => _plcDataCache.IsConnected;
-        public string AppVersion => "v1.0.0";
-        public bool IsCommunicationOk => _plcDataCache.IsConnected;
-        public int CommunicationDelayMs => 0;
-        public string ClockText => DateTime.Now.ToString("HH:mm:ss");
     }
 }

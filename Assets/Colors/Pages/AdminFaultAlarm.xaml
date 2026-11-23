@@ -19,6 +19,8 @@
     <SolidColorBrush x:Key="AlarmOkBrush" Color="{StaticResource SuccessDot}" />
     <SolidColorBrush x:Key="AlarmOkSoftBrush" Color="{StaticResource SuccessSoft}" />
     <SolidColorBrush x:Key="AlarmWarnBrush" Color="{StaticResource Warning}" />
+    <SolidColorBrush x:Key="AlarmWarnSoftBrush" Color="{StaticResource WarningSoft}" />
+    <SolidColorBrush x:Key="AlarmWarnInkBrush" Color="#B26A00" />
     <SolidColorBrush x:Key="AlarmDangerBrush" Color="{StaticResource Danger}" />
     <SolidColorBrush x:Key="AlarmDangerSoftBrush" Color="{StaticResource DangerSoft}" />
     <SolidColorBrush x:Key="AlarmDangerSoftInkBrush" Color="{StaticResource DangerSoftInk}" />

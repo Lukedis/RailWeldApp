@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using RailWeldApp.Enums;
+using RailWeldApp.Interfaces;
 using RailWeldApp.Models;
 
 namespace RailWeldApp.ViewModels;
@@ -10,12 +11,15 @@ namespace RailWeldApp.ViewModels;
 public partial class AdminRealTimeDataViewModel : PageViewModel
 {
     private readonly PlcDataCache _plcDataCache;
+    private readonly IUserSession _userSession;
 
     private PlcSnapshot? Snapshot => _plcDataCache.LastSnapshot;
 
-    public AdminRealTimeDataViewModel(PlcDataCache plcDataCache) : base(PageName.AdminRealTimeData)
+    public AdminRealTimeDataViewModel(PlcDataCache plcDataCache, IUserSession userSession)
+        : base(PageName.AdminRealTimeData)
     {
         _plcDataCache = plcDataCache;
+        _userSession = userSession;
 
         // 不能直接 +=，否则单例 PlcDataCache 会强引用这个 Transient 页面 VM。
         SubscribeWeak<INotifyPropertyChanged, PropertyChangedEventArgs>(
@@ -99,11 +103,6 @@ public partial class AdminRealTimeDataViewModel : PageViewModel
     public double Power => Snapshot?.Power ?? 0;
     public double Energy => Snapshot?.Energy ?? 0;
 
-    // 页脚
-    public string AppVersion => "v1.0.0";
-
-    public bool IsCommunicationOk => _plcDataCache.IsConnected;
-    public int CommunicationDelayMs => 0;
-    public string ClockText => DateTime.Now.ToString("HH:mm:ss");
-    public string WeldId => "—";
+    // 页脚不绑 VM，账户仍显示在页头。
+    public string CurrentAccount => _userSession.Account;
 }

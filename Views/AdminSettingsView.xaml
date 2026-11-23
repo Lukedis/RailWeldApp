@@ -1,6 +1,7 @@
 <UserControl x:Class="RailWeldApp.Views.AdminSettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:RailWeldApp.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:design="clr-namespace:RailWeldApp.Design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,14 +11,14 @@
              mc:Ignorable="d">
 
     <Grid Background="{StaticResource SettingsPageBackgroundBrush}" ClipToBounds="True">
-<Grid Margin="64,28,64,16" RowDefinitions="Auto,16,*,16,Auto">
+        <Grid Margin="64,28,64,16" RowDefinitions="Auto,16,*,16,Auto">
 
-            <!-- 通信连接 -->
+            <!--  通信连接  -->
             <Grid RowDefinitions="Auto,16,Auto">
 
                 <Grid Grid.Row="2" ColumnDefinitions="*,24,*">
 
-                    <!-- Modbus RTU -->
+                    <!--  Modbus RTU  -->
                     <Border Grid.Column="0"
                             Padding="0"
                             CornerRadius="{StaticResource RadiusXl}">
@@ -42,10 +43,13 @@
                                     <StackPanel Grid.Column="1"
                                                 Margin="12,0,12,0"
                                                 VerticalAlignment="Center">
-                                        <TextBlock FontFamily="{StaticResource UiFontSemibold}"
-                                                   FontSize="16"
-                                                   Foreground="{StaticResource TextPrimaryBrush}"
-                                                   Text="Modbus RTU" />
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                                       FontSize="16"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       Text="Modbus RTU" />
+                                            <controls:HelpTip Margin="6,0,0,0" Text="串口、从站地址和校验方式来自 appsettings.json，修改后需要重启程序。" />
+                                        </StackPanel>
                                         <TextBlock Margin="0,4,0,0"
                                                    FontSize="12"
                                                    Foreground="{StaticResource TextSecondaryBrush}"
@@ -66,7 +70,7 @@
                                                        VerticalAlignment="Center"
                                                        FontSize="12"
                                                        Foreground="{StaticResource TextSecondaryBrush}"
-                                                       Text="未连接" />
+                                                       Text="{Binding ModbusConnectionStatus, FallbackValue=未连接, TargetNullValue=未连接}" />
                                         </StackPanel>
                                     </Border>
                                 </Grid>
@@ -138,7 +142,7 @@
                         </Border>
                     </Border>
 
-                    <!-- Siemens PLC -->
+                    <!--  Siemens PLC  -->
                     <Border Grid.Column="2"
                             Padding="0"
                             CornerRadius="{StaticResource RadiusXl}">
@@ -160,10 +164,13 @@
                                                        Text="&#xE9D9;" />
                                         </Border>
                                         <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
-                                            <TextBlock FontFamily="{StaticResource UiFontSemibold}"
-                                                       FontSize="16"
-                                                       Foreground="{StaticResource TextPrimaryBrush}"
-                                                       Text="西门子 PLC" />
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock FontFamily="{StaticResource UiFontSemibold}"
+                                                           FontSize="16"
+                                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                                           Text="西门子 PLC" />
+                                                <controls:HelpTip Margin="6,0,0,0" Text="IP、机架和槽位来自 appsettings.json；S7 通信使用 102 端口。" />
+                                            </StackPanel>
                                             <TextBlock Margin="0,4,0,0"
                                                        FontSize="12"
                                                        Foreground="{StaticResource TextSecondaryBrush}"
@@ -177,8 +184,9 @@
                                             Background="{StaticResource SettingsPanelBackgroundBrush}"
                                             CornerRadius="{StaticResource RadiusXl}">
                                         <StackPanel Orientation="Horizontal">
-                                            <!--<Ellipse Width="7"
+                                            <Ellipse Width="7"
                                                      Height="7"
+                                                     Margin="0,0,6,0"
                                                      VerticalAlignment="Center">
                                                 <Ellipse.Style>
                                                     <Style TargetType="Ellipse">
@@ -190,7 +198,7 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Ellipse.Style>
-                                            </Ellipse>-->
+                                            </Ellipse>
                                             <TextBlock VerticalAlignment="Center"
                                                        FontFamily="{StaticResource IconFont}"
                                                        FontSize="12"
@@ -198,9 +206,23 @@
                                                        Text="&#xE946;" />
                                             <TextBlock Margin="6,0,0,0"
                                                        VerticalAlignment="Center"
-                                                       FontSize="12"
-                                                       Foreground="{StaticResource TextSecondaryBrush}"
-                                                       Text="{Binding PlcConnectionStatus, FallbackValue=未连接, TargetNullValue=未连接}" />
+                                                       FontSize="12">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsPlcConnected}" Value="True">
+                                                                <Setter Property="Foreground" Value="{StaticResource SuccessBrush}" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                                <TextBlock.Text>
+                                                    <Binding Path="PlcConnectionStatus"
+                                                             FallbackValue="未连接"
+                                                             TargetNullValue="未连接" />
+                                                </TextBlock.Text>
+                                            </TextBlock>
                                         </StackPanel>
                                     </Border>
                                 </Grid>
@@ -257,7 +279,12 @@
                                         Padding="0,12,0,0"
                                         BorderThickness="0,1,0,0">
                                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                        <Button Command="{Binding DisconnectPlcCommand}"
+                                        <Button Command="{Binding TogglePollingCommand}"
+                                                Content="{Binding PollingButtonText}"
+                                                IsEnabled="{Binding CanTogglePolling}"
+                                                Style="{StaticResource AccentButton}" />
+                                        <Button Margin="8,0,0,0"
+                                                Command="{Binding DisconnectPlcCommand}"
                                                 Content="断开连接"
                                                 IsEnabled="{Binding IsPlcConnected}"
                                                 Style="{StaticResource SecondaryButton}" />
@@ -274,7 +301,7 @@
                 </Grid>
             </Grid>
 
-            <!-- 连接错误记录：占用剩余高度 -->
+            <!--  连接错误记录：占用剩余高度  -->
             <Border Grid.Row="2"
                     MinHeight="0"
                     Padding="18"
@@ -309,7 +336,7 @@
                             ClipToBounds="True"
                             CornerRadius="{StaticResource RadiusMd}">
                         <Grid>
-                            <!-- 显式开虚拟化 + 容器回收；原来竖滚动条是 Hidden，记录一多就只能看到头几条 -->
+                            <!--  显式开虚拟化 + 容器回收；原来竖滚动条是 Hidden，记录一多就只能看到头几条  -->
                             <Grid>
                                 <ListView Background="Transparent"
                                           BorderThickness="0"
@@ -358,7 +385,7 @@
                                     </ListView.View>
                                 </ListView>
 
-                                <!-- 空状态 -->
+                                <!--  空状态  -->
                                 <StackPanel HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
                                             IsHitTestVisible="False">
@@ -427,16 +454,34 @@
                                    Text="上线前确认三处参数与现场一致。" />
                         <StackPanel Margin="0,12,0,0">
                             <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="PLC：IP / 机架 / 槽位" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="PLC：IP / 机架 / 槽位" />
                             </StackPanel>
                             <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="串口：COM 口 / 波特率 / 校验" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="串口：COM 口 / 波特率 / 校验" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="网络：S7 102 端口可达" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="网络：S7 102 端口可达" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -474,16 +519,34 @@
                                    Text="连接参数来自配置文件，运行时只读。" />
                         <StackPanel Margin="0,12,0,0">
                             <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="appsettings.json" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="appsettings.json" />
                             </StackPanel>
                             <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="Plc / ModbusRTU 两节" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="Plc / ModbusRTU 两节" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="修改后重启生效" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="修改后重启生效" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
@@ -521,16 +584,34 @@
                                    Text="连接异常会同时写入日志与错误列表。" />
                         <StackPanel Margin="0,12,0,0">
                             <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="Logs/railweld-日期.log" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="Logs/railweld-日期.log" />
                             </StackPanel>
                             <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="默认保留 30 天" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="默认保留 30 天" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Ellipse Width="5" Height="5" VerticalAlignment="Center" Fill="{StaticResource TextTertiaryBrush}" />
-                                <TextBlock Margin="9,0,0,0" FontSize="{StaticResource FontSizeCaption}" Foreground="{StaticResource TextBodyBrush}" Text="含时间、类型与错误详情" />
+                                <Ellipse Width="5"
+                                         Height="5"
+                                         VerticalAlignment="Center"
+                                         Fill="{StaticResource TextTertiaryBrush}" />
+                                <TextBlock Margin="9,0,0,0"
+                                           FontSize="{StaticResource FontSizeCaption}"
+                                           Foreground="{StaticResource TextBodyBrush}"
+                                           Text="含时间、类型与错误详情" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

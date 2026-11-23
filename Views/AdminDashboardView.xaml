@@ -18,13 +18,17 @@
         OpenTempMonitorCommand    查看温度监视
     -->
 
-    <ScrollViewer Background="{StaticResource SurfaceCardBrush}"
+    <ScrollViewer x:Name="MainScrollViewer"
+                  Background="{StaticResource SurfaceCardBrush}"
                   HorizontalScrollBarVisibility="Disabled"
+                  ScrollChanged="MainScrollViewer_ScrollChanged"
                   VerticalScrollBarVisibility="Auto">
         <StackPanel>
 
             <!--  首屏  -->
-            <Grid Height="620" ClipToBounds="True">
+            <Grid x:Name="FirstScreen"
+                  Height="620"
+                  ClipToBounds="True">
                 <Grid MaxWidth="1240"
                       HorizontalAlignment="Stretch"
                       ColumnDefinitions="*,Auto">
@@ -52,12 +56,12 @@
                         <TextBlock Style="{StaticResource AdminHeroBodyStyle}" Text="参数采集、工艺执行与质量追溯，一条链路跑完。200ms 采样周期，S7 与 Modbus RTU 双通道并行采集。" />
 
                         <StackPanel Margin="0,32,0,0" Orientation="Horizontal">
-                            <Button Height="44"
+                            <Button
                                     Padding="24,0"
                                     Command="{Binding OpenRealTimeDataCommand}"
                                     Content="查看实时数据"
                                     Style="{StaticResource AdminHeroPrimaryButtonStyle}" />
-                            <Button Height="44"
+                            <Button
                                     Margin="12,0,0,0"
                                     Padding="24,0"
                                     Command="{Binding OpenTempMonitorCommand}"
@@ -66,7 +70,8 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <Grid Grid.Column="1"
+                    <Grid x:Name="HeroVisual"
+                          Grid.Column="1"
                           Width="540"
                           Height="500"
                           Margin="40,0,0,0"
@@ -625,7 +630,8 @@
             </Grid>
 
             <!--  数字条  -->
-            <Border Background="{StaticResource SurfaceSubtleBrush}"
+            <Border x:Name="NumberBar"
+                    Background="{StaticResource SurfaceSubtleBrush}"
                     BorderBrush="{StaticResource DividerBrush}"
                     BorderThickness="0,1,0,1">
                 <Grid MaxWidth="1240"
@@ -652,7 +658,8 @@
             </Border>
 
             <!--  产品能力  -->
-            <StackPanel MaxWidth="1240"
+            <StackPanel x:Name="ProductCapability"
+                        MaxWidth="1240"
                         Margin="0,120,0,0"
                         HorizontalAlignment="Stretch">
                 <TextBlock Style="{StaticResource DashSectionKickerStyle}" Text="产品能力" />
@@ -703,7 +710,7 @@
                                            Text="&#xE9D2;" />
                             </Border>
                             <TextBlock Style="{StaticResource DashCardTitleStyle}" Text="质量追溯" />
-                            <TextBlock Style="{StaticResource DashCardBodyStyle}" Text="曲线、判定结果与操作人一并归档，随时按焊缝编号回查，报告一键导出。" />
+                            <TextBlock Style="{StaticResource DashCardBodyStyle}" Text="曲线、判定结果与操作人一并归档，随时按账户和时间回查，报告一键导出。" />
                             <TextBlock Style="{StaticResource DashCardLinkStyle}" Text="查看历史查询 →" />
                         </StackPanel>
                     </Border>
@@ -711,7 +718,8 @@
             </StackPanel>
 
             <!--  功能展示一：实时数据  -->
-            <Border MaxWidth="1240"
+            <Border x:Name="Realtimedata"
+                    MaxWidth="1240"
                     Margin="0,120,0,0"
                     HorizontalAlignment="Stretch"
                     Background="{StaticResource SurfaceSubtleBrush}"
@@ -792,7 +800,8 @@
             </Border>
 
             <!--  功能展示二：三阶段工艺  -->
-            <Border MaxWidth="1240"
+            <Border x:Name="Threestageprocess"
+                    MaxWidth="1240"
                     Margin="0,24,0,0"
                     HorizontalAlignment="Stretch"
                     Background="{StaticResource SurfaceSubtleBrush}"
@@ -867,7 +876,8 @@
             </Border>
 
             <!--  五种能力：窄卡横排  -->
-            <Grid MaxWidth="1240"
+            <Grid x:Name="Narrowcardhorizontallayout"
+                  MaxWidth="1240"
                   Margin="0,24,0,0"
                   HorizontalAlignment="Stretch"
                   ColumnDefinitions="*,16,*,16,*,16,*,16,*">
@@ -964,7 +974,7 @@
                         <StackPanel>
                             <TextBlock Style="{StaticResource DashMiniKickerStyle}" Text="报告导出" />
                             <TextBlock Style="{StaticResource DashMiniTitleStyle}" Text="一次成表&#x0A;直接打印" />
-                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="按班次或焊缝编号批量导出。" />
+                            <TextBlock Style="{StaticResource DashMiniBodyStyle}" Text="按班次或账户批量导出。" />
                         </StackPanel>
 
                         <Border Grid.Row="1" Style="{StaticResource DashMiniIconTileStyle}">
@@ -984,7 +994,8 @@
             </Grid>
 
             <!--  两张带图的大卡  -->
-            <Grid MaxWidth="1240"
+            <Grid x:Name="BigCard"
+                  MaxWidth="1240"
                   Margin="0,24,0,0"
                   HorizontalAlignment="Stretch"
                   ColumnDefinitions="*,24,*">
@@ -1075,7 +1086,8 @@
             </Grid>
 
             <!--  收尾  -->
-            <Border MaxWidth="1240"
+            <Border x:Name="End"
+                    MaxWidth="1240"
                     Margin="0,120,0,0"
                     Padding="56,52"
                     HorizontalAlignment="Stretch"

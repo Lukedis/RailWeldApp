@@ -25,7 +25,6 @@ public partial class DialogService : ObservableObject, IDialogService
         }
         finally
         {
-            // 关闭后一定要清空，否则下次再弹会被上面的判断挡住，界面也会一直挂着旧视图
             if (ReferenceEquals(CurrentDialog, viewModel))
                 CurrentDialog = null;
         }

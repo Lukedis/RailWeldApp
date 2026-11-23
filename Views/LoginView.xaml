@@ -166,10 +166,10 @@
             </StackPanel>
 
             <Grid Grid.Row="1" Margin="0,20,0,0">
-                <TextBlock Style="{StaticResource LoginFooterTextStyle}" Text="{Binding CopyrightYear, Mode=OneTime, StringFormat=© {0} RailWeld · 工业控制}" />
+                <TextBlock Style="{StaticResource LoginFooterTextStyle}" Text="© 2026 RailWeld · 工业控制" />
                 <TextBlock HorizontalAlignment="Right"
                            Style="{StaticResource LoginFooterTextStyle}"
-                           Text="{Binding VersionText, Mode=OneTime}" />
+                           Text="V1.0" />
             </Grid>
         </Grid>
 
